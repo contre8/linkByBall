@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'linkByBall' title`, () => {
+  it(`should have the 'footlink-frontend' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('linkByBall');
+    expect(app.title).toEqual('footlink-frontend');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, linkByBall');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, footlink-frontend');
   });
 });

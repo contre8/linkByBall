@@ -1,0 +1,35 @@
+<div class="login-container d-flex align-items-center justify-content-center">
+  <div class="card login-card shadow-lg p-4">
+    <div class="card-body">
+      <h2 class="text-center mb-4">Bienvenido a LinkByBall</h2>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="form-group mb-3">
+          <label for="email" class="form-label"><i class="fa fa-envelope"></i> Email:</label>
+          <input type="email" id="email" class="form-control" formControlName="email" placeholder="Introduce tu email"
+            required>
+          <div *ngIf="email?.invalid && email?.touched" class="text-danger mt-1">
+            <small *ngIf="email?.errors?.['required']">Email requerido</small>
+            <small *ngIf="email?.errors?.['email']">Formato erróneo de email</small>
+          </div>
+        </div>
+        <div class="form-group mb-4 position-relative">
+          <label for="password" class="form-label"><i class="fa fa-lock"></i> Contraseña:</label>
+          <input [type]="showPassword ? 'text' : 'password'" id="password" class="form-control"
+            formControlName="password" placeholder="Introduce tu contraseña" required>
+          <i class="fa" [class.fa-eye-slash]="showPassword" [class.fa-eye]="!showPassword"
+            (click)="togglePasswordVisibility()" style="position: absolute; right: 10px; top: 38px; cursor: pointer;">
+          </i>
+
+          <div *ngIf="password?.invalid && password?.touched" class="text-danger mt-1">
+            <small *ngIf="password?.errors?.['required']">Contraseña requerida</small>
+          </div>
+        </div>
+        <div class="d-grid">
+          <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">
+            <i class="fa fa-sign-in"></i> Login
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
