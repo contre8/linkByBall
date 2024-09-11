@@ -1,0 +1,32 @@
+<div class="user-selection-container d-flex align-items-center justify-content-center">
+  <div class="card user-selection-card shadow-lg p-4">
+    <div class="card-body">
+      <h2 class="text-center mb-4">Regístrate</h2>
+      <div class="user-options d-flex justify-content-between">
+        <div class="user-option" [class.selected]="isSelected('futbolista')" (click)="selectUserType('futbolista')">
+          <i class="fa fa-futbol-o fa-3x"></i>
+          <h3>Soy Futbolista</h3>
+          <p>Busca clubes que te interesen.</p>
+        </div>
+        <div class="user-option" [class.selected]="isSelected('entrenador')" (click)="selectUserType('entrenador')">
+          <i class="fa fa-user-circle-o fa-3x"></i>
+          <h3>Soy Entrenador</h3>
+          <p>Encuentra tu próximo equipo.</p>
+        </div>
+        <div class="user-option" [class.selected]="isSelected('club')" (click)="selectUserType('club')">
+          <i class="fa fa-shield fa-3x"></i>
+          <h3>Soy Club</h3>
+          <p>Busca y ficha nuevos talentos.</p>
+        </div>
+      </div>
+      <!-- <button mat-raised-button color="primary" class="btn mt-4 w-100" [disabled]="!selectedUserType" (click)="goToRegister()">Crear Cuenta</button> -->
+      <div class="d-grid">
+        <button mat-raised-button color="primary" type="submit" [disabled]="!selectedUserType" (click)="goToRegister()">
+          <i class="fa fa-user-plus"></i> Crear Cuenta
+        </button>
+      </div>
+      <hr class="separator">
+      <p class="text-center mt-3">¿Ya tienes una cuenta? <a href="/auth/login">Inicia sesión</a></p>
+    </div>
+  </div>
+</div>

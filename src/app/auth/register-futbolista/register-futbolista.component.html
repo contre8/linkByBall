@@ -1,0 +1,280 @@
+<div class="container register-form">
+  <div class="card register-card shadow-lg p-4">
+    <div class="card-body">
+      <h2 class="text-center mb-4">Regístrate como Futbolista</h2>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <!-- Nombre y Apellidos en una línea -->
+        <div class="form-row">
+          <div class="form-group col-md-6 mb-3">
+            <label for="nombre" class="form-label"><i class="fa fa-user"></i> Nombre: *</label>
+            <input type="text" id="nombre" class="form-control" formControlName="nombre"
+              placeholder="Introduce tu nombre" required>
+            <div *ngIf="registerForm.get('nombre')?.invalid && registerForm.get('nombre')?.touched"
+              class="text-danger mt-1">
+              <small *ngIf="registerForm.get('nombre')?.errors?.['required']">El nombre es obligatorio</small>
+            </div>
+          </div>
+          <div class="form-group col-md-6 mb-3">
+            <label for="apellidos" class="form-label"><i class="fa fa-user"></i> Apellidos: *</label>
+            <input type="text" id="apellidos" class="form-control" formControlName="apellidos"
+              placeholder="Introduce tus apellidos" required>
+            <div *ngIf="registerForm.get('apellidos')?.invalid && registerForm.get('apellidos')?.touched"
+              class="text-danger mt-1">
+              <small *ngIf="registerForm.get('apellidos')?.errors?.['required']">Los apellidos son obligatorios</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group mb-3">
+          <label for="email" class="form-label"><i class="fa fa-envelope"></i> Correo electrónico: *</label>
+          <input type="email" id="email" class="form-control" formControlName="email" placeholder="Introduce tu email"
+            required>
+          <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+            class="text-danger mt-1">
+            <small *ngIf="registerForm.get('email')?.errors?.['required']">El correo electrónico es obligatorio</small>
+            <small *ngIf="registerForm.get('email')?.errors?.['email']">Introduce un correo electrónico válido</small>
+          </div>
+        </div>
+
+        <!-- Contraseña y Confirmar Contraseña en una línea -->
+        <div class="form-row">
+          <div class="form-group col-md-6 mb-3">
+            <label for="password" class="form-label"><i class="fa fa-lock"></i> Contraseña: *</label>
+            <input type="password" id="password" class="form-control" formControlName="password"
+              placeholder="Introduce tu contraseña" required>
+            <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+              class="text-danger mt-1">
+              <small *ngIf="registerForm.get('password')?.errors?.['required']">La contraseña es obligatoria</small>
+              <small *ngIf="registerForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 6
+                caracteres</small>
+            </div>
+          </div>
+          <div class="form-group col-md-6 mb-3">
+            <label for="confirmPassword" class="form-label"><i class="fa fa-lock"></i> Confirmar contraseña: *</label>
+            <input type="password" id="confirmPassword" class="form-control" formControlName="confirmPassword"
+              placeholder="Repite tu contraseña" required>
+            <div *ngIf="registerForm.errors?.['mismatch'] && registerForm.get('confirmPassword')?.touched"
+              class="text-danger mt-1">
+              <small>Las contraseñas no coinciden</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Edad y Teléfono en una línea -->
+        <div class="form-row">
+          <div class="form-group col-md-6 mb-3">
+            <label for="edad" class="form-label"><i class="fa fa-birthday-cake"></i> Edad: *</label>
+            <input type="number" id="edad" class="form-control" formControlName="edad" placeholder="Introduce tu edad"
+              required>
+            <div *ngIf="registerForm.get('edad')?.invalid && registerForm.get('edad')?.touched"
+              class="text-danger mt-1">
+              <small *ngIf="registerForm.get('edad')?.errors?.['required']">Edad requerida</small>
+              <small *ngIf="registerForm.get('edad')?.errors?.['min']">Debe tener al menos 16 años</small>
+            </div>
+          </div>
+          <div class="form-group col-md-6 mb-3">
+            <label for="telefono" class="form-label"><i class="fa fa-phone"></i> Teléfono:</label>
+            <input type="text" id="telefono" class="form-control" formControlName="telefono"
+              placeholder="Introduce tu teléfono" maxlength="9">
+            <div *ngIf="registerForm.get('telefono')?.invalid && registerForm.get('telefono')?.touched"
+              class="text-danger mt-1">
+              <small *ngIf="registerForm.get('telefono')?.errors?.['pattern']">Introduce un número de teléfono
+                válido (9 dígitos)</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Foto de perfil -->
+        <div class="form-group">
+          <label for="fotografia" class="form-label"><i class="fa fa-camera"></i> Fotografía:</label>
+          <input type="file" (change)="onFileChange($event)" class="form-control" id="fotografia"
+            formControlName="fotografia">
+        </div>
+
+        <!-- Club actual y categoría en una línea -->
+        <div class="form-row">
+          <div class="form-group col-md-6 mb-3">
+            <label for="clubActual" class="form-label"><i class="fa fa-shield"></i> Club Actual:</label>
+            <select id="clubActual" class="form-control" formControlName="clubActual" (change)="onClubChange()">
+              <option *ngFor="let club of clubs$ | async" [value]="club._id">{{ club.nombre }}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-6 mb-3">
+            <label for="categoriaActual" class="form-label"><i class="fa fa-trophy"></i> Categoría del club:</label>
+            <input type="text" id="categoriaActual" class="form-control" formControlName="categoriaActual">
+          </div>
+        </div>
+
+        <!-- Posiciones -->
+        <div class="form-group col-md-6 mb-3">
+          <label for="posiciones" class="form-label">
+            <i class="fa fa-soccer-ball-o"></i> Posiciones: *
+          </label>
+          <!-- <div *ngIf="registerForm.get('posiciones')?.invalid && registerForm.get('posiciones')?.touched"
+            class="text-danger mt-1">
+            <small>Selecciona al menos una posición</small>
+          </div>
+          <div id="posiciones" class="form-check-container">
+            <div class="form-check" *ngFor="let position of positions">
+              <input class="form-check-input" type="checkbox" [value]="position.value"
+                (change)="onCheckboxChange($event)"
+                [checked]="registerForm.get('posiciones')?.value.includes(position.value)">
+              <label class="form-check-label">
+                {{ position.label }}
+              </label>
+            </div>
+          </div> -->
+        </div>
+
+        <div class="campo-container">
+          <img src="../../../../campo-de-futbol.jpg" alt="Campo de fútbol" class="campo-futbol">
+          <!-- Posiciones en el campo, con checkboxes -->
+          <!-- Portero -->
+          <div class="posicion portero">
+            <label>
+              <input type="checkbox" [value]="'portero'" (change)="onCheckboxChange($event)">
+              Portero
+            </label>
+          </div>
+
+          <!-- Defensas -->
+          <div class="posicion central-diestro">
+            <label>
+              <input type="checkbox" [value]="'central_diestro'" (change)="onCheckboxChange($event)">
+              Central (Diestro)
+            </label>
+          </div>
+          <div class="posicion central-zurdo">
+            <label>
+              <input type="checkbox" [value]="'central_zurdo'" (change)="onCheckboxChange($event)">
+              Central (Zurdo)
+            </label>
+          </div>
+          <div class="posicion lateral-diestro">
+            <label>
+              <input type="checkbox" [value]="'lateral_diestro'" (change)="onCheckboxChange($event)">
+              Lateral (Diestro)
+            </label>
+          </div>
+          <div class="posicion lateral-zurdo">
+            <label>
+              <input type="checkbox" [value]="'lateral_zurdo'" (change)="onCheckboxChange($event)">
+              Lateral (Zurdo)
+            </label>
+          </div>
+
+          <!-- Mediocampo -->
+          <div class="posicion mediocentro-defensivo">
+            <label>
+              <input type="checkbox" [value]="'mediocentro_defensivo'" (change)="onCheckboxChange($event)">
+              Mediocentro Defensivo
+            </label>
+          </div>
+          <div class="posicion interior-diestro">
+            <label>
+              <input type="checkbox" [value]="'interior_diestro'" (change)="onCheckboxChange($event)">
+              Interior (Diestro)
+            </label>
+          </div>
+          <div class="posicion interior-zurdo">
+            <label>
+              <input type="checkbox" [value]="'interior_zurdo'" (change)="onCheckboxChange($event)">
+              Interior (Zurdo)
+            </label>
+          </div>
+          <div class="posicion mediapunta">
+            <label>
+              <input type="checkbox" [value]="'mediapunta'" (change)="onCheckboxChange($event)">
+              Mediapunta
+            </label>
+          </div>
+
+          <!-- Delanteros -->
+          <div class="posicion extremo-diestro">
+            <label>
+              <input type="checkbox" [value]="'extremo_diestro'" (change)="onCheckboxChange($event)">
+              Extremo (Diestro)
+            </label>
+          </div>
+          <div class="posicion extremo-zurdo">
+            <label>
+              <input type="checkbox" [value]="'extremo_zurdo'" (change)="onCheckboxChange($event)">
+              Extremo (Zurdo)
+            </label>
+          </div>
+          <div class="posicion delantero-centro">
+            <label>
+              <input type="checkbox" [value]="'delantero_centro'" (change)="onCheckboxChange($event)">
+              Delantero Centro
+            </label>
+          </div>
+          <div class="posicion carrilero-diestro">
+            <label>
+              <input type="checkbox" [value]="'carrilero_diestro'" (change)="onCheckboxChange($event)">
+              Carrilero (Diestro)
+            </label>
+          </div>
+          <div class="posicion carrilero-zurdo">
+            <label>
+              <input type="checkbox" [value]="'carrilero_zurdo'" (change)="onCheckboxChange($event)">
+              Carrilero (Zurdo)
+            </label>
+          </div>
+        </div>
+
+
+        <!-- Pierna dominante -->
+        <div class="form-row">
+          <div class="form-group mb-3">
+            <label for="piernaDominante" class="form-label"><i class="fa fa-shoe-prints"></i> Pierna dominante:
+              *</label>
+            <select id="piernaDominante" class="form-control" formControlName="piernaDominante" required>
+              <option value="derecha">Derecha</option>
+              <option value="izquierda">Izquierda</option>
+              <option value="ambas">Ambas</option>
+            </select>
+            <div *ngIf="registerForm.get('piernaDominante')?.invalid && registerForm.get('piernaDominante')?.touched"
+              class="text-danger mt-1">
+              <small>Selecciona una pierna dominante</small>
+            </div>
+          </div>
+          <!-- Nacionalidad -->
+          <div class="form-group mb-3">
+            <label for="nacionalidad" class="form-label"><i class="fa fa-flag"></i> País de Nacimiento: *</label>
+            <input type="text" id="nacionalidad" class="form-control" formControlName="nacionalidad"
+              placeholder="Introduce tu nacionalidad" required>
+            <div *ngIf="registerForm.get('nacionalidad')?.invalid && registerForm.get('nacionalidad')?.touched"
+              class="text-danger mt-1">
+              <small>La nacionalidad es obligatoria</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Clubes y Categorías en dos columnas -->
+        <!-- <div class="form-row">
+          <div class="form-group col-md-6 mb-3">
+            <label for="clubes" class="form-label"><i class="fa fa-shield"></i> Clubes en los que ha jugado
+              (opcional):</label>
+            <select id="clubes" class="form-control" formControlName="clubes" multiple>
+              <option *ngFor="let club of clubs$ | async" [value]="club._id">{{ club.nombre }}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-6 mb-3">
+            <label for="categorias" class="form-label"><i class="fa fa-list-alt"></i> Categorías (opcional):</label>
+            <select id="categorias" class="form-control" formControlName="categorias" multiple>
+              <option *ngFor="let category of categories">{{ category }}</option>
+            </select>
+          </div>
+        </div> -->
+
+        <!-- Botón de registro -->
+        <div class="d-grid">
+          <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid">
+            <i class="fa fa-user-plus"></i> Registrarse
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

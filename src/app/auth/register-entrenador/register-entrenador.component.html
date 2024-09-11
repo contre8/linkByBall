@@ -1,0 +1,146 @@
+<div class="container register-form">
+  <div class="card register-card shadow-lg p-4">
+    <div class="card-body">
+      <h2 class="text-center mb-4">Regístrate como Entrenador</h2>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <!-- Nombre y Apellidos en una línea -->
+        <div class="form-row">
+          <div class="form-group col-md-6 mb-3">
+            <label for="nombre" class="form-label"><i class="fa fa-user"></i> Nombre: *</label>
+            <input type="text" id="nombre" class="form-control" formControlName="nombre"
+              placeholder="Introduce tu nombre" required>
+            <div *ngIf="registerForm.get('nombre')?.invalid && registerForm.get('nombre')?.touched"
+              class="text-danger mt-1">
+              <small *ngIf="registerForm.get('nombre')?.errors?.['required']">El nombre es obligatorio</small>
+            </div>
+          </div>
+          <div class="form-group col-md-6 mb-3">
+            <label for="apellidos" class="form-label"><i class="fa fa-user"></i> Apellidos: *</label>
+            <input type="text" id="apellidos" class="form-control" formControlName="apellidos"
+              placeholder="Introduce tus apellidos" required>
+            <div *ngIf="registerForm.get('apellidos')?.invalid && registerForm.get('apellidos')?.touched"
+              class="text-danger mt-1">
+              <small *ngIf="registerForm.get('apellidos')?.errors?.['required']">Los apellidos son obligatorios</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group mb-3">
+          <label for="email" class="form-label"><i class="fa fa-envelope"></i> Correo electrónico: *</label>
+          <input type="email" id="email" class="form-control" formControlName="email" placeholder="Introduce tu email"
+            required>
+          <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+            class="text-danger mt-1">
+            <small *ngIf="registerForm.get('email')?.errors?.['required']">El correo electrónico es obligatorio</small>
+            <small *ngIf="registerForm.get('email')?.errors?.['email']">Introduce un correo electrónico válido</small>
+          </div>
+        </div>
+
+        <!-- Contraseña y Confirmar Contraseña en una línea -->
+        <div class="form-row">
+          <div class="form-group col-md-6 mb-3">
+            <label for="password" class="form-label"><i class="fa fa-lock"></i> Contraseña: *</label>
+            <input type="password" id="password" class="form-control" formControlName="password"
+              placeholder="Introduce tu contraseña" required>
+            <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+              class="text-danger mt-1">
+              <small *ngIf="registerForm.get('password')?.errors?.['required']">La contraseña es obligatoria</small>
+              <small *ngIf="registerForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 6
+                caracteres</small>
+            </div>
+          </div>
+          <div class="form-group col-md-6 mb-3">
+            <label for="confirmPassword" class="form-label"><i class="fa fa-lock"></i> Confirmar contraseña: *</label>
+            <input type="password" id="confirmPassword" class="form-control" formControlName="confirmPassword"
+              placeholder="Repite tu contraseña" required>
+            <div *ngIf="registerForm.errors?.['mismatch'] && registerForm.get('confirmPassword')?.touched"
+              class="text-danger mt-1">
+              <small>Las contraseñas no coinciden</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Edad y Teléfono en una línea -->
+        <div class="form-row">
+          <div class="form-group col-md-6 mb-3">
+            <label for="edad" class="form-label"><i class="fa fa-birthday-cake"></i> Edad: *</label>
+            <input type="number" id="edad" class="form-control" formControlName="edad" placeholder="Introduce tu edad"
+              required>
+            <div *ngIf="registerForm.get('edad')?.invalid && registerForm.get('edad')?.touched"
+              class="text-danger mt-1">
+              <small *ngIf="registerForm.get('edad')?.errors?.['required']">Edad requerida</small>
+              <small *ngIf="registerForm.get('edad')?.errors?.['min']">Debe tener al menos 16 años</small>
+            </div>
+          </div>
+          <div class="form-group col-md-6 mb-3">
+            <label for="telefono" class="form-label"><i class="fa fa-phone"></i> Teléfono:</label>
+            <input type="text" id="telefono" class="form-control" formControlName="telefono"
+              placeholder="Introduce tu teléfono" maxlength="9">
+            <div *ngIf="registerForm.get('telefono')?.invalid && registerForm.get('telefono')?.touched"
+              class="text-danger mt-1">
+              <small *ngIf="registerForm.get('telefono')?.errors?.['pattern']">Introduce un número de teléfono
+                válido (9 dígitos)</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Foto de perfil y Nacionalidad -->
+        <div class="form-row">
+          <div class="form-group col-md-6 mb-3">
+            <label for="fotografia" class="form-label"><i class="fa fa-camera"></i> Fotografía:</label>
+            <input type="file" (change)="onFileChange($event)" class="form-control" id="fotografia"
+              formControlName="fotografia">
+          </div>
+          <div class="form-group col-md-6 mb-3">
+            <label for="nacionalidad" class="form-label"><i class="fa fa-flag"></i> País de Nacimiento: *</label>
+            <input type="text" id="nacionalidad" class="form-control" formControlName="nacionalidad"
+              placeholder="Introduce tu nacionalidad" required>
+            <div *ngIf="registerForm.get('nacionalidad')?.invalid && registerForm.get('nacionalidad')?.touched"
+              class="text-danger mt-1">
+              <small>La nacionalidad es obligatoria</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Club actual y categoría en una línea -->
+        <div class="form-row">
+          <div class="form-group col-md-6 mb-3">
+            <label for="clubActual" class="form-label"><i class="fa fa-shield"></i> Club Actual:</label>
+            <select id="clubActual" class="form-control" formControlName="clubActual" (change)="onClubChange()">
+              <option *ngFor="let club of clubs$ | async" [value]="club._id">{{ club.nombre }}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-6 mb-3">
+            <label for="categoriaActual" class="form-label"><i class="fa fa-trophy"></i> Categoría del club:</label>
+            <input type="text" id="categoriaActual" class="form-control" formControlName="categoriaActual">
+          </div>
+        </div>
+
+        <!-- Especialidades -->
+        <div class="form-group col-md-6 mb-3">
+          <label for="especialidades" class="form-label">
+            <i class="fa fa-soccer-ball-o"></i> Especialidades: *
+          </label>
+          <div id="especialidades" class="form-check-container">
+            <div class="form-check" *ngFor="let specialty of especialidades">
+              <input class="form-check-input" type="checkbox" [value]="specialty.value"
+                (change)="onCheckboxChange($event)"
+                [checked]="registerForm.get('especialidades')?.value?.includes(specialty.value)">
+                <label class="form-check-label">
+                {{ specialty.label }}
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botón de registro -->
+        <div class="d-grid">
+          <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid">
+            <i class="fa fa-user-plus"></i> Registrarse
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

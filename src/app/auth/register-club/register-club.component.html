@@ -1,0 +1,131 @@
+<div class="container register-form">
+  <div class="card register-card shadow-lg p-4">
+    <div class="card-body">
+      <h2 class="text-center mb-4">Regístrate como Club</h2>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <!-- Nombre del Club y Categoría en una línea -->
+        <div class="form-row">
+          <div class="form-group col-md-6 mb-3">
+            <label for="nombre" class="form-label"><i class="fa fa-shield"></i> Nombre del Club: *</label>
+            <input type="text" id="nombre" class="form-control" formControlName="nombre"
+              placeholder="Introduce el nombre del club" required>
+            <div *ngIf="registerForm.get('nombre')?.invalid && registerForm.get('nombre')?.touched"
+              class="text-danger mt-1">
+              <small *ngIf="registerForm.get('nombre')?.errors?.['required']">El nombre del club es obligatorio</small>
+            </div>
+          </div>
+          <div class="form-group col-md-6 mb-3">
+            <label for="categoria" class="form-label"><i class="fa fa-trophy"></i> Categoría: *</label>
+            <select id="categoria" formControlName="categoria">
+              <option *ngFor="let categoria of categorias" [value]="categoria">
+                {{ categoria }}
+              </option>
+            </select>
+            <div *ngIf="registerForm.get('categoria')?.invalid && registerForm.get('categoria')?.touched"
+              class="text-danger mt-1">
+              <small *ngIf="registerForm.get('categoria')?.errors?.['required']">La categoría es obligatoria</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email y Teléfono en una línea -->
+        <div class="form-row">
+          <div class="form-group col-md-6 mb-3">
+            <label for="email" class="form-label"><i class="fa fa-envelope"></i> Correo Electrónico: *</label>
+            <input type="email" id="email" class="form-control" formControlName="email"
+              placeholder="Introduce el correo del club" required>
+            <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+              class="text-danger mt-1">
+              <small *ngIf="registerForm.get('email')?.errors?.['required']">El correo es obligatorio</small>
+              <small *ngIf="registerForm.get('email')?.errors?.['email']">Introduce un correo electrónico válido</small>
+            </div>
+          </div>
+          <div class="form-group col-md-6 mb-3">
+            <label for="telefono" class="form-label"><i class="fa fa-phone"></i> Teléfono:</label>
+            <input type="text" id="telefono" class="form-control" formControlName="telefono"
+              placeholder="Introduce tu teléfono" maxlength="9">
+            <div *ngIf="registerForm.get('telefono')?.invalid && registerForm.get('telefono')?.touched"
+              class="text-danger mt-1">
+              <small *ngIf="registerForm.get('telefono')?.errors?.['pattern']">Introduce un número de teléfono
+                válido (9 dígitos)</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Provincia y Comunidad -->
+        <div class="form-row">
+          <!-- Selector de Comunidad -->
+          <div class="form-group col-md-6 mb-3">
+            <label for="comunidad" class="form-label">
+              <i class="fa fa-globe"></i> Comunidad: *
+            </label>
+            <select id="comunidad" formControlName="comunidad" (change)="onComunidadChange($event)" class="form-control">
+              <option value="">--Seleccione una Comunidad--</option>
+              <option *ngFor="let comunidad of comunidades" [value]="comunidad">
+                {{ comunidad }}
+              </option>
+            </select>
+            <div *ngIf="registerForm.get('comunidad')?.invalid && registerForm.get('comunidad')?.touched" class="text-danger mt-1">
+              <small *ngIf="registerForm.get('comunidad')?.errors?.['required']">La comunidad es obligatoria</small>
+            </div>
+          </div>
+
+          <!-- Selector de Provincia -->
+          <div class="form-group col-md-6 mb-3">
+            <label for="provincia" class="form-label">
+              <i class="fa fa-map-marker"></i> Provincia: *
+            </label>
+            <select id="provincia" formControlName="provincia" class="form-control">
+              <option value="">--Seleccione una Provincia--</option>
+              <option *ngFor="let provincia of provincias" [value]="provincia">
+                {{ provincia }}
+              </option>
+            </select>
+            <div *ngIf="registerForm.get('provincia')?.invalid && registerForm.get('provincia')?.touched" class="text-danger mt-1">
+              <small *ngIf="registerForm.get('provincia')?.errors?.['required']">La provincia es obligatoria</small>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Foto de perfil -->
+        <div class="form-group">
+          <label for="fotografia" class="form-label"><i class="fa fa-camera"></i> Logo oficial del club:</label>
+          <input type="file" (change)="onFileChange($event)" class="form-control" id="fotografia"
+            formControlName="fotografia">
+        </div>
+
+        <!-- Contraseña y Confirmar Contraseña -->
+        <div class="form-row">
+          <div class="form-group col-md-6 mb-3">
+            <label for="password" class="form-label"><i class="fa fa-lock"></i> Contraseña: *</label>
+            <input type="password" id="password" class="form-control" formControlName="password"
+              placeholder="Introduce la contraseña" required>
+            <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+              class="text-danger mt-1">
+              <small *ngIf="registerForm.get('password')?.errors?.['required']">La contraseña es obligatoria</small>
+              <small *ngIf="registerForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 6
+                caracteres</small>
+            </div>
+          </div>
+          <div class="form-group col-md-6 mb-3">
+            <label for="confirmPassword" class="form-label"><i class="fa fa-lock"></i> Confirmar contraseña: *</label>
+            <input type="password" id="confirmPassword" class="form-control" formControlName="confirmPassword"
+              placeholder="Repite la contraseña" required>
+            <div *ngIf="registerForm.errors?.['mismatch'] && registerForm.get('confirmPassword')?.touched"
+              class="text-danger mt-1">
+              <small>Las contraseñas no coinciden</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botón de registro -->
+        <div class="d-grid">
+          <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid">
+            <i class="fa fa-user-plus"></i> Registrar Club
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

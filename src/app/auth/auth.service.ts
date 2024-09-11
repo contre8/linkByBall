@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
   private baseUrl = 'http://localhost:5000/auth'; // URL base de tu API
+  private baseUrl2 = 'http://localhost:5000'; // URL base de tu API sin auth
 
   constructor(private http: HttpClient) { }
 
@@ -55,5 +56,26 @@ export class AuthService {
   // Método para verificar si el usuario está autenticado
   isAuthenticated(): boolean {
     return !!localStorage.getItem('token'); // Verifica si el token está almacenado
+  }
+
+  //Métodos Clubs
+  // En tu servicio Angular (AuthService u otro servicio dedicado)
+
+  getClubs(): Observable<any> {
+    return this.http.get(`${this.baseUrl2}/club/all`);
+  }
+
+  // Método para obtener la información de un club
+  getClub(): Observable<any> {
+    const token = localStorage.getItem('token'); // Suponiendo que guardas el token en el localStorage
+    const headers = new HttpHeaders({
+      'x-auth-token': token || ''
+    });
+
+    return this.http.get(`${this.baseUrl2}/club/perfil`, { headers });
+  }
+
+  getClubCategory(clubId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl2}/club/perfil/${clubId}/category`);
   }
 }

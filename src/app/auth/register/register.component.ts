@@ -1,12 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { AuthNavigationService } from '../services/auth-navigation.service';
 
 @Component({
   selector: 'app-register',
-  standalone: true,
-  imports: [],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  template: '',
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
+  constructor(
+    private route: ActivatedRoute,
+    private authNavigationService: AuthNavigationService
+  ) {}
 
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      const type = params['type'];
+      this.authNavigationService.navigateToRegistration(type);
+    });
+  }
 }
