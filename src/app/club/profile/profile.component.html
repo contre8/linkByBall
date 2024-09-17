@@ -1,1 +1,48 @@
-<p>profile works!</p>
+<div class="profile-container">
+  <div class="image-container">
+    <img [src]="club?.fotografia?.url || defaultPicture" alt="Foto del Club" />
+  </div>
+
+  <div class="info-container">
+    <h2>{{ club?.nombre }}</h2>
+    <hr class="separator">
+    <div class="info-block">
+      <div class="info-title">Correo:</div>
+      <div class="info-data">{{ club?.email }}</div>
+    </div>
+
+    <div class="info-block" *ngIf="club?.telefono">
+      <div class="info-title">Teléfono:</div>
+      <div class="info-data">{{ club?.telefono }}</div>
+    </div>
+
+    <div class="info-block">
+      <div class="info-title">Categoría:</div>
+      <div class="info-data">{{ club?.categoria }}</div>
+    </div>
+
+    <div class="info-block">
+      <div class="info-title">Comunidad:</div>
+      <div class="info-data">{{ club?.comunidad || 'N/A' }}</div>
+    </div>
+
+    <div class="info-block">
+      <div class="info-title">Provincia:</div>
+      <div class="info-data">{{ club?.provincia || 'N/A' }}</div>
+    </div>
+
+    <div class="info-block">
+      <div class="info-title">Verificado:</div>
+      <div class="info-data">{{ club?.verificado ? 'Sí' : 'No' }}</div>
+    </div>
+
+    <!-- <div class="info-block" *ngIf="club?.vacantes?.length">
+      <div class="info-title">Vacantes:</div>
+      <ul class="info-data">
+        <li *ngFor="let vacante of club.vacantes">
+          {{ vacante }}
+        </li>
+      </ul>
+    </div> -->
+  </div>
+</div>

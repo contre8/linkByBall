@@ -1,14 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { FutbolistaRoutingModule } from './futbolista-routing.module';
-
+import { FutbolistaRoutingModule } from './futbolista-routing.module';  // Importa el routing module
 
 @NgModule({
-  declarations: [],
   imports: [
     CommonModule,
-    FutbolistaRoutingModule
+    FutbolistaRoutingModule  // Importa las rutas, incluyendo el componente standalone
   ]
 })
 export class FutbolistaModule { }

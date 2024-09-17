@@ -1,1 +1,44 @@
-<p>profile works!</p>
+<div class="profile-container">
+  <div class="image-container">
+    <img [src]="entrenador?.fotografia?.url || defaultPicture" alt="Foto del Entrenador">
+  </div>
+
+  <div class="info-container">
+    <h2>{{ entrenador?.nombre }} {{ entrenador?.apellidos }}</h2>
+
+    <div class="info-block">
+      <div class="info-title">Edad:</div>
+      <div class="info-data">{{ entrenador?.edad }} años</div>
+    </div>
+
+    <div class="info-block">
+      <div class="info-title">Correo:</div>
+      <div class="info-data">{{ entrenador?.email }}</div>
+    </div>
+
+    <div class="info-block">
+      <div class="info-title">Teléfono:</div>
+      <div class="info-data">{{ entrenador?.telefono || 'No disponible' }}</div>
+    </div>
+
+    <div class="info-block">
+      <div class="info-title">Nacionalidad:</div>
+      <div class="info-data">{{ entrenador?.nacionalidad }}</div>
+    </div>
+
+    <div class="info-block">
+      <div class="info-title">Club Actual:</div>
+      <div class="info-data">{{ entrenador?.clubActual || 'No pertenece a ningún club' }}</div>
+    </div>
+
+    <div class="info-block">
+      <div class="info-title">Categoría Actual:</div>
+      <div class="info-data">{{ entrenador?.categoriaActual || 'No disponible' }}</div>
+    </div>
+
+    <div class="info-block">
+      <div class="info-title">Especialidades:</div>
+      <div class="info-data">{{ entrenador?.especialidades?.join(', ') }}</div>
+    </div>
+  </div>
+</div>

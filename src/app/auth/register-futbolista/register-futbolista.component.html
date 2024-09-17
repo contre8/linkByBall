@@ -230,9 +230,9 @@
             <label for="piernaDominante" class="form-label"><i class="fa fa-shoe-prints"></i> Pierna dominante:
               *</label>
             <select id="piernaDominante" class="form-control" formControlName="piernaDominante" required>
-              <option value="derecha">Derecha</option>
-              <option value="izquierda">Izquierda</option>
-              <option value="ambas">Ambas</option>
+              <option value="Derecha">Derecha</option>
+              <option value="Izquierda">Izquierda</option>
+              <option value="Ambas">Ambas</option>
             </select>
             <div *ngIf="registerForm.get('piernaDominante')?.invalid && registerForm.get('piernaDominante')?.touched"
               class="text-danger mt-1">
