@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common'; // Importar el módulo común pa
 import { RouterModule } from '@angular/router'; // Para redirecciones si se necesita
 import { FormsModule } from '@angular/forms'; // Si usas formularios
 import { AuthService } from '../../auth/auth.service';
+import { FutbolistaService } from '../futbolista.service';
 import { ActivatedRoute, Router } from '@angular/router'; // Importar Router
 
 @Component({
@@ -17,33 +18,26 @@ export class ProfileComponent implements OnInit {
   defaultPicture: string = '../../../../default-picture-profile.jpg'; // Imagen por defecto si no tiene foto
   posiciones: string[] = []; // Para almacenar las posiciones desde la base de datos
 
-  constructor(private authService: AuthService, private route: ActivatedRoute, private router: Router) { } // Inyecta Router
+  constructor(private authService: AuthService, private futbolistaservice: FutbolistaService, private route: ActivatedRoute, private router: Router) { } // Inyecta Router
 
   ngOnInit(): void {
     this.authService.getFutbolistaProfile().subscribe(
       (futbolistaData) => {
         this.futbolista = futbolistaData; // Asigna los datos del futbolista al componente
-        if (typeof this.futbolista.posiciones[0] === 'string') {
-          try {
-            this.futbolista.posiciones = JSON.parse(this.futbolista.posiciones); // Convierte a array
-            this.posiciones = this.futbolista.posiciones
-          } catch (error) {
-            console.error('Error al parsear posiciones:', error);
-          }
-        }
-        console.log(typeof this.futbolista.posiciones[0])
+        this.futbolista.clubActual = this.futbolista.clubActual?.nombre
+        console.log(this.futbolista.clubActual)
 
-        if (this.futbolista.clubActual) {
-          // Llamada al servicio para obtener el perfil del club
-          this.authService.getClub(this.futbolista.clubActual).subscribe(
-            (clubData) => {
-              this.futbolista.clubActual = clubData.nombre; // Reemplazar el ID por el nombre del club
-            },
-            (error) => {
-              console.error('Error al obtener el perfil del club', error);
-            }
-          );
-        }
+        // if (this.futbolista.clubActual) {
+        //   // Llamada al servicio para obtener el perfil del club
+        //   this.authService.getClub(this.futbolista.clubActual).subscribe(
+        //     (clubData) => {
+        //       this.futbolista.clubActual = clubData.nombre; // Reemplazar el ID por el nombre del club
+        //     },
+        //     (error) => {
+        //       console.error('Error al obtener el perfil del club', error);
+        //     }
+        //   );
+        // }
       },
       (error) => {
         console.error('Error al obtener el perfil del futbolista', error);
@@ -55,6 +49,25 @@ export class ProfileComponent implements OnInit {
       }
     );
   }
+
+  goToModifyProfile(): void {
+    this.router.navigate(['/futbolista/modify-profile']); // Redirigir a la ruta de modificación
+  }
+
+  deleteProfile(): void {
+    if (confirm('¿Estás seguro de que deseas eliminar tu perfil? Esta acción no se puede deshacer.')) {
+      this.futbolistaservice.deleteFutbolistaProfile().subscribe(
+        response => {
+          console.log('Perfil eliminado con éxito', response);
+          this.router.navigate(['/']); // Redirigir a la página principal o donde prefieras
+        },
+        error => {
+          console.error('Error al eliminar el perfil', error);
+        }
+      );
+    }
+  }
+
 
   // Función que retorna la clase CSS para una posición
   getClassForPosition(posicion: string): string {

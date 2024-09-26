@@ -28,15 +28,16 @@
       <div class="info-data"> {{ futbolista?.nacionalidad }}</div>
     </div>
 
-    <div class="info-block">
-      <div class="info-title">Club Actual: </div>
-      <div class="info-data"> {{ futbolista?.clubActual }}</div>
-      <ng-template #noClub>No pertenece a ningún club</ng-template>
-    </div>
+    <div *ngIf="futbolista?.clubActual">
+      <div class="info-block">
+        <div class="info-title">Club Actual: </div>
+        <div class="info-data"> {{ futbolista?.clubActual }}</div>
+      </div>
 
-    <div class="info-block">
-      <div class="info-title">Categoría: </div>
-      <div class="info-data"> {{ futbolista?.categoriaActual }}</div>
+      <div class="info-block">
+        <div class="info-title">Categoría: </div>
+        <div class="info-data"> {{ futbolista?.categoriaActual }}</div>
+      </div>
     </div>
 
     <div class="info-block">
@@ -117,8 +118,15 @@
         [ngClass]="{ 'active': futbolista?.posiciones?.includes('carrilero_zurdo') }">
         <span>CAI</span>
       </div>
+    </div>
+    <div class="d-flex justify-content-between mt-4">
+      <button mat-raised-button color="primary" (click)="goToModifyProfile()">
+        <i class="fa fa-edit"></i> Editar Perfil
+      </button>
 
-
+      <button mat-raised-button color="warn" (click)="deleteProfile()">
+        <i class="fa fa-trash"></i> Eliminar Perfil
+      </button>
     </div>
   </div>
 </div>

@@ -6,6 +6,8 @@
   <div class="info-container">
     <h2>{{ entrenador?.nombre }} {{ entrenador?.apellidos }}</h2>
 
+    <hr class="separator">
+
     <div class="info-block">
       <div class="info-title">Edad:</div>
       <div class="info-data">{{ entrenador?.edad }} años</div>
@@ -28,7 +30,7 @@
 
     <div class="info-block">
       <div class="info-title">Club Actual:</div>
-      <div class="info-data">{{ entrenador?.clubActual || 'No pertenece a ningún club' }}</div>
+      <div class="info-data">{{ entrenador?.clubActual?.nombre || 'No pertenece a ningún club' }}</div>
     </div>
 
     <div class="info-block">
@@ -39,6 +41,15 @@
     <div class="info-block">
       <div class="info-title">Especialidades:</div>
       <div class="info-data">{{ entrenador?.especialidades?.join(', ') }}</div>
+    </div>
+    <div class="d-flex justify-content-between mt-4">
+      <button mat-raised-button color="primary" (click)="goToModifyProfile()">
+        <i class="fa fa-edit"></i> Editar Perfil
+      </button>
+
+      <button mat-raised-button color="warn" (click)="deleteProfile()">
+        <i class="fa fa-trash"></i> Eliminar Perfil
+      </button>
     </div>
   </div>
 </div>

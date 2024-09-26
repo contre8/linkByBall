@@ -1,0 +1,223 @@
+<div class="container register-form">
+  <div class="card register-card shadow-lg p-4">
+    <div *ngIf="isLoading" class="loading-overlay">
+      <div class="spinner"></div>
+      <p>Actualizando...</p>
+    </div>
+
+    <div class="card-body">
+      <h2 class="text-center mb-4">Modificar Perfil de Futbolista</h2>
+      <form [formGroup]="futbolistaForm" (ngSubmit)="onSubmit()">
+
+        <!-- Foto de perfil -->
+        <div class="image-container" style="position: relative; cursor: pointer;">
+          <img [src]="selectedImageUrl || futbolista?.fotografia?.url || defaultPicture" alt="Foto del Futbolista"
+            class="img-fluid profile-image" (click)="fileInput.click()" />
+          <input type="file" #fileInput (change)="onFileChange($event)" style="display: none;" id="fotografia"
+            formControlName="fotografia">
+
+
+          <!-- Icono de editar -->
+          <div class="edit-icon">
+            <i class="fa fa-edit"></i>
+          </div>
+        </div>
+
+        <!-- Nombre y Apellidos en una línea -->
+        <div class="form-row">
+          <div class="form-group col-md-6 mb-3">
+            <label for="nombre" class="form-label"><i class="fa fa-user"></i> Nombre: *</label>
+            <input type="text" id="nombre" class="form-control" formControlName="nombre"
+              placeholder="Introduce tu nombre" required>
+          </div>
+          <div class="form-group col-md-6 mb-3">
+            <label for="apellidos" class="form-label"><i class="fa fa-user"></i> Apellidos: *</label>
+            <input type="text" id="apellidos" class="form-control" formControlName="apellidos"
+              placeholder="Introduce tus apellidos" required>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group mb-3">
+          <label for="email" class="form-label"><i class="fa fa-envelope"></i> Correo electrónico: *</label>
+          <input type="email" id="email" class="form-control" formControlName="email" placeholder="Introduce tu email"
+            [attr.disabled]="true">
+        </div>
+
+        <!-- Edad y Teléfono en una línea -->
+        <div class="form-row">
+          <div class="form-group col-md-6 mb-3">
+            <label for="edad" class="form-label"><i class="fa fa-birthday-cake"></i> Edad: *</label>
+            <input type="number" id="edad" class="form-control" formControlName="edad" placeholder="Introduce tu edad"
+              required>
+          </div>
+          <div class="form-group col-md-6 mb-3">
+            <label for="telefono" class="form-label"><i class="fa fa-phone"></i> Teléfono:</label>
+            <input type="text" id="telefono" class="form-control" formControlName="telefono"
+              placeholder="Introduce tu teléfono" maxlength="9">
+          </div>
+        </div>
+
+        <!-- Club actual y categoría en una línea -->
+        <div class="form-row">
+          <div class="form-group col-md-6 mb-3">
+            <label for="clubActual" class="form-label"><i class="fa fa-shield"></i> Club Actual:</label>
+            <select id="clubActual" class="form-control" formControlName="clubActual" (change)="onClubChange()">
+              <!-- Opción para quitar la selección (sin club) -->
+              <option [value]="null">Sin club</option>
+              <option *ngFor="let club of clubs$ | async" [value]="club._id">{{ club.nombre }}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-6 mb-3">
+            <label for="categoriaActual" class="form-label"><i class="fa fa-trophy"></i> Categoría del club:</label>
+            <input type="text" id="categoriaActual" class="form-control" formControlName="categoriaActual">
+          </div>
+        </div>
+
+
+        <!-- Posiciones -->
+        <div class="form-group col-md-6 mb-3">
+          <label for="posiciones" class="form-label">
+            <i class="fa fa-soccer-ball-o"></i> Posiciones: *
+          </label>
+        </div>
+        <div class="campo-container">
+          <img src="../../../../campo-de-futbol.jpg" alt="Campo de fútbol" class="campo-futbol">
+          <!-- Posiciones en el campo, con checkboxes -->
+          <!-- Portero -->
+          <div class="posicion portero">
+            <label>
+              <input type="checkbox" [value]="'portero'" [checked]="futbolista.posiciones?.includes('portero')"
+                (change)="onCheckboxChange($event)">
+              Portero
+            </label>
+          </div>
+
+          <!-- Defensas -->
+          <div class="posicion central-diestro">
+            <label>
+              <input type="checkbox" [value]="'central_diestro'"
+                [checked]="futbolista.posiciones?.includes('central_diestro')" (change)="onCheckboxChange($event)">
+              Central (Diestro)
+            </label>
+          </div>
+          <div class="posicion central-zurdo">
+            <label>
+              <input type="checkbox" [value]="'central_zurdo'"
+                [checked]="futbolista.posiciones?.includes('central_zurdo')" (change)="onCheckboxChange($event)">
+              Central (Zurdo)
+            </label>
+          </div>
+          <div class="posicion lateral-diestro">
+            <label>
+              <input type="checkbox" [value]="'lateral_diestro'"
+                [checked]="futbolista.posiciones?.includes('lateral_diestro')" (change)="onCheckboxChange($event)">
+              Lateral (Diestro)
+            </label>
+          </div>
+          <div class="posicion lateral-zurdo">
+            <label>
+              <input type="checkbox" [value]="'lateral_zurdo'"
+                [checked]="futbolista.posiciones?.includes('lateral_zurdo')" (change)="onCheckboxChange($event)">
+              Lateral (Zurdo)
+            </label>
+          </div>
+
+          <!-- Mediocampo -->
+          <div class="posicion mediocentro-defensivo">
+            <label>
+              <input type="checkbox" [value]="'mediocentro_defensivo'"
+                [checked]="futbolista.posiciones?.includes('mediocentro_defensivo')"
+                (change)="onCheckboxChange($event)">
+              Mediocentro Defensivo
+            </label>
+          </div>
+          <div class="posicion interior-diestro">
+            <label>
+              <input type="checkbox" [value]="'interior_diestro'"
+                [checked]="futbolista.posiciones?.includes('interior_diestro')" (change)="onCheckboxChange($event)">
+              Interior (Diestro)
+            </label>
+          </div>
+          <div class="posicion interior-zurdo">
+            <label>
+              <input type="checkbox" [value]="'interior_zurdo'"
+                [checked]="futbolista.posiciones?.includes('interior_zurdo')" (change)="onCheckboxChange($event)">
+              Interior (Zurdo)
+            </label>
+          </div>
+          <div class="posicion mediapunta">
+            <label>
+              <input type="checkbox" [value]="'mediapunta'" [checked]="futbolista.posiciones?.includes('mediapunta')"
+                (change)="onCheckboxChange($event)">
+              Mediapunta
+            </label>
+          </div>
+
+          <!-- Delanteros -->
+          <div class="posicion extremo-diestro">
+            <label>
+              <input type="checkbox" [value]="'extremo_diestro'"
+                [checked]="futbolista.posiciones?.includes('extremo_diestro')" (change)="onCheckboxChange($event)">
+              Extremo (Diestro)
+            </label>
+          </div>
+          <div class="posicion extremo-zurdo">
+            <label>
+              <input type="checkbox" [value]="'extremo_zurdo'"
+                [checked]="futbolista.posiciones?.includes('extremo_zurdo')" (change)="onCheckboxChange($event)">
+              Extremo (Zurdo)
+            </label>
+          </div>
+          <div class="posicion delantero-centro">
+            <label>
+              <input type="checkbox" [value]="'delantero_centro'"
+                [checked]="futbolista.posiciones?.includes('delantero_centro')" (change)="onCheckboxChange($event)">
+              Delantero Centro
+            </label>
+          </div>
+          <div class="posicion carrilero-diestro">
+            <label>
+              <input type="checkbox" [value]="'carrilero_diestro'"
+                [checked]="futbolista.posiciones?.includes('carrilero_diestro')" (change)="onCheckboxChange($event)">
+              Carrilero (Diestro)
+            </label>
+          </div>
+          <div class="posicion carrilero-zurdo">
+            <label>
+              <input type="checkbox" [value]="'carrilero_zurdo'"
+                [checked]="futbolista.posiciones?.includes('carrilero_zurdo')" (change)="onCheckboxChange($event)">
+              Carrilero (Zurdo)
+            </label>
+          </div>
+
+        </div>
+
+        <!-- Pierna dominante -->
+        <!-- Nacionalidad -->
+        <div class="form-row">
+          <div class="form-group col-md-6 mb-3">
+            <label for="piernaDominante" class="form-label"><i class="fa fa-shoe-prints"></i> Pierna dominante:</label>
+            <select id="piernaDominante" class="form-control" formControlName="piernaDominante" required>
+              <option value="Derecha">Derecha</option>
+              <option value="Izquierda">Izquierda</option>
+              <option value="Ambas">Ambas</option>
+            </select>
+          </div>
+          <div class="form-group col-md-6 mb-3">
+            <label for="nacionalidad" class="form-label"><i class="fa fa-flag"></i> Nacionalidad:</label>
+            <input type="text" id="nacionalidad" class="form-control" formControlName="nacionalidad"
+              placeholder="Introduce tu nacionalidad" required>
+          </div>
+        </div>
+
+        <!-- Botón de guardar -->
+        <div class="d-grid">
+          <button mat-raised-button color="primary" type="submit" [disabled]="futbolistaForm.invalid">
+            <i class="fa fa-save"></i> Guardar Cambios
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

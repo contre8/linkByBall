@@ -114,13 +114,24 @@ export class RegisterFutbolistaComponent implements OnInit {
 
       // Añadir clubActual y categoriaActual si existen
       formData.append('piernaDominante', this.registerForm.get('piernaDominante')?.value);
-      formData.append('clubActual', this.registerForm.get('clubActual')?.value || '');
-      formData.append('categoriaActual', this.registerForm.get('categoriaActual')?.value || '');
+      if (this.registerForm.get('clubActual')?.value !== null) {
+        formData.append('clubActual', this.registerForm.get('clubActual')?.value);
+        formData.append('categoriaActual', this.registerForm.get('categoriaActual')?.value);
+      }
 
       // Añadir arrays de posiciones, clubes y categorías
-      formData.append('posiciones', JSON.stringify(this.registerForm.get('posiciones')?.value));
-      formData.append('clubes', JSON.stringify(this.registerForm.get('clubes')?.value));
-      formData.append('categorias', JSON.stringify(this.registerForm.get('categorias')?.value));
+      const posiciones = this.registerForm.get('posiciones')?.value;
+      posiciones.forEach((posicion: string, index: number) => {
+        formData.append(`posiciones[${index}]`, posicion);
+      });
+      const clubes = this.registerForm.get('clubes')?.value;
+      clubes.forEach((club: string, index: number) => {
+        formData.append(`clubes[${index}]`, club);
+      });
+      const categorias = this.registerForm.get('categorias')?.value;
+      categorias.forEach((categoria: string, index: number) => {
+        formData.append(`categorias[${index}]`, categoria);
+      });
 
       formData.append('nacionalidad', this.registerForm.get('nacionalidad')?.value);
 
@@ -160,21 +171,6 @@ export class RegisterFutbolistaComponent implements OnInit {
     }
   }
 
-  // Este método se llamará cada vez que un checkbox cambie de estado
-  // onCheckboxChange(event: any) {
-  //   const posiciones = this.registerForm.get('posiciones')?.value as string[];
-  //   if (event.target.checked) {
-  //     // Agregar el valor seleccionado
-  //     posiciones.push(event.target.value);
-  //   } else {
-  //     // Eliminar el valor deseleccionado
-  //     const index = posiciones.indexOf(event.target.value);
-  //     if (index > -1) {
-  //       posiciones.splice(index, 1);
-  //     }
-  //   }
-  //   this.registerForm.get('posiciones')?.setValue(posiciones); // Actualizar el valor del formulario
-  // }
   onCheckboxChange(event: any) {
     const selectedPositions = this.registerForm.get('posiciones')?.value as string[];
     const value = event.target.value;
@@ -182,6 +178,7 @@ export class RegisterFutbolistaComponent implements OnInit {
     if (event.target.checked) {
       // Añadir la posición seleccionada
       selectedPositions.push(value);
+      console.log(selectedPositions)
     } else {
       // Eliminar la posición si ya estaba seleccionada
       const index = selectedPositions.indexOf(value);
