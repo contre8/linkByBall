@@ -6,6 +6,7 @@ import { RegisterComponent } from './register/register.component';
 import { RegisterFutbolistaComponent } from './register-futbolista/register-futbolista.component';
 import { RegisterEntrenadorComponent } from './register-entrenador/register-entrenador.component';
 import { RegisterClubComponent } from './register-club/register-club.component';
+import { AuthGuard } from './services/auth.guard'; // Asegúrate de que la ruta sea correcta
 
 const routes: Routes = [
   { path: 'auth/login', component: LoginComponent },
@@ -15,6 +16,13 @@ const routes: Routes = [
   { path: 'auth/register/entrenador', component: RegisterEntrenadorComponent },
   { path: 'auth/register/club', component: RegisterClubComponent },
 ];
+
+// const routes: Routes = [
+//   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+//   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+//   { path: 'login', component: LoginComponent },
+//   { path: '**', redirectTo: '/login', pathMatch: 'full' } // Ruta por defecto
+// ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

@@ -1,1 +1,132 @@
-<p>profile works!</p>
+<div class="profile-container">
+  <div class="image-container">
+    <img [src]="futbolista?.fotografia?.url || defaultPicture" alt="Foto del Futbolista">
+  </div>
+
+  <div class="info-container">
+    <h2>{{ futbolista?.nombre }} {{ futbolista?.apellidos }}</h2>
+
+    <hr class="separator">
+
+    <div class="info-block">
+      <div class="info-title">Edad:</div>
+      <div class="info-data"> {{ futbolista?.edad }} años</div>
+    </div>
+
+    <div class="info-block">
+      <div class="info-title">Correo: </div>
+      <div class="info-data"> {{ futbolista?.email }}</div>
+    </div>
+
+    <div class="info-block">
+      <div class="info-title">Teléfono: </div>
+      <div class="info-data"> {{ futbolista?.telefono }}</div>
+    </div>
+
+    <div class="info-block">
+      <div class="info-title">Nacionalidad: </div>
+      <div class="info-data"> {{ futbolista?.nacionalidad }}</div>
+    </div>
+
+    <div *ngIf="futbolista?.clubActual">
+      <div class="info-block">
+        <div class="info-title">Club Actual: </div>
+        <div class="info-data"> {{ futbolista?.clubActual }}</div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-title">Categoría: </div>
+        <div class="info-data"> {{ futbolista?.categoriaActual }}</div>
+      </div>
+    </div>
+
+    <div class="info-block">
+      <div class="info-title">Pierna Dominante: </div>
+      <div class="info-data">{{ futbolista?.piernaDominante }}</div>
+    </div>
+
+    <div class="info-block">
+      <div class="info-title">Posiciones: </div>
+    </div>
+
+    <div class="campo-container">
+      <img src="../../../../campo-de-futbol.jpg" alt="Campo de fútbol" class="campo-futbol">
+      <!-- Portero -->
+      <div class="posicion portero" [ngClass]="{ 'active': futbolista?.posiciones?.includes('portero') }">
+        <span>POR</span>
+      </div>
+
+      <!-- Defensas -->
+      <div class="posicion central-diestro"
+        [ngClass]="{ 'active': futbolista?.posiciones?.includes('central_diestro') }">
+        <span>CD</span>
+      </div>
+
+      <div class="posicion central-zurdo" [ngClass]="{ 'active': futbolista?.posiciones?.includes('central_zurdo') }">
+        <span>CI</span>
+      </div>
+
+      <div class="posicion lateral-diestro"
+        [ngClass]="{ 'active': futbolista?.posiciones?.includes('lateral_diestro') }">
+        <span>LD</span>
+      </div>
+
+      <div class="posicion lateral-zurdo" [ngClass]="{ 'active': futbolista?.posiciones?.includes('lateral_zurdo') }">
+        <span>LI</span>
+      </div>
+
+      <!-- Mediocampo -->
+      <div class="posicion mediocentro-defensivo"
+        [ngClass]="{ 'active': futbolista?.posiciones?.includes('mediocentro_defensivo') }">
+        <span>MCD</span>
+      </div>
+
+      <div class="posicion interior-diestro"
+        [ngClass]="{ 'active': futbolista?.posiciones?.includes('interior_diestro') }">
+        <span>ID</span>
+      </div>
+
+      <div class="posicion interior-zurdo" [ngClass]="{ 'active': futbolista?.posiciones?.includes('interior_zurdo') }">
+        <span>II</span>
+      </div>
+
+      <div class="posicion mediapunta" [ngClass]="{ 'active': futbolista?.posiciones?.includes('mediapunta') }">
+        <span>MP</span>
+      </div>
+
+      <!-- Delanteros -->
+      <div class="posicion extremo-diestro"
+        [ngClass]="{ 'active': futbolista?.posiciones?.includes('extremo_diestro') }">
+        <span>ED</span>
+      </div>
+
+      <div class="posicion extremo-zurdo" [ngClass]="{ 'active': futbolista?.posiciones?.includes('extremo_zurdo') }">
+        <span>EI</span>
+      </div>
+
+      <div class="posicion delantero-centro"
+        [ngClass]="{ 'active': futbolista?.posiciones?.includes('delantero_centro') }">
+        <span>DC</span>
+      </div>
+
+      <div class="posicion carrilero-diestro"
+        [ngClass]="{ 'active': futbolista?.posiciones?.includes('carrilero_diestro') }">
+        <span>CAD</span>
+      </div>
+
+      <div class="posicion carrilero-zurdo"
+        [ngClass]="{ 'active': futbolista?.posiciones?.includes('carrilero_zurdo') }">
+        <span>CAI</span>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between mt-4">
+      <button mat-raised-button color="primary" (click)="goToModifyProfile()">
+        <i class="fa fa-edit"></i> Editar Perfil
+      </button>
+
+      <button mat-raised-button color="warn" (click)="deleteProfile()">
+        <i class="fa fa-trash"></i> Eliminar Perfil
+      </button>
+    </div>
+  </div>
+</div>

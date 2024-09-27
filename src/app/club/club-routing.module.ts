@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ProfileComponent } from './profile/profile.component';
+import { ProfileClubComponent } from './profile/profile.component';
+import { ModifyClubComponent } from './modify-club/modify-club.component';
 
 const routes: Routes = [
-  { path: 'profile', component: ProfileComponent }
+  { path: 'club/perfil', component: ProfileClubComponent },
+  { path: 'club/modify-profile', component: ModifyClubComponent }
 ];
 
 @NgModule({

@@ -1,0 +1,98 @@
+<div class="container register-form">
+  <div class="card register-card shadow-lg p-4">
+    <div *ngIf="isLoading" class="loading-overlay">
+      <div class="spinner"></div>
+      <p>Actualizando...</p>
+    </div>
+
+    <div class="card-body">
+      <h2 class="text-center mb-4">Modificar Perfil del Club</h2>
+      <form [formGroup]="clubForm" (ngSubmit)="onSubmit()">
+
+        <!-- Foto de perfil del club -->
+        <div class="image-container" style="position: relative; cursor: pointer;">
+          <img [src]="selectedImageUrl || club?.fotografia?.url || defaultPicture" alt="Logo del Club"
+            class="img-fluid profile-image" (click)="fileInput.click()" />
+          <input type="file" #fileInput (change)="onFileChange($event)" style="display: none;" id="fotografia"
+            formControlName="fotografia">
+
+          <!-- Icono de editar -->
+          <div class="edit-icon">
+            <i class="fa fa-edit"></i>
+          </div>
+        </div>
+
+        <!-- Nombre del Club y Categoría en una línea -->
+        <div class="form-row">
+          <div class="form-group col-md-6 mb-3">
+            <label for="nombre" class="form-label"><i class="fa fa-shield"></i> Nombre del Club: *</label>
+            <input type="text" id="nombre" class="form-control" formControlName="nombre"
+              placeholder="Introduce el nombre del club" required>
+          </div>
+          <div class="form-group col-md-6 mb-3">
+            <label for="categoria" class="form-label"><i class="fa fa-trophy"></i> Categoría: *</label>
+            <select id="categoria" formControlName="categoria" class="form-control">
+              <option *ngFor="let categoria of categorias" [value]="categoria">
+                {{ categoria }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Email y Teléfono en una línea -->
+        <div class="form-row">
+          <div class="form-group col-md-6 mb-3">
+            <label for="email" class="form-label"><i class="fa fa-envelope"></i> Correo Electrónico: *</label>
+            <input type="email" id="email" class="form-control" formControlName="email"
+              placeholder="Introduce el correo del club" [attr.disabled]="true">
+          </div>
+          <div class="form-group col-md-6 mb-3">
+            <label for="telefono" class="form-label"><i class="fa fa-phone"></i> Teléfono:</label>
+            <input type="text" id="telefono" class="form-control" formControlName="telefono"
+              placeholder="Introduce el teléfono del club" maxlength="9">
+          </div>
+        </div>
+
+        <!-- Provincia y Comunidad en una línea -->
+        <div class="form-row">
+          <!-- Selector de Comunidad -->
+          <div class="form-group col-md-6 mb-3">
+            <label for="comunidad" class="form-label"><i class="fa fa-globe"></i> Comunidad: *</label>
+            <select id="comunidad" formControlName="comunidad" (change)="onComunidadChange($event)"
+              class="form-control">
+              <option value="">--Seleccione una Comunidad--</option>
+              <option *ngFor="let comunidad of comunidades" [value]="comunidad">
+                {{ comunidad }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Selector de Provincia -->
+          <div class="form-group col-md-6 mb-3">
+            <label for="provincia" class="form-label"><i class="fa fa-map-marker"></i> Provincia: *</label>
+            <select id="provincia" formControlName="provincia" class="form-control">
+              <option value="">--Seleccione una Provincia--</option>
+              <option *ngFor="let provincia of provincias" [value]="provincia">
+                {{ provincia }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Contraseña -->
+        <!-- <div class="form-group mb-3">
+          <label for="password" class="form-label"><i class="fa fa-lock"></i> Contraseña: *</label>
+          <input type="password" id="password" class="form-control" formControlName="password"
+            placeholder="Introduce una nueva contraseña" required>
+        </div> -->
+
+        <!-- Botón de guardar -->
+        <div class="d-grid">
+          <button mat-raised-button color="primary" type="submit" [disabled]="clubForm.invalid">
+            <i class="fa fa-save"></i> Guardar Cambios
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

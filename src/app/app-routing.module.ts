@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthRoutingModule } from './auth/auth-routing.module';
+import { FutbolistaRoutingModule } from './futbolista/futbolista-routing.module';
+import { EntrenadorRoutingModule } from './entrenador/entrenador-routing.module';
+import { ClubRoutingModule } from './club/club-routing.module';
 //import { LoginComponent } from './auth/login/login.component';
 //import { UserSelectionComponent } from './auth/user-selection/user-selection.component';
 //import { RegisterComponent } from './auth/register/register.component';
@@ -15,6 +18,12 @@ export const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule, AuthRoutingModule]
+  exports: [
+    RouterModule,
+    AuthRoutingModule,
+    FutbolistaRoutingModule,
+    EntrenadorRoutingModule,
+    ClubRoutingModule
+  ]
 })
 export class AppRoutingModule { }
