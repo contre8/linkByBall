@@ -24,4 +24,9 @@ export class ClubService {
   deleteClubProfile(): Observable<any> {
     return this.http.delete(`${this.baseUrl}/club/perfil`);
   }
+
+  createVacante(vacanteData: any): Observable<any> {
+    console.log(vacanteData)
+    return this.http.post(`${this.baseUrl}/vacantes`, vacanteData); // Ajusta la ruta de tu backend
+  }
 }
