@@ -47,6 +47,8 @@ export class NavbarComponent {
   }
 
   goHome(): void {
+    localStorage.removeItem('profileType');
+    localStorage.removeItem('searchFilters');
     this.router.navigate(['club/home']);
   }
 
@@ -81,10 +83,14 @@ export class NavbarComponent {
   }
 
   myVacantes(): void {
+    localStorage.removeItem('profileType');
+    localStorage.removeItem('searchFilters');
     this.router.navigate(['club/vacantes-dashboard']);
   }
 
   goToFavorites(): void {
+    localStorage.removeItem('profileType');
+    localStorage.removeItem('searchFilters');
     this.router.navigate(['club/favoritos']);
   }
 
@@ -93,15 +99,21 @@ export class NavbarComponent {
   }
 
   viewNotifications(): void {
+    localStorage.removeItem('profileType');
+    localStorage.removeItem('searchFilters');
     // Implementar lógica para ver notificaciones (puede ser un modal o redirigir a una página específica)
     this.router.navigate(['/notifications']);
   }
 
   openChat(): void {
+    localStorage.removeItem('profileType');
+    localStorage.removeItem('searchFilters');
     this.router.navigate(['/chat']);
   }
 
   viewProfile(): void {
+    localStorage.removeItem('profileType');
+    localStorage.removeItem('searchFilters');
     this.router.navigate(['club/perfil']);
   }
 
@@ -110,6 +122,8 @@ export class NavbarComponent {
     if (confirmLogout) {
       localStorage.removeItem('token');
       localStorage.removeItem('userType');
+      localStorage.removeItem('profileType');
+      localStorage.removeItem('searchFilters');
       this.router.navigate(['auth/login']);
     }
   }
