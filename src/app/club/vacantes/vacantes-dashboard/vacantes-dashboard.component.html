@@ -4,7 +4,14 @@
   <h2 class="text-center mb-4">Vacantes del Club</h2>
   <hr class="separator" style="margin-bottom: 20px;">
 
-  <div class="vacantes-grid">
+  <!-- Mostrar mensaje si no hay vacantes -->
+  <div *ngIf="vacantes.length === 0" class="no-vacantes-message">
+    <i class="fa fa-info-circle info-icon"></i>
+    <p>No hay vacantes disponibles en este momento.</p>
+    <p class="sub-message">Puedes crear una nueva vacante haciendo clic en el botón de abajo.</p>
+  </div>
+
+  <div class="vacantes-grid" *ngIf="vacantes.length > 0">
     <!-- Tarjeta de cada vacante -->
     <div class="vacante-card" *ngFor="let vacante of vacantes">
       <div class="vacante-header">
@@ -25,10 +32,12 @@
       </div>
     </div>
   </div>
+
   <!-- Botón para crear una nueva vacante -->
-  <div class="d-flex justify-content-end mb-3" style="margin-top: 30px; display: flex; justify-content: end;" >
+  <div class="d-flex justify-content-end mb-3" style="margin-top: 30px; display: flex; justify-content: end;">
     <button class="btn btn-success" (click)="goToCreateVacante()">
       <i class="fa fa-plus-circle"></i> Crear Nueva Vacante
     </button>
   </div>
 </div>
+
