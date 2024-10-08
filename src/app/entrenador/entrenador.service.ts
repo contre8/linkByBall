@@ -16,6 +16,10 @@ export class EntrenadorService {
     return this.http.get(`${this.baseUrl}/entrenador/perfil`);
   }
 
+  getEntrenadorById(id: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/entrenador/perfil/${id}`);
+  }
+
   // Actualizar el perfil del entrenador
   updateEntrenadorProfile(entrenadorData: any): Observable<any> {
     return this.http.put(`${this.baseUrl}/entrenador/actualizar`, entrenadorData);
@@ -23,5 +27,9 @@ export class EntrenadorService {
 
   deleteEntrenadorProfile(): Observable<any> {
     return this.http.delete(`${this.baseUrl}/entrenador/perfil`);
+  }
+
+  addFavorite(futbolistaId: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/entrenador/favoritos`, { favoriteId: futbolistaId });
   }
 }

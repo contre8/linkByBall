@@ -18,6 +18,7 @@ export class AuthService {
       tap((response: any) => {
         if (response && response.token) {
           localStorage.setItem('token', response.token);  // Guardar el token
+          localStorage.setItem('userType', 'futbolista'); // Guardar el tipo de usuario como 'club'
         }
       })
     );
@@ -29,6 +30,7 @@ export class AuthService {
       tap((response: any) => {
         if (response && response.token) {
           localStorage.setItem('token', response.token);  // Guardar el token
+          localStorage.setItem('userType', 'entrenador'); // Guardar el tipo de usuario como 'club'
         }
       })
     );
@@ -40,6 +42,7 @@ export class AuthService {
       tap((response: any) => {
         if (response && response.token) {
           localStorage.setItem('token', response.token);  // Guardar el token
+          localStorage.setItem('userType', 'club'); // Guardar el tipo de usuario como 'club'
         }
       })
     );
@@ -51,6 +54,7 @@ export class AuthService {
       tap((response: any) => {
         if (response && response.token) {
           localStorage.setItem('token', response.token);  // Guardar el token
+          localStorage.setItem('userType', 'admin'); // Guardar el tipo de usuario como 'club'
         }
       })
     );

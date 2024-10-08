@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
           this.authService.loginClub(email, password).subscribe(
             response => {
               console.log('Login successful as Club', response);
-              this.router.navigate(['../club/perfil']);
+              this.router.navigate(['../club/home']);
             },
             error => {
               console.error('Login as Club failed, trying as Entrenador', error);

@@ -1,0 +1,79 @@
+<!-- Barra de Navegación -->
+<!-- <div class="navbar">
+  <button class="nav-button" (click)="goHome()">
+    <i class="fa fa-home"></i> Home
+  </button>
+  <button class="nav-button" (click)="searchProfiles()">
+    <i class="fa fa-search"></i> Buscar
+  </button>
+  <div class="right-aligned-buttons">
+    <button class="nav-button" (click)="goToFavorites()">
+      <i class="fa fa-heart"></i> Favoritos
+    </button>
+    <button class="nav-button" (click)="viewNotifications()">
+      <i class="fa fa-bell"></i> Avisos
+    </button>
+    <button class="nav-button" (click)="openChat()">
+      <i class="fa fa-comments"></i> Chat
+    </button>
+    <button class="nav-button" (click)="viewProfile()">
+      <i class="fa fa-user"></i> Mi Perfil
+    </button>
+    <button class="nav-button" (click)="logout()" style="margin-right: 10px;">
+      <i class="fa fa-sign-out-alt"></i>
+    </button>
+  </div>
+</div> -->
+
+<app-navbar></app-navbar>
+
+
+<div class="container">
+  <!-- Contenedor Principal del Dashboard -->
+  <div class="dashboard-container">
+    <!-- Estadísticas -->
+    <div class="statistics-section">
+      <div class="stat-card">
+        <h3>Vacantes Activas</h3>
+        <p>{{ totalVacantesActivas }}</p>
+      </div>
+      <div class="stat-card">
+        <h3>Solicitudes Recibidas</h3>
+        <p>{{ totalSolicitudes }}</p>
+      </div>
+      <div class="stat-card">
+        <h3>Contactos Nuevos</h3>
+        <p>{{ nuevosContactos }}</p>
+      </div>
+    </div>
+
+    <!-- Vacantes Activas -->
+    <div class="vacantes-section">
+      <h2>Vacantes Activas</h2>
+      <div class="vacantes-grid">
+        <div class="vacante-card" *ngFor="let vacante of vacantes">
+          <div class="vacante-header">
+            <h3>{{ vacante.posicion }}</h3>
+          </div>
+          <div class="vacante-body">
+            <p><strong>Salario:</strong> {{ vacante.salario ? vacante.salario + ' €' : 'No especificado' }}</p>
+            <p><strong>Descripción:</strong> {{ vacante.descripcion || 'No hay descripción disponible.' }}</p>
+          </div>
+          <div class="vacante-actions">
+            <button class="btn btn-outline-primary" (click)="editarVacante(vacante)">
+              <i class="fa fa-edit"></i> Editar
+            </button>
+            <button class="btn btn-outline-danger" (click)="eliminarVacante(vacante)">
+              <i class="fa fa-trash"></i> Eliminar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botón para Crear Nueva Vacante -->
+    <button class="btn-float" (click)="crearNuevaVacante()">
+      <i class="fa fa-plus-circle"></i>
+    </button>
+  </div>
+</div>

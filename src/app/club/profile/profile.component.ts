@@ -4,11 +4,13 @@ import { AuthService } from '../../auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterModule } from '@angular/router'; // Importar RouterModule si utilizas navegación en tu componente
 import { ClubService } from '../club.service';
+import { NavbarComponent } from '../navbar.component';
+
 
 @Component({
   selector: 'app-profile-club',
   standalone: true,  // Aseguramos que el componente sea standalone
-  imports: [CommonModule, RouterModule],  // Importa todos los módulos necesarios aquí
+  imports: [CommonModule, RouterModule, NavbarComponent],  // Importa todos los módulos necesarios aquí
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })

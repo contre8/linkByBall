@@ -1,0 +1,179 @@
+$primary-color: #1f8c7c; // Color verde del logo
+$secondary-color: #0c6efd; // Color azul del logo
+$background-color: #f4f7f6;
+$text-color: #333;
+$error-color: #dc3545; // Rojo para errores
+
+:host {
+  display: block;
+  min-height: 100vh;
+  background: linear-gradient(to right, $primary-color, $secondary-color);
+  padding: 2px 0;
+
+  .container {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 95%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+  }
+}
+
+/* Dashboard Container */
+.dashboard-container {
+  margin-top: 100px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: $background-color;
+
+  .statistics-section {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+
+    .stat-card {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      flex: 1;
+      text-align: center;
+
+      h3 {
+        font-size: 25px;
+        color: $primary-color;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+
+      p {
+        font-size: 24px;
+        font-weight: bold;
+        color: $text-color;
+      }
+    }
+  }
+
+  .vacantes-section {
+    h2 {
+      margin-bottom: 20px;
+      color: $primary-color;
+      font-weight: bold;
+      text-align: center;
+      font-size: 32px;
+    }
+
+    .vacantes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+
+      .vacante-card {
+        background: #fff;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: transform 0.3s, box-shadow 0.3s;
+
+        &:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .vacante-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+
+          h3 {
+            color: $text-color;
+            font-weight: bold;
+            font-size: 30px;
+          }
+
+          .badge {
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+
+            &.badge-futbolista {
+              background-color: $primary-color;
+              color: white;
+            }
+
+            &.badge-entrenador {
+              background-color: $secondary-color;
+              color: white;
+            }
+          }
+        }
+
+        .vacante-body {
+          margin: 15px 0;
+          color: $text-color;
+          flex-grow: 1;
+
+          p {
+            margin-bottom: 10px;
+          }
+        }
+
+        .vacante-actions {
+          display: flex;
+          justify-content: space-between;
+
+          .btn {
+            flex: 1;
+            margin-right: 5px;
+            text-transform: uppercase;
+            background-color: $secondary-color;
+            color: white;
+            border: none;
+            transition: background-color 0.3s;
+
+            &:hover {
+              background-color: darken($secondary-color, 10%);
+            }
+
+            &:last-child {
+              margin-right: 0;
+              background-color: $error-color;
+
+              &:hover {
+                background-color: darken($error-color, 10%);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .btn-float {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: $primary-color;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    font-size: 30px;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+  }
+}

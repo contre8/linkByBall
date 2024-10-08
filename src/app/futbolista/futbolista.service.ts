@@ -16,6 +16,11 @@ export class FutbolistaService {
     return this.http.get(`${this.baseUrl}/futbolista/perfil`);
   }
 
+  // Obtener un futbolista por ID
+  getFutbolistaById(id: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/futbolista/perfil/${id}`);
+  }
+
   // Actualizar el perfil del futbolista
   updateFutbolistaProfile(futbolistaData: any): Observable<any> {
     return this.http.put(`${this.baseUrl}/futbolista/actualizar`, futbolistaData);
@@ -25,5 +30,4 @@ export class FutbolistaService {
   deleteFutbolistaProfile(): Observable<any> {
     return this.http.delete(`${this.baseUrl}/futbolista/perfil`);
   }
-
 }

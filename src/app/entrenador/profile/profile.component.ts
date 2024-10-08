@@ -20,7 +20,6 @@ export class ProfileEntrenadorComponent implements OnInit {
       (entrenadorData) => {
         this.entrenador = entrenadorData; // Asigna los datos del entrenador al componente
         this.entrenador.especialidades = this.entrenador.especialidades.map((especialidad: keyof typeof ESPECIALIDADES_ENTRENADOR) => ESPECIALIDADES_ENTRENADOR[especialidad]);
-        console.log(this.entrenador.especialidades)
       },
       (error) => {
         console.error('Error al obtener el perfil del entrenador', error);

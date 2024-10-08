@@ -1,0 +1,165 @@
+$primary-color: #1f8c7c; // Verde del logo
+$secondary-color: #0c6efd; // Azul del logo
+$background-color: #f4f7f6; // Color de fondo
+$text-color: #000000;
+
+:host {
+  display: block;
+  padding: 20px 0;
+  background: linear-gradient(to right, $primary-color, $secondary-color);
+}
+
+.favoritos-container {
+  padding: 20px;
+  margin: 0 auto;
+  background-color: $background-color; // Fondo claro
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 10vh;
+  width: 98vh;
+  min-height: 77vh;
+
+  .favoritos-title {
+    color: $primary-color;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .favoritos-secciones {
+    .favoritos-section {
+      margin-bottom: 40px;
+
+      .favoritos-section-title {
+        color: black;
+        text-align: left;
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+      }
+    }
+
+    .favoritos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .favorito-card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+      position: relative;
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .favorito-img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 10px;
+      }
+
+      .favorito-info {
+        margin-bottom: 15px;
+
+        h3 {
+          color: $text-color;
+          font-weight: 500;
+          font-size: 20px;
+        }
+
+        p {
+          color: #777;
+          font-size: 0.9rem;
+        }
+      }
+
+      .favorito-actions {
+        display: flex;
+        justify-content: space-between;
+
+        .btn {
+          padding: 10px 20px;
+          font-size: 0.9rem;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.2s, color 0.2s;
+
+          i {
+            margin-right: 5px;
+          }
+        }
+
+        .remove-btn {
+          background-color: #dc3545; // Rojo para eliminar
+          color: #fff;
+
+          &:hover {
+            background-color: darken(#dc3545, 10%);
+          }
+        }
+
+        .chat-btn {
+          background-color: $secondary-color; // Azul para el chat
+          color: #fff;
+
+          &:hover {
+            background-color: darken($secondary-color, 10%);
+          }
+        }
+      }
+    }
+  }
+}
+
+.no-favorites-message {
+  text-align: center;
+  padding: 40px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+
+  .no-favorites-image {
+    width: 200px;
+    margin-bottom: 20px;
+    opacity: 0.8;
+  }
+
+  h3 {
+    color: #1f8c7c; // Color primario
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  p {
+    color: #777;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  .start-search-btn {
+    background-color: #0c6efd; // Color azul del logo
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: darken(#0c6efd, 10%);
+    }
+  }
+}
+

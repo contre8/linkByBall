@@ -5,11 +5,12 @@ import { CommonModule } from '@angular/common';
 import { ClubService } from '../../club.service'; // Servicio del club
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../../../auth/auth.service';
+import { NavbarComponent } from '../../navbar.component';
 
 @Component({
   selector: 'app-create-vacante',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
+  imports: [CommonModule, ReactiveFormsModule, HttpClientModule, NavbarComponent],
   templateUrl: './create-vacante.component.html',
   styleUrls: ['./create-vacante.component.scss']
 })
@@ -94,7 +95,7 @@ export class CreateVacanteComponent implements OnInit {
         (response) => {
           console.log('Vacante creada exitosamente', response);
           this.isLoading = false;
-          this.router.navigate(['/club/dashboard']); // Redirige a la página deseada
+          this.router.navigate(['/club/vacantes-dashboard']); // Redirige a la página deseada
         },
         (error) => {
           console.error('Error al crear la vacante', error);

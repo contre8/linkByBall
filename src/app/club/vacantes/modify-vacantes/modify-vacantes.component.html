@@ -4,31 +4,27 @@
   <div class="card register-card shadow-lg p-4">
     <div *ngIf="isLoading" class="loading-overlay">
       <div class="spinner"></div>
-      <p>Creando vacante...</p>
+      <p>Modificando vacante...</p>
     </div>
 
     <div class="card-body">
-      <h2 class="text-center mb-4">Crear Vacante</h2>
+      <h2 class="text-center mb-4">Modificar Vacante</h2>
       <form [formGroup]="vacanteForm" (ngSubmit)="onSubmit()">
 
-        <!-- Destinatario -->
+        <!-- Destinatario (deshabilitado) -->
         <div class="form-row">
           <div class="form-group col-md-6 mb-3">
-            <label for="destinatario" class="form-label"><i class="fa fa-users"></i> Para *</label>
-            <select formControlName="destinatario" class="form-control" id="destinatario"
-              (change)="onDestinatarioChange($event)" required>
-              <option value="" disabled selected>Selecciona destinatario</option>
+            <label for="destinatario" class="form-label"><i class="fa fa-users"></i> Para</label>
+            <select formControlName="destinatario" class="form-control" id="destinatario">
               <option value="Futbolista">Futbolista</option>
               <option value="Entrenador">Entrenador</option>
             </select>
           </div>
 
-          <!-- Posición -->
+          <!-- Posición (deshabilitada) -->
           <div class="form-group col-md-6 mb-3">
-            <label for="posicion" class="form-label"><i class="fa fa-soccer-ball-o"></i> Puesto *</label>
-            <select formControlName="posicion" class="form-control" id="posicion"
-              [disabled]="!positions || positions.length === 0" required>
-              <option value="" disabled selected>Selecciona una posición</option>
+            <label for="posicion" class="form-label"><i class="fa fa-soccer-ball-o"></i> Puesto</label>
+            <select formControlName="posicion" class="form-control" id="posicion">
               <option *ngFor="let position of positions" [value]="position">{{ position }}</option>
             </select>
           </div>
@@ -51,7 +47,7 @@
         <!-- Botón para enviar -->
         <div class="d-grid mt-4">
           <button mat-raised-button color="primary" type="submit" [disabled]="!vacanteForm.valid">
-            <i class="fa fa-save"></i> Crear Vacante
+            <i class="fa fa-save"></i> Modificar Vacante
           </button>
         </div>
       </form>
