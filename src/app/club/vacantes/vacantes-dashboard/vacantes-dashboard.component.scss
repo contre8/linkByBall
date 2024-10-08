@@ -14,7 +14,7 @@ $error-color: #dc3545; // Rojo para errores
   margin-top: 80px;
 
   h2 {
-    color: #1f8c7c;
+    color: $primary-color;
     font-weight: bold;
     margin-bottom: 1.5rem;
     text-align: center;
@@ -73,6 +73,7 @@ $error-color: #dc3545; // Rojo para errores
 
       .vacante-body {
         margin: 15px 0;
+
         p {
           margin: 5px 0;
         }
@@ -85,7 +86,6 @@ $error-color: #dc3545; // Rojo para errores
         button {
           flex: 1;
           margin-right: 5px;
-          margin: 0, 5px;
 
           &:last-child {
             margin-right: 0;
@@ -98,10 +98,9 @@ $error-color: #dc3545; // Rojo para errores
 
 :host {
   display: block;
-  min-height: 92vh; // Asegura que cubre toda la altura de la ventana
+  min-height: 100vh; // Asegura que cubre toda la altura de la ventana
   background: linear-gradient(to right, $primary-color, $secondary-color);
   padding: 20px 0; // Añade padding para dar espacio alrededor del formulario
-  border-radius: 20px;
 
   // Aplica el background a toda la página excepto el contenedor
   .container {
@@ -194,18 +193,19 @@ button {
   }
 }
 
+// No Vacantes Message
 .no-vacantes-message {
   text-align: center;
-  background-color: #f4f7f6;
+  background-color: $background-color;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
-  color: #333;
+  color: $text-color;
 
   .info-icon {
     font-size: 50px;
-    color: #1f8c7c; // Color primario
+    color: $primary-color; // Color primario
     margin-bottom: 15px;
   }
 
@@ -226,4 +226,3 @@ button {
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
 }
-

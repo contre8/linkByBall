@@ -78,5 +78,9 @@ export class FavoritosComponent implements OnInit {
       this.router.navigate(['/club/perfil', favorite._id]);
     }
   }
+
+  goToSearch(): void {
+    this.router.navigate(['buscador']);
+  }
 }
 

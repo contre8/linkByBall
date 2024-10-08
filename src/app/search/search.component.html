@@ -15,49 +15,123 @@
   <!-- Filtros dinámicos -->
   <div *ngIf="selectedProfileType === 'futbolista'" class="futbolista-filters">
     <h3>Filtros para Futbolistas</h3>
+
+    <!-- Filtro de nombre -->
+    <label>Nombre:</label>
+    <input type="text" placeholder="Nombre" (input)="onFilterChange('nombre', $event)">
+
+    <!-- Filtro de posición -->
     <label>Posición:</label>
     <select (change)="onFilterChange('posicion', $event)">
       <option value="">Cualquier posición</option>
-      <option *ngFor="let pos of futbolistaPositions">{{ pos }}</option>
+      <option *ngFor="let pos of futbolistaPositions" [value]="pos.value">{{ pos.label }}</option>
     </select>
 
+    <!-- Filtro de edad -->
     <label>Edad:</label>
     <input type="number" placeholder="Edad mínima" (input)="onFilterChange('edadMin', $event)">
     <input type="number" placeholder="Edad máxima" (input)="onFilterChange('edadMax', $event)">
 
-    <!-- Otros filtros para futbolistas -->
+    <!-- Filtro de club actual -->
+    <label>Club Actual:</label>
+    <select (change)="onFilterChange('clubActual', $event)">
+      <option value="">Cualquier club</option>
+      <option value="true">Con Club</option>
+      <option value="false">Sin Club</option>
+      <!-- Lo suyo sería que puede buscar el club en el que juega mostrando un lsitado -->
+    </select>
+
+    <!-- Filtro de categoría actual -->
+    <label>Categoría Actual:</label>
+    <select (change)="onFilterChange('categoriaActual', $event)">
+      <option value="">Cualquier categoría</option>
+      <option *ngFor="let categoria of clubCategorias">{{ categoria }}</option>
+    </select>
+
+    <!-- Filtro de pierna dominante -->
+    <label>Pierna Dominante:</label>
+    <select (change)="onFilterChange('piernaDominante', $event)">
+      <option value="">Cualquiera</option>
+      <option value="Izquierda">Izquierda</option>
+      <option value="Derecha">Derecha</option>
+      <option value="Ambas">Ambas</option>
+    </select>
+
+    <!-- Filtro de nacionalidad (país de nacimiento) -->
+    <label>País de Nacimiento (Nacionalidad):</label>
+    <input type="text" placeholder="País" (input)="onFilterChange('nacionalidad', $event)">
+
   </div>
+
 
   <div *ngIf="selectedProfileType === 'entrenador'" class="entrenador-filters">
     <h3>Filtros para Entrenadores</h3>
+
+    <!-- Filtro por Nombre -->
+    <label>Nombre:</label>
+    <input type="text" placeholder="Buscar por nombre" (input)="onFilterChange('nombre', $event)">
+
+    <!-- Filtro por Especialidad -->
     <label>Especialidad:</label>
     <select (change)="onFilterChange('especialidad', $event)">
       <option value="">Cualquier especialidad</option>
-      <option *ngFor="let esp of entrenadorEspecialidades">{{ esp }}</option>
+      <option *ngFor="let key of getEspecialidadesKeys()" [value]="key">
+        {{ entrenadorEspecialidades[key] }}
+      </option>
     </select>
 
+
+    <!-- Filtro por Años de experiencia -->
     <label>Años de experiencia:</label>
     <input type="number" placeholder="Años mínimos" (input)="onFilterChange('experienciaMin', $event)">
 
-    <!-- Otros filtros para entrenadores -->
+    <!-- Filtro por Edad -->
+    <label>Edad:</label>
+    <input type="number" placeholder="Edad mínima" (input)="onFilterChange('edadMin', $event)">
+    <input type="number" placeholder="Edad máxima" (input)="onFilterChange('edadMax', $event)">
+
+    <!-- Filtro por Club Actual -->
+    <label>Club Actual:</label>
+    <select (change)="onFilterChange('clubActual', $event)">
+      <option value="">Cualquier club</option>
+      <option value="true">Con Club</option>
+      <option value="false">Sin Club</option>
+      <!-- Lo suyo sería que puede buscar el club en el que juega mostrando un lsitado -->
+    </select>
+
   </div>
 
   <div *ngIf="selectedProfileType === 'club'" class="club-filters">
     <h3>Filtros para Clubes</h3>
+
+    <!-- Filtro por Nombre -->
+    <label>Nombre:</label>
+    <input type="text" placeholder="Buscar por nombre" (input)="onFilterChange('nombre', $event)">
+
+    <!-- Filtro por Categoría -->
     <label>Categoría:</label>
     <select (change)="onFilterChange('categoria', $event)">
       <option value="">Cualquier categoría</option>
       <option *ngFor="let categoria of clubCategorias">{{ categoria }}</option>
     </select>
 
+    <!-- Filtro por Comunidad -->
     <label>Comunidad:</label>
-    <select (change)="onFilterChange('comunidad', $event)">
+    <select (change)="onFilterChange('comunidad', $event)" (change)="onComunidadChange($event)">
       <option value="">Cualquier comunidad</option>
       <option *ngFor="let comunidad of comunidades">{{ comunidad }}</option>
     </select>
 
+    <!-- Filtro por Provincia -->
+    <label>Provincia:</label>
+    <select (change)="onFilterChange('provincia', $event)">
+      <option value="">Cualquier provincia</option>
+      <option *ngFor="let provincia of provincias">{{ provincia }}</option>
+    </select>
+
     <!-- Otros filtros para clubes -->
   </div>
+
 
   <!-- Botón para iniciar la búsqueda -->
   <button (click)="buscar()">Buscar</button>

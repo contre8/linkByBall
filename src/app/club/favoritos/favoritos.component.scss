@@ -7,17 +7,17 @@ $text-color: #000000;
   display: block;
   padding: 20px 0;
   background: linear-gradient(to right, $primary-color, $secondary-color);
+  min-height: 100vh;
 }
 
 .favoritos-container {
   padding: 20px;
-  margin: 0 auto;
-  background-color: $background-color; // Fondo claro
+  background-color: $background-color;
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin-top: 10vh;
-  width: 98vh;
-  min-height: 77vh;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 92%;
+  margin: 0 auto;
+  margin-top: 80px;
 
   .favoritos-title {
     color: $primary-color;

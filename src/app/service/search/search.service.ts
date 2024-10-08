@@ -18,4 +18,9 @@ export class SearchService {
   buscarPerfiles(tipo: string, filtros: any) {
     return this.http.post(`${this.baseUrl}/buscar/${tipo}`, filtros);
   }
+
+  applyFilters(profileType: string, filtros: any): Observable<any> {
+    const body = { profileType, filtros };
+    return this.http.post(`${this.baseUrl}/apply-filters`, body);
+  }
 }
