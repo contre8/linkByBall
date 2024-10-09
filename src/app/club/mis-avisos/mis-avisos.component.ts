@@ -17,8 +17,11 @@ export class MisAvisosComponent implements OnInit {
   isLoading: boolean = true;
   hasError: boolean = false;
   userId: string = '';
+  defaultPicture: string = '../../../../default-picture-profile.jpg'; // Imagen por defecto si no tiene foto
+  totalPages: number = 1;
+  currentPage: number = 1;
 
-  constructor(private avisosService: AvisosService, private authService: AuthService) {}
+  constructor(private avisosService: AvisosService, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.authService.getClubProfile().subscribe(
@@ -51,4 +54,30 @@ export class MisAvisosComponent implements OnInit {
       console.error('No se pudo obtener el ID del usuario');
     }
   }
+
+  marcarComoVisto(aviso: any): void {
+    if (!aviso.visto) {
+      aviso.visto = true;
+      this.avisosService.marcarAvisoComoVisto(aviso._id).subscribe(
+        () => {
+          console.log('Aviso marcado como visto');
+        },
+        (error) => {
+          console.error('Error al marcar el aviso como visto:', error);
+        }
+      );
+    }
+  }
+
+  verPerfil(perfilId: string, tipoPerfil: string): void {
+    if (tipoPerfil === 'futbolista') {
+      this.router.navigate([`/futbolista/perfil/${perfilId}`]);
+    } else if (tipoPerfil === 'entrenador') {
+      this.router.navigate([`/entrenador/perfil/${perfilId}`]);
+    } else if (tipoPerfil === 'club') {
+      this.router.navigate([`/club/perfil/${perfilId}`]);
+    }
+  }
+
+
 }

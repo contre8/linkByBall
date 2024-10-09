@@ -13,4 +13,8 @@ export class AvisosService {
   getAvisos(usuarioId: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/avisos?usuarioId=${usuarioId}`);
   }
+
+  marcarAvisoComoVisto(avisoId: string): Observable<any> {
+    return this.http.put(`${this.baseUrl}/avisos/${avisoId}/visto`, {});
+  }
 }

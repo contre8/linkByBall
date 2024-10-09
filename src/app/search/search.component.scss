@@ -7,7 +7,7 @@ $input-border: #ccc;
 
 :host {
   display: block;
-  min-height: 100vh;
+  min-height: 95vh;
   background: linear-gradient(to right, $primary-color, $secondary-color);
   padding: 20px 0;
 
@@ -563,7 +563,7 @@ $input-border: #ccc;
 
   .page-item {
     margin: 0 5px;
-    
+
     .page-link {
       padding: 8px 12px;
       border: 1px solid #ddd;

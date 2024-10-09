@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { CommonModule } from '@angular/common'; // Importar CommonModule
 import { forkJoin } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
+import { AvisosService } from '../service/avisos/avisos.service';
 
 
 @Component({
@@ -22,13 +23,17 @@ export class NavbarComponent {
   defaultPicture: string = '../../../../default-picture-profile.jpg'; // Imagen por defecto si no tiene foto
   isSearchActive: boolean = false; // Variable para mostrar u ocultar los resultados
   profilePictureUrl: string | undefined;
+  userId: string = '';
+  avisos: boolean = false;
 
-  constructor(private router: Router, private searchService: SearchService, private authService: AuthService) { }
+  constructor(private router: Router, private searchService: SearchService, private authService: AuthService, private  avisosService: AvisosService) { }
 
   ngOnInit(): void {
     // Configurar el comportamiento de la búsqueda con un debounce
     this.authService.getClubProfile().subscribe(profile => {
       this.profilePictureUrl = profile.fotografia?.url; // O la forma en la que obtienes la URL de la foto de perfil
+      this.userId = profile._id;
+      this.cargarAvisos(this.userId);
     });
     this.searchSubject.pipe(
       debounceTime(300), // Espera 300ms después de que el usuario deja de escribir
@@ -127,4 +132,27 @@ export class NavbarComponent {
       this.router.navigate(['auth/login']);
     }
   }
+
+  cargarAvisos(userId: string): void {
+    if (userId) {
+      this.avisosService.getAvisos(userId).subscribe(
+        (data) => {
+          if (data && Array.isArray(data)) {
+            const hayAvisosNoVistos = data.some((aviso) => !aviso.visto);
+            if (hayAvisosNoVistos) {
+              this.avisos = true;  // Si hay avisos no vistos, poner avisos a true
+            } else {
+              this.avisos = false;  // Si todos los avisos están vistos, avisos a false
+            }
+          }
+        },
+        (error) => {
+          console.error('Error al cargar los avisos:', error);
+        }
+      );
+    } else {
+      console.error('No se pudo obtener el ID del usuario');
+    }
+  }
+
 }
