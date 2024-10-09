@@ -44,8 +44,8 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     // Comprobar si hay filtros y tipo de perfil guardados en localStorage
-    const savedFilters = localStorage.getItem('searchFilters');
-    const savedProfileType = localStorage.getItem('profileType');
+    const savedFilters = sessionStorage.getItem('searchFilters');
+    const savedProfileType = sessionStorage.getItem('profileType');
 
     if (savedFilters && savedProfileType) {
         this.filtros = JSON.parse(savedFilters);  // Aplicar los filtros guardados
@@ -143,8 +143,8 @@ export class SearchComponent implements OnInit {
 
   buscar(): void {
     // Guardar filtros y tipo de perfil en localStorage
-    localStorage.setItem('searchFilters', JSON.stringify(this.filtros));
-    localStorage.setItem('profileType', this.selectedProfileType);
+    sessionStorage.setItem('searchFilters', JSON.stringify(this.filtros));
+    sessionStorage.setItem('profileType', this.selectedProfileType);
 
     this.searchService.applyFilters(this.selectedProfileType, this.filtros).subscribe(resultados => {
         this.searchResults = resultados;

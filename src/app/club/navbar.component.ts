@@ -47,8 +47,8 @@ export class NavbarComponent {
   }
 
   goHome(): void {
-    localStorage.removeItem('profileType');
-    localStorage.removeItem('searchFilters');
+    sessionStorage.removeItem('profileType');
+    sessionStorage.removeItem('searchFilters');
     this.router.navigate(['club/home']);
   }
 
@@ -83,14 +83,14 @@ export class NavbarComponent {
   }
 
   myVacantes(): void {
-    localStorage.removeItem('profileType');
-    localStorage.removeItem('searchFilters');
+    sessionStorage.removeItem('profileType');
+    sessionStorage.removeItem('searchFilters');
     this.router.navigate(['club/vacantes-dashboard']);
   }
 
   goToFavorites(): void {
-    localStorage.removeItem('profileType');
-    localStorage.removeItem('searchFilters');
+    sessionStorage.removeItem('profileType');
+    sessionStorage.removeItem('searchFilters');
     this.router.navigate(['club/favoritos']);
   }
 
@@ -99,31 +99,31 @@ export class NavbarComponent {
   }
 
   viewNotifications(): void {
-    localStorage.removeItem('profileType');
-    localStorage.removeItem('searchFilters');
+    sessionStorage.removeItem('profileType');
+    sessionStorage.removeItem('searchFilters');
     // Implementar lógica para ver notificaciones (puede ser un modal o redirigir a una página específica)
     this.router.navigate(['/notifications']);
   }
 
   openChat(): void {
-    localStorage.removeItem('profileType');
-    localStorage.removeItem('searchFilters');
+    sessionStorage.removeItem('profileType');
+    sessionStorage.removeItem('searchFilters');
     this.router.navigate(['/chat']);
   }
 
   viewProfile(): void {
-    localStorage.removeItem('profileType');
-    localStorage.removeItem('searchFilters');
+    sessionStorage.removeItem('profileType');
+    sessionStorage.removeItem('searchFilters');
     this.router.navigate(['club/perfil']);
   }
 
   logout(): void {
     const confirmLogout = window.confirm('¿Estás seguro de que deseas cerrar sesión?');
     if (confirmLogout) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('userType');
-      localStorage.removeItem('profileType');
-      localStorage.removeItem('searchFilters');
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('userType');
+      sessionStorage.removeItem('profileType');
+      sessionStorage.removeItem('searchFilters');
       this.router.navigate(['auth/login']);
     }
   }
