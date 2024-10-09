@@ -9,6 +9,7 @@ import { DashboardClubComponent } from './dashboard/club-dashboard/club-dashboar
 import { ExternalProfileComponent } from './external-profile/external-profile.component';
 import { FavoritosComponent } from './favoritos/favoritos.component';
 import { SearchComponent } from '../search/search.component';
+import { MisAvisosComponent } from './mis-avisos/mis-avisos.component';
 
 const routes: Routes = [
   { path: 'club/perfil', component: ProfileClubComponent },
@@ -19,7 +20,8 @@ const routes: Routes = [
   { path: 'club/home', component: DashboardClubComponent},
   { path: 'club/perfil/:id', component: ExternalProfileComponent },
   { path: 'club/favoritos' , component: FavoritosComponent},
-  { path: 'buscador', component: SearchComponent}
+  { path: 'buscador', component: SearchComponent},
+  { path: 'mis-avisos', component: MisAvisosComponent}
 ];
 
 @NgModule({

@@ -102,7 +102,7 @@ export class NavbarComponent {
     sessionStorage.removeItem('profileType');
     sessionStorage.removeItem('searchFilters');
     // Implementar lógica para ver notificaciones (puede ser un modal o redirigir a una página específica)
-    this.router.navigate(['/notifications']);
+    this.router.navigate(['mis-avisos']);
   }
 
   openChat(): void {
