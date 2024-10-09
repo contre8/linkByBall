@@ -527,3 +527,62 @@ $input-border: #ccc;
 //   }
 // }
 
+.club-results {
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+
+  li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #f1f1f1;
+    }
+
+    img.club-result-img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  list-style: none;
+
+  .page-item {
+    margin: 0 5px;
+    
+    .page-link {
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      cursor: pointer;
+      background-color: #fff;
+
+      &:hover {
+        background-color: #f0f0f0;
+      }
+    }
+
+    &.active .page-link {
+      background-color: #007bff;
+      color: white;
+    }
+
+    &.disabled .page-link {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+  }
+}

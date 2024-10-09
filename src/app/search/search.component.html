@@ -10,7 +10,8 @@
       <!-- Selector de tipo de perfil -->
       <div class="form-group">
         <label for="profile-type" class="form-label"><i class="fa fa-users"></i> Buscar por:</label>
-        <select id="profile-type" class="form-control" (change)="onProfileTypeChange($event)">
+        <select [(ngModel)]="selectedProfileType" id="profile-type" class="form-control"
+          (change)="onProfileTypeChange($event)">
           <option value="">Selecciona un tipo</option>
           <option value="futbolista">Futbolista</option>
           <option value="entrenador">Entrenador</option>
@@ -30,7 +31,7 @@
           </div>
           <div class="form-group col-md-6 mb-3">
             <label>Posición:</label>
-            <select class="form-control" (change)="onFilterChange('posicion', $event)">
+            <select [(ngModel)]="filtros.posicion" class="form-control" (change)="onFilterChange('posicion', $event)">
               <option value="">Cualquier posición</option>
               <option *ngFor="let pos of futbolistaPositions" [value]="pos.value">{{ pos.label }}</option>
             </select>
@@ -41,11 +42,12 @@
         <div class="form-row">
           <div class="form-group col-md-6 mb-3">
             <label>Club Actual:</label>
-            <input type="text" class="form-control" placeholder="Buscar club" (input)="onClubSearch($event)" [value]="selectedClub?.nombre || ''">
-            <!-- Mostrar la lista de resultados solo si hay resultados disponibles -->
-            <ul *ngIf="clubSearchResults.length > 0" class="club-results">
+            <input type="text" class="form-control" placeholder="Buscar club" (input)="onClubSearch($event)"
+              [value]="selectedClub?.nombre || ''" (focus)="showClubResults = true" (blur)="hideClubResults()" />
+            <ul *ngIf="clubSearchResults.length > 0 && showClubResults" class="club-results">
               <li *ngFor="let club of clubSearchResults" (click)="selectClub(club)">
-                <img [src]="club.fotografia?.url || defaultPicture" alt="Logo de {{ club.nombre }}" class="club-result-img">
+                <img [src]="club.fotografia?.url || defaultPicture" alt="Logo de {{ club.nombre }}"
+                  class="club-result-img" />
                 {{ club.nombre }}
               </li>
             </ul>
@@ -53,7 +55,8 @@
 
           <div class="form-group col-md-6 mb-3">
             <label>Categoría Actual:</label>
-            <select class="form-control" (change)="onFilterChange('categoriaActual', $event)">
+            <select [(ngModel)]="filtros.categoria" class="form-control"
+              (change)="onFilterChange('categoriaActual', $event)">
               <option value="">Cualquier categoría</option>
               <option *ngFor="let categoria of clubCategorias">{{ categoria }}</option>
             </select>
@@ -67,15 +70,18 @@
           <div class="form-group edad-group">
             <label>Edad:</label>
             <div class="edad-inputs">
-              <input type="number" class="form-control" placeholder="Edad mínima" (input)="onFilterChange('edadMin', $event)">
-              <input type="number" class="form-control" placeholder="Edad máxima" (input)="onFilterChange('edadMax', $event)">
+              <input type="number" class="form-control" placeholder="Edad mínima"
+                (input)="onFilterChange('edadMin', $event)">
+              <input type="number" class="form-control" placeholder="Edad máxima"
+                (input)="onFilterChange('edadMax', $event)">
             </div>
           </div>
 
           <!-- Filtro de pierna dominante -->
           <div class="form-group col-md-4 mb-3">
             <label>Pierna Dominante:</label>
-            <select class="form-control" (change)="onFilterChange('piernaDominante', $event)">
+            <select [(ngModel)]="filtros.pierna" class="form-control"
+              (change)="onFilterChange('piernaDominante', $event)">
               <option value="">Cualquiera</option>
               <option value="Izquierda">Izquierda</option>
               <option value="Derecha">Derecha</option>
@@ -106,7 +112,7 @@
           <!-- Filtro por Especialidad -->
           <div class="form-group">
             <label>Especialidad:</label>
-            <select (change)="onFilterChange('especialidad', $event)">
+            <select [(ngModel)]="filtros.especialidad" (change)="onFilterChange('especialidad', $event)">
               <option value="">Cualquier especialidad</option>
               <option *ngFor="let key of getEspecialidadesKeys()" [value]="key">
                 {{ entrenadorEspecialidades[key] }}
@@ -137,12 +143,12 @@
           <!-- Filtro por Club Actual -->
           <div class="form-group col-md-6 mb-3">
             <label>Club Actual:</label>
-            <input type="text" class="form-control" placeholder="Buscar club" (input)="onClubSearch($event)" [value]="selectedClub?.nombre || ''">
-
-            <!-- Mostrar la lista de resultados solo si hay resultados disponibles -->
-            <ul *ngIf="clubSearchResults.length > 0" class="club-results">
+            <input type="text" class="form-control" placeholder="Buscar club" (input)="onClubSearch($event)"
+              [value]="selectedClub?.nombre || ''" (focus)="showClubResults = true" (blur)="hideClubResults()" />
+            <ul *ngIf="clubSearchResults.length > 0 && showClubResults" class="club-results">
               <li *ngFor="let club of clubSearchResults" (click)="selectClub(club)">
-                <img [src]="club.fotografia?.url || defaultPicture" alt="Logo de {{ club.nombre }}" class="club-result-img">
+                <img [src]="club.fotografia?.url || defaultPicture" alt="Logo de {{ club.nombre }}"
+                  class="club-result-img" />
                 {{ club.nombre }}
               </li>
             </ul>
@@ -175,7 +181,8 @@
           <!-- Filtro por Comunidad -->
           <div class="form-group">
             <label>Comunidad:</label>
-            <select (change)="onFilterChange('comunidad', $event)" (change)="onComunidadChange($event)">
+            <select [(ngModel)]="filtros.comunidad" (change)="onFilterChange('comunidad', $event)"
+              (change)="onComunidadChange($event)">
               <option value="">Cualquier comunidad</option>
               <option *ngFor="let comunidad of comunidades">{{ comunidad }}</option>
             </select>
@@ -184,9 +191,9 @@
           <!-- Filtro por Provincia -->
           <div class="form-group">
             <label>Provincia:</label>
-            <select (change)="onFilterChange('provincia', $event)">
+            <select [(ngModel)]="filtros.provincia" (change)="onFilterChange('provincia', $event)" class="form-control">
               <option value="">Cualquier provincia</option>
-              <option *ngFor="let provincia of provincias">{{ provincia }}</option>
+              <option *ngFor="let provincia of provincias" [value]="provincia">{{ provincia }}</option>
             </select>
           </div>
         </div>
@@ -254,6 +261,27 @@
           </button>
         </div>
       </div>
+
+      <!-- Paginador -->
+      <nav *ngIf="totalResults > 10" aria-label="Paginador">
+        <ul class="pagination">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <button class="page-link" (click)="goToPage(currentPage - 1)" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </button>
+          </li>
+
+          <li class="page-item" *ngFor="let page of pages" [class.active]="page === currentPage">
+            <button class="page-link" (click)="goToPage(page)">{{ page }}</button>
+          </li>
+
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <button class="page-link" (click)="goToPage(currentPage + 1)" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
 
     </div>
     <!-- Mensaje si no hay resultados -->

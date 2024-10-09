@@ -42,6 +42,7 @@ $error-color: #dc3545; // Rojo para errores
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      max-width: 500px;
 
       .vacante-header {
         display: flex;

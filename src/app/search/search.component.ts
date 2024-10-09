@@ -11,16 +11,18 @@ import { Router } from '@angular/router';
 import { ClubService } from '../club/club.service';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { AfterViewInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';  // Asegúrate de importar FormsModule
 
 
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [CommonModule, NavbarComponent], // Asegúrate de importar CommonModule aquí
+  imports: [CommonModule, NavbarComponent, FormsModule], // Asegúrate de importar CommonModule aquí
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, AfterViewInit {
   selectedProfileType: string = '';
   filtros: any = {};
   searchResults: any[] = [];
@@ -29,6 +31,13 @@ export class SearchComponent implements OnInit {
   searchSubject = new Subject<string>();  // Para manejar el debounce
   clubSearchResults: any[] = [];  // Para almacenar los resultados de la búsqueda
   selectedClub: any = null;
+  showClubResults: boolean = false;
+  paginatedResults: any[] = [];
+  totalResults: number = 0;
+  currentPage: number = 1;
+  resultsPerPage: number = 10;
+  totalPages: number = 1;
+  pages: number[] = [];
 
   // Posiciones y especialidades según el tipo
   futbolistaPositions = POSICIONES_FUTBOLISTAS;
@@ -42,30 +51,35 @@ export class SearchComponent implements OnInit {
 
   constructor(private searchService: SearchService, private router: Router, private clubService: ClubService) { }
 
+  ngAfterViewInit(): void {
+    // Llamamos al método aquí para asegurarnos de que el DOM está cargado
+    this.populateFormFields();
+  }
+
   ngOnInit(): void {
     // Comprobar si hay filtros y tipo de perfil guardados en localStorage
     const savedFilters = sessionStorage.getItem('searchFilters');
     const savedProfileType = sessionStorage.getItem('profileType');
 
     if (savedFilters && savedProfileType) {
-        this.filtros = JSON.parse(savedFilters);  // Aplicar los filtros guardados
-        this.selectedProfileType = savedProfileType;  // Aplicar el tipo de perfil guardado
-        this.buscar();  // Realizar la búsqueda con los filtros recuperados
+      this.filtros = JSON.parse(savedFilters);  // Aplicar los filtros guardados
+      this.selectedProfileType = savedProfileType;  // Aplicar el tipo de perfil guardado
+      this.buscar();  // Realizar la búsqueda con los filtros recuperados
     }
 
     // Configurar el debounce para la búsqueda de clubes
     this.searchSubject.pipe(
-        debounceTime(300),  // Espera 300ms después de que el usuario deje de escribir
-        switchMap(query => this.searchService.searchProfiles(query, 'club'))  // Cambia la búsqueda según el query
+      debounceTime(300),  // Espera 300ms después de que el usuario deje de escribir
+      switchMap(query => this.searchService.searchProfiles(query, 'club'))  // Cambia la búsqueda según el query
     ).subscribe(
-        (results: any[]) => {
-            this.clubSearchResults = results;  // Guarda los resultados
-        },
-        (error) => {
-            console.error('Error al buscar clubes:', error);
-        }
+      (results: any[]) => {
+        this.clubSearchResults = results;  // Guarda los resultados
+      },
+      (error) => {
+        console.error('Error al buscar clubes:', error);
+      }
     );
-}
+  }
 
 
   // Método que se activa al escribir en el campo de búsqueda
@@ -85,6 +99,13 @@ export class SearchComponent implements OnInit {
     this.selectedClub = club;  // Asignar el club seleccionado
     this.filtros['clubActual'] = club._id;  // Guardar el ID del club en los filtros
     this.clubSearchResults = [];  // Limpiar los resultados de búsqueda
+    this.showClubResults = false; // Cerrar el desplegable
+  }
+
+  hideClubResults(): void {
+    setTimeout(() => {
+      this.showClubResults = false;
+    }, 200);  // Espera un poco antes de ocultar los resultados para permitir la selección
   }
 
   // Cambiar filtros según el tipo de perfil seleccionado
@@ -97,6 +118,132 @@ export class SearchComponent implements OnInit {
     // Reiniciar filtros cada vez que cambie el tipo de perfil
     this.filtros = {};
   }
+
+  populateFormFields(): void {
+    // Futbolista
+    console.log(this.selectedProfileType, this.filtros)
+    if (this.selectedProfileType === 'futbolista') {
+      // Nombre
+      console.log('ENtraa')
+      const nombreInput = document.querySelector('input[placeholder="Nombre"]') as HTMLInputElement;
+      console.log(nombreInput, this.filtros['nombre'])
+      if (nombreInput && this.filtros['nombre']) {
+        nombreInput.value = this.filtros['nombre'];
+        console.log(nombreInput.value)
+      }
+
+      // Posición
+      const posicionSelect = document.querySelector('select[placeholder="Cualquier posición"]') as HTMLSelectElement;
+      if (posicionSelect && this.filtros['posicion']) {
+        posicionSelect.value = this.filtros['posicion'];
+      }
+
+      // Club Actual
+      const clubInput = document.querySelector('input[placeholder="Buscar club"]') as HTMLInputElement;
+      if (clubInput && this.selectedClub && this.selectedClub.nombre) {
+        clubInput.value = this.selectedClub.nombre;
+      }
+
+      // Categoría Actual
+      const categoriaSelect = document.querySelector('select[placeholder="Cualquier categoría"]') as HTMLSelectElement;
+      if (categoriaSelect && this.filtros['categoriaActual']) {
+        categoriaSelect.value = this.filtros['categoriaActual'];
+      }
+
+      // Edad mínima y máxima
+      const edadMinInput = document.querySelector('input[placeholder="Edad mínima"]') as HTMLInputElement;
+      const edadMaxInput = document.querySelector('input[placeholder="Edad máxima"]') as HTMLInputElement;
+      if (edadMinInput && this.filtros['edadMin']) {
+        edadMinInput.value = this.filtros['edadMin'];
+      }
+      if (edadMaxInput && this.filtros['edadMax']) {
+        edadMaxInput.value = this.filtros['edadMax'];
+      }
+
+      // Pierna Dominante
+      const piernaSelect = document.querySelector('select[placeholder="Cualquiera"]') as HTMLSelectElement;
+      if (piernaSelect && this.filtros['piernaDominante']) {
+        piernaSelect.value = this.filtros['piernaDominante'];
+      }
+
+      // Nacionalidad
+      const nacionalidadInput = document.querySelector('input[placeholder="País"]') as HTMLInputElement;
+      if (nacionalidadInput && this.filtros['nacionalidad']) {
+        nacionalidadInput.value = this.filtros['nacionalidad'];
+      }
+    }
+
+    // Entrenador
+    if (this.selectedProfileType === 'entrenador') {
+      // Nombre
+      const nombreInput = document.querySelector('input[placeholder="Buscar por nombre"]') as HTMLInputElement;
+      if (nombreInput && this.filtros['nombre']) {
+        nombreInput.value = this.filtros['nombre'];
+      }
+
+      // Especialidad
+      const especialidadSelect = document.querySelector('select[placeholder="Cualquier especialidad"]') as HTMLSelectElement;
+      if (especialidadSelect && this.filtros['especialidad']) {
+        especialidadSelect.value = this.filtros['especialidad'];
+      }
+
+      // Años de experiencia
+      const experienciaInput = document.querySelector('input[placeholder="Años mínimos"]') as HTMLInputElement;
+      if (experienciaInput && this.filtros['experienciaMin']) {
+        experienciaInput.value = this.filtros['experienciaMin'];
+      }
+
+      // Edad mínima y máxima
+      const edadMinInput = document.querySelector('input[placeholder="Edad mínima"]') as HTMLInputElement;
+      const edadMaxInput = document.querySelector('input[placeholder="Edad máxima"]') as HTMLInputElement;
+      if (edadMinInput && this.filtros['edadMin']) {
+        edadMinInput.value = this.filtros['edadMin'];
+      }
+      if (edadMaxInput && this.filtros['edadMax']) {
+        edadMaxInput.value = this.filtros['edadMax'];
+      }
+
+      // Club Actual
+      const clubInput = document.querySelector('input[placeholder="Buscar club"]') as HTMLInputElement;
+      if (clubInput && this.selectedClub && this.selectedClub.nombre) {
+        clubInput.value = this.selectedClub.nombre;
+      }
+    }
+
+    // Club
+    if (this.selectedProfileType === 'club') {
+      // Nombre
+      const nombreInput = document.querySelector('input[placeholder="Buscar por nombre"]') as HTMLInputElement;
+      if (nombreInput && this.filtros['nombre']) {
+        nombreInput.value = this.filtros['nombre'];
+      }
+
+      // Categoría
+      const categoriaSelect = document.querySelector('select[placeholder="Cualquier categoría"]') as HTMLSelectElement;
+      if (categoriaSelect && this.filtros['categoria']) {
+        categoriaSelect.value = this.filtros['categoria'];
+      }
+
+      // Comunidad
+      // Para el campo de comunidad
+      const comunidadSelect = document.querySelector('select[ngModel="filtros.comunidad"]') as HTMLSelectElement;
+      if (comunidadSelect && this.filtros.comunidad) {
+        this.filtros['comunidad'] = this.filtros.comunidad;
+        comunidadSelect.value = this.filtros.comunidad;
+
+        // Llama a onComunidadChange para cargar las provincias correspondientes
+        this.onComunidadChange({ target: { value: this.filtros.comunidad } } as any);
+
+        // Después de cargar las provincias, asignar la provincia guardada
+        const provinciaSelect = document.querySelector('select[ngModel="filtros.provincia"]') as HTMLSelectElement;
+        if (provinciaSelect && this.filtros.provincia) {
+          this.filtros['provincia'] = this.filtros.provincia;
+          provinciaSelect.value = this.filtros.provincia;
+        }
+      }
+    }
+  }
+
 
   // Método para obtener los valores de ESPECIALIDADES_ENTRENADOR
   getEspecialidadesKeys(): Array<keyof typeof ESPECIALIDADES_ENTRENADOR> {
@@ -141,30 +288,46 @@ export class SearchComponent implements OnInit {
     console.log(`Filtro aplicado: ${filtro}, Valor: ${value}`);
   }
 
-  buscar(): void {
-    // Guardar filtros y tipo de perfil en localStorage
+  buscar(page: number = 1): void {
+    // Guardar filtros y tipo de perfil en sessionStorage
     sessionStorage.setItem('searchFilters', JSON.stringify(this.filtros));
     sessionStorage.setItem('profileType', this.selectedProfileType);
 
-    this.searchService.applyFilters(this.selectedProfileType, this.filtros).subscribe(resultados => {
-        this.searchResults = resultados;
-        this.searchPerformed = true;
+    // Realizar la búsqueda con paginación
+    this.searchService.applyFilters(this.selectedProfileType, this.filtros, page, this.resultsPerPage).subscribe(response => {
+      this.searchResults = response.resultados;
+      this.searchPerformed = true;
 
-        // Comprobar si cada resultado es favorito
-        this.searchResults.forEach(result => {
-            this.clubService.isFavorite(result._id).subscribe(
-                (response) => {
-                    result.isFavorite = response.isFavorite; // Guardar el estado de favorito en el perfil
-                },
-                (error) => {
-                    console.error(`Error al verificar si ${result.nombre} es favorito:`, error);
-                }
-            );
-        });
+      this.totalResults = response.total;
+      this.currentPage = response.page;
+      this.resultsPerPage = response.limit;
+      this.totalPages = Math.ceil(this.totalResults / this.resultsPerPage);
+      this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+
+      console.log(this.searchResults)
+
+      // Comprobar si cada resultado es favorito
+      this.searchResults.forEach(result => {
+        this.clubService.isFavorite(result._id).subscribe(
+          (response) => {
+            result.isFavorite = response.isFavorite; // Guardar el estado de favorito en el perfil
+          },
+          (error) => {
+            console.error(`Error al verificar si ${result.nombre} es favorito:`, error);
+          }
+        );
+      });
     }, error => {
-        console.error('Error al realizar la búsqueda:', error);
+      console.error('Error al realizar la búsqueda:', error);
     });
-}
+  }
+
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.buscar(page);  // Llamar a la búsqueda con la página seleccionada
+    }
+  }
+
 
 
 

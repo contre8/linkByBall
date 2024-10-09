@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class SearchService {
   private baseUrl = 'http://localhost:5000/search'; // Ajusta la URL si es necesario
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   searchProfiles(query: string, type: string): Observable<any> {
     const params = new HttpParams().set('query', query).set('type', type);
@@ -19,8 +19,9 @@ export class SearchService {
     return this.http.post(`${this.baseUrl}/buscar/${tipo}`, filtros);
   }
 
-  applyFilters(profileType: string, filtros: any): Observable<any> {
-    const body = { profileType, filtros };
+  applyFilters(profileType: string, filtros: any, page: number = 1, limit: number = 10): Observable<any> {
+    const body = { profileType, filtros, page, limit };  // Incluye los parámetros de paginación en el body
     return this.http.post(`${this.baseUrl}/apply-filters`, body);
   }
+
 }
