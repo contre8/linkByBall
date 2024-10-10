@@ -4,7 +4,7 @@ import { AuthService } from '../../auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterModule } from '@angular/router'; // Importar RouterModule si utilizas navegación en tu componente
 import { ClubService } from '../club.service';
-import { NavbarComponent } from '../navbar.component';
+import { NavbarComponent } from '../../navbar/navbar.component';
 
 
 @Component({

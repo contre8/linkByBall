@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ClubService {
 
-  private baseUrl = 'http://localhost:5000';  // Cambia esto por tu URL de backend
+  private baseUrl = 'http://localhost:8000';  // Cambia esto por tu URL de backend
 
   constructor(private http: HttpClient) { }
 
@@ -69,6 +69,10 @@ export class ClubService {
   // club.service.ts
   getFavorites(clubId: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/club/club-favoritos/${clubId}`);
+  }
+
+  getPlantillaByClub(clubId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/club/${clubId}/plantilla`);
   }
 
 }

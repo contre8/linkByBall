@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SearchService {
-  private baseUrl = 'http://localhost:5000/search'; // Ajusta la URL si es necesario
+  private baseUrl = 'http://localhost:8000/search'; // Ajusta la URL si es necesario
 
   constructor(private http: HttpClient) { }
 

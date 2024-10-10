@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavbarComponent } from '../club/navbar.component';
+import { NavbarComponent } from '../navbar/navbar.component';
 import { DIVISIONES_FUTBOL_SENIOR } from '../const/categorias.const';
 import { COMUNIDADES_AUTONOMAS } from '../const/comunidades.const';
 import { ESPECIALIDADES_ENTRENADOR } from '../const/especialidades-entrenador.const';

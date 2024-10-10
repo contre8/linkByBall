@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router'; // Para redirecciones si se nece
 import { FormsModule } from '@angular/forms'; // Si usas formularios
 import { ActivatedRoute, Router } from '@angular/router'; // Importar Router
 import { ClubService } from '../club.service';
-import { NavbarComponent } from '../navbar.component';
+import { NavbarComponent } from '../../navbar/navbar.component';
 
 @Component({
   selector: 'app-club-profile',

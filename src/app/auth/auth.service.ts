@@ -7,8 +7,8 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://localhost:5000/auth'; // URL base de tu API
-  private baseUrl2 = 'http://localhost:5000'; // URL base de tu API sin auth
+  private baseUrl = 'http://localhost:8000/auth'; // URL base de tu API
+  private baseUrl2 = 'http://localhost:8000'; // URL base de tu API sin auth
 
   constructor(private http: HttpClient) { }
 
@@ -107,6 +107,23 @@ export class AuthService {
       'x-auth-token': token
     });
     return this.http.get(`${this.baseUrl2}/entrenador/perfil`, { headers });
+  }
+
+  getProfile(): Observable<any> {
+    let token = '';
+    let userType = '';
+  
+    if (typeof window !== 'undefined' && localStorage) {
+      token = localStorage.getItem('token') || ''; // Obtener el token del localStorage
+      userType = localStorage.getItem('userType') || ''; // Obtener el tipo de usuario del localStorage
+    }
+    const headers = new HttpHeaders({
+      'x-auth-token': token || ''
+    });
+      if (!['club', 'entrenador', 'futbolista'].includes(userType)) {
+      throw new Error('Tipo de usuario no válido');
+    }
+      return this.http.get(`${this.baseUrl2}/${userType}/perfil`, { headers });
   }
 
   //Métodos Clubs

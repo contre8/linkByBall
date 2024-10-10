@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { ClubService } from '../club.service';
-import { NavbarComponent } from '../navbar.component'; // Importa la navbar
+import { ClubService } from '../club/club.service';
+import { NavbarComponent } from '../navbar/navbar.component'; // Importa la navbar
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute } from '@angular/router';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-favoritos',
@@ -19,22 +19,22 @@ export class FavoritosComponent implements OnInit {
   favoritosEntrenadores: any[] = [];
   favoritosClubes: any[] = [];
   defaultPicture: string = '../../../../default-picture-profile.jpg'; // Imagen por defecto si no tiene foto
-  clubId: string = '';
+  userId: string = '';
 
   constructor(private clubService: ClubService, private route: ActivatedRoute, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
-    this.authService.getClubProfile().subscribe(
-      (clubData) => {
-        this.clubId = clubData._id;
-
-        // Obtener los favoritos del club
-        this.loadFavorites(this.clubId);
+    this.authService.getProfile().subscribe(
+      (userData) => {
+        this.userId = userData._id;
+    
+        // Obtener los favoritos del usuario (puede ser club, entrenador o futbolista)
+        this.loadFavorites(this.userId);
       },
       (error) => {
-        console.error('Error al obtener el perfil del club', error);
+        console.error('Error al obtener el perfil del usuario', error);
       }
-    );
+    );    
   }
 
   loadFavorites(clubId: string): void {

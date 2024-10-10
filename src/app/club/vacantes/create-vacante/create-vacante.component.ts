@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { ClubService } from '../../club.service'; // Servicio del club
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../../../auth/auth.service';
-import { NavbarComponent } from '../../navbar.component';
+import { NavbarComponent } from '../../../navbar/navbar.component';
 
 @Component({
   selector: 'app-create-vacante',

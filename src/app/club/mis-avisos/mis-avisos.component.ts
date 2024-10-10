@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { NavbarComponent } from '../navbar.component'; // Importa la navbar
+import { NavbarComponent } from '../../navbar/navbar.component'; // Importa la navbar
 import { AvisosService } from '../../service/avisos/avisos.service';
 import { AuthService } from '../../auth/auth.service';
 
@@ -24,15 +24,16 @@ export class MisAvisosComponent implements OnInit {
   constructor(private avisosService: AvisosService, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
-    this.authService.getClubProfile().subscribe(
-      (clubData) => {
-        this.userId = clubData._id;
+    this.authService.getProfile().subscribe(
+      (userData) => {
+        this.userId = userData._id;
         this.cargarAvisos(this.userId);
       },
       (error) => {
-        console.error('Error al obtener el perfil del club', error);
+        console.error('Error al obtener el perfil del usuario', error);
       }
     );
+    
   }
 
   cargarAvisos(userId: string): void {
