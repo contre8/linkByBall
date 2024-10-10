@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AvisosService {
-  private baseUrl = 'http://localhost:5000';  // Cambia esto por la URL de tu backend
+  private baseUrl = 'http://localhost:8000';  // Cambia esto por la URL de tu backend
 
   constructor(private http: HttpClient) {}
 

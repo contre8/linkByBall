@@ -30,7 +30,12 @@ export class NavbarComponent {
 
   ngOnInit(): void {
     // Configurar el comportamiento de la búsqueda con un debounce
-    this.authService.getClubProfile().subscribe(profile => {
+    // this.authService.getClubProfile().subscribe(profile => {
+    //   this.profilePictureUrl = profile.fotografia?.url; // O la forma en la que obtienes la URL de la foto de perfil
+    //   this.userId = profile._id;
+    //   this.cargarAvisos(this.userId);
+    // });
+    this.authService.getProfile().subscribe(profile => {
       this.profilePictureUrl = profile.fotografia?.url; // O la forma en la que obtienes la URL de la foto de perfil
       this.userId = profile._id;
       this.cargarAvisos(this.userId);

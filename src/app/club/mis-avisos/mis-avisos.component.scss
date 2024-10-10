@@ -44,12 +44,12 @@ $text-color: #000000;
 
     .avisos-grid {
       width: 100%;
-      max-width: 1000px;  // Ajusta el ancho máximo para centrar
+      max-width: 70%;  // Ajusta el ancho máximo para centrar
       margin: 0 auto;     // Centra el contenedor dentro de su padre
       display: flex;
       flex-direction: column;
       gap: 15px;
-      margin-right: 13%; // ESTE ES EL CONFLICTIVO
+      //margin-right: 13%; // ESTE ES EL CONFLICTIVO
     }
 
     .aviso-card.unseen {

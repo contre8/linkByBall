@@ -19,22 +19,22 @@ export class FavoritosComponent implements OnInit {
   favoritosEntrenadores: any[] = [];
   favoritosClubes: any[] = [];
   defaultPicture: string = '../../../../default-picture-profile.jpg'; // Imagen por defecto si no tiene foto
-  clubId: string = '';
+  userId: string = '';
 
   constructor(private clubService: ClubService, private route: ActivatedRoute, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
-    this.authService.getClubProfile().subscribe(
-      (clubData) => {
-        this.clubId = clubData._id;
-
-        // Obtener los favoritos del club
-        this.loadFavorites(this.clubId);
+    this.authService.getProfile().subscribe(
+      (userData) => {
+        this.userId = userData._id;
+    
+        // Obtener los favoritos del usuario (puede ser club, entrenador o futbolista)
+        this.loadFavorites(this.userId);
       },
       (error) => {
-        console.error('Error al obtener el perfil del club', error);
+        console.error('Error al obtener el perfil del usuario', error);
       }
-    );
+    );    
   }
 
   loadFavorites(clubId: string): void {

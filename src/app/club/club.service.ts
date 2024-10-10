@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ClubService {
 
-  private baseUrl = 'http://localhost:5000';  // Cambia esto por tu URL de backend
+  private baseUrl = 'http://localhost:8000';  // Cambia esto por tu URL de backend
 
   constructor(private http: HttpClient) { }
 
