@@ -29,9 +29,10 @@
     <button class="nav-button" (click)="goToFavorites()">
       <i class="fa fa-heart"></i> Favoritos
     </button>
-    <button class="nav-button" (click)="viewNotifications()">
+    <button class="nav-button" (click)="viewNotifications()" [ngClass]="{'has-notifications': avisos}">
       <i class="fa fa-bell"></i> Avisos
     </button>
+
     <button class="nav-button" (click)="openChat()">
       <i class="fa fa-comments"></i> Chat
     </button>

@@ -26,6 +26,21 @@ $error-color: #dc3545; // Rojo para errores
     cursor: pointer;
     transition: color 0.15s;
 
+
+    //position: relative;
+
+    // .notification-indicator {
+    //   position: absolute;
+    //   top: 10px;
+    //   right: 60px;
+    //   width: 10px;
+    //   height: 10px;
+    //   background-color: red;
+    //   border-radius: 50%;
+    //   content: '';
+    //   display: inline-block;
+    // }
+
     &:hover {
       color: black;
     }
@@ -33,6 +48,10 @@ $error-color: #dc3545; // Rojo para errores
     i {
       margin-right: 4px;
     }
+  }
+
+  .has-notifications {
+    color: rgb(204, 12, 12); /* Cambia el color a rojo */
   }
 
   .right-aligned-buttons {
