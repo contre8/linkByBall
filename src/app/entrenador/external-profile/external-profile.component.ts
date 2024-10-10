@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common'; // Importar CommonModule para ng
 import { ActivatedRoute, Router } from '@angular/router';
 import { ESPECIALIDADES_ENTRENADOR } from '../../const/especialidades-entrenador.const';
 import { EntrenadorService } from '../entrenador.service';
-import { NavbarComponent } from '../../club/navbar.component';
+import { NavbarComponent } from '../../navbar/navbar.component';
 import { ClubService } from '../../club/club.service';
 import { FutbolistaService } from '../../futbolista/futbolista.service';
 import { Observable } from 'rxjs';

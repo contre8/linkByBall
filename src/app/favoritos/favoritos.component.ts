@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { ClubService } from '../club.service';
-import { NavbarComponent } from '../navbar.component'; // Importa la navbar
+import { ClubService } from '../club/club.service';
+import { NavbarComponent } from '../navbar/navbar.component'; // Importa la navbar
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute } from '@angular/router';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-favoritos',

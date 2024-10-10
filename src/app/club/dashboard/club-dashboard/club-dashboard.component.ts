@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ClubService } from '../../club.service';
 import { CommonModule } from '@angular/common';  // Asegúrate de importar CommonModule
 import { AuthService } from '../../../auth/auth.service';
-import { NavbarComponent } from '../../navbar.component';
+import { NavbarComponent } from '../../../navbar/navbar.component';
 
 @Component({
   selector: 'app-dashboard-club',

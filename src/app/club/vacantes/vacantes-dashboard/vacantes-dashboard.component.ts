@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 //import { VacanteService } from '../vacante.service';
 import { AuthService } from '../../../auth/auth.service';
 import { ClubService } from '../../club.service';
-import { NavbarComponent } from '../../navbar.component';
+import { NavbarComponent } from '../../../navbar/navbar.component';
 
 @Component({
   selector: 'app-dashboard-vacantes',

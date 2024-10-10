@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms'; // Si usas formularios
 import { AuthService } from '../../auth/auth.service';
 import { FutbolistaService } from '../futbolista.service';
 import { ActivatedRoute, Router } from '@angular/router'; // Importar Router
-import { NavbarComponent } from '../../club/navbar.component';
+import { NavbarComponent } from '../../navbar/navbar.component';
 import { ClubService } from '../../club/club.service';
 import { EntrenadorService } from '../../entrenador/entrenador.service';
 

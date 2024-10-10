@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { ClubService } from '../../club.service';
 import { AuthService } from '../../../auth/auth.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { NavbarComponent } from '../../navbar.component';
+import { NavbarComponent } from '../../../navbar/navbar.component';
 
 @Component({
   selector: 'app-modify-vacante',

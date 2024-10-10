@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { NavbarComponent } from '../navbar.component'; // Importa la navbar
+import { NavbarComponent } from '../../navbar/navbar.component'; // Importa la navbar
 import { AvisosService } from '../../service/avisos/avisos.service';
 import { AuthService } from '../../auth/auth.service';
 

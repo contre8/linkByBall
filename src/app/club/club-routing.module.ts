@@ -7,7 +7,7 @@ import { DashboardVacantesComponent } from './vacantes/vacantes-dashboard/vacant
 import { ModifyVacantesComponent } from './vacantes/modify-vacantes/modify-vacantes.component';
 import { DashboardClubComponent } from './dashboard/club-dashboard/club-dashboard.component';
 import { ExternalProfileComponent } from './external-profile/external-profile.component';
-import { FavoritosComponent } from './favoritos/favoritos.component';
+import { FavoritosComponent } from '../favoritos/favoritos.component';
 import { SearchComponent } from '../search/search.component';
 import { MisAvisosComponent } from './mis-avisos/mis-avisos.component';
 
