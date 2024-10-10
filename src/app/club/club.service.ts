@@ -71,4 +71,8 @@ export class ClubService {
     return this.http.get<any[]>(`${this.baseUrl}/club/club-favoritos/${clubId}`);
   }
 
+  getPlantillaByClub(clubId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/club/${clubId}/plantilla`);
+  }
+
 }
