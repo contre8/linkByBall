@@ -8,6 +8,7 @@ import { EntrenadorService } from '../../../service/entrenador/entrenador.servic
 import { NavbarComponent } from '../../navbar/navbar.component';
 import { FutbolistaService } from '../../../service/futbolista/futbolista.service';
 import { Observable } from 'rxjs';
+import { FavoritosService } from '../../../service/favoritos/favoritos.service';
 
 @Component({
   selector: 'app-profile-entrenador',
@@ -20,6 +21,7 @@ export class ExternalProfileComponent implements OnInit {
   entrenador: any;
   defaultPicture: string = '../../../../default-picture-profile.jpg'; // Imagen por defecto si no tiene foto
   isFavorite: boolean = false;
+  userType: string = localStorage.getItem('userType') || '';
 
   constructor(
     private authService: AuthService,
@@ -28,6 +30,7 @@ export class ExternalProfileComponent implements OnInit {
     private router: Router,
     private clubService: ClubService,
     private futbolistaService: FutbolistaService,
+    private favoritosService: FavoritosService,
   ) { }
 
   ngOnInit(): void {
@@ -51,7 +54,7 @@ export class ExternalProfileComponent implements OnInit {
   }
 
   checkIfFavorite(entrenadorId: string): void {
-    this.clubService.isFavorite(entrenadorId).subscribe(
+    this.favoritosService.isFavorite(entrenadorId, this.userType).subscribe(
       (response) => {
         this.isFavorite = response.isFavorite;
       },
@@ -66,7 +69,7 @@ export class ExternalProfileComponent implements OnInit {
 
     if (this.isFavorite) {
       // Si ya es favorito, eliminar de favoritos
-      this.clubService.removeFavorite(this.entrenador._id).subscribe(
+      this.favoritosService.removeFavorite(this.entrenador._id, this.userType).subscribe(
         () => {
           this.isFavorite = false;
           console.log('Entrenador eliminado de favoritos');
@@ -77,7 +80,7 @@ export class ExternalProfileComponent implements OnInit {
       );
     } else {
       // Si no es favorito, agregar a favoritos
-      this.clubService.addFavorite(this.entrenador._id).subscribe(
+      this.favoritosService.addFavorite(this.entrenador._id, this.userType).subscribe(
         () => {
           this.isFavorite = true;
           console.log('Entrenador añadido a favoritos');

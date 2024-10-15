@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
       this.authService.loginFutbolista(email, password).subscribe(
         response => {
           console.log('Login successful as Futbolista', response);
-          this.router.navigate(['../futbolista/perfil']);
+          this.router.navigate(['../futbolista/home']);
         },
         error => {
           console.error('Login as Futbolista failed, trying as Club', error);

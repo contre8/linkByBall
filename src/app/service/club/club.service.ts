@@ -66,7 +66,6 @@ export class ClubService {
     return this.http.get(`${this.baseUrl}/club/favoritos/${favoriteId}`);
   }
 
-  // club.service.ts
   getFavorites(clubId: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/club/club-favoritos/${clubId}`);
   }

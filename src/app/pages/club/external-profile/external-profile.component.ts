@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router'; // Para redirecciones si se nece
 import { FormsModule } from '@angular/forms'; // Si usas formularios
 import { ActivatedRoute, Router } from '@angular/router'; // Importar Router
 import { NavbarComponent } from '../../navbar/navbar.component';
+import { FavoritosService } from '../../../service/favoritos/favoritos.service';
 
 @Component({
   selector: 'app-club-profile',
@@ -17,8 +18,9 @@ export class ExternalProfileComponent {
   club: any;
   defaultPicture: string = '../../../../default-picture-profile.jpg'; // Imagen por defecto si no tiene foto
   isFavorite: boolean = false;
+  userType: string = localStorage.getItem('userType') || '';
 
-  constructor(private clubService: ClubService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private clubService: ClubService, private route: ActivatedRoute, private router: Router, private favoritosService: FavoritosService,) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -40,7 +42,7 @@ export class ExternalProfileComponent {
   }
 
   checkIfFavorite(entrenadorId: string): void {
-    this.clubService.isFavorite(entrenadorId).subscribe(
+    this.favoritosService.isFavorite(entrenadorId, this.userType).subscribe(
       (response) => {
         this.isFavorite = response.isFavorite;
       },
@@ -55,7 +57,7 @@ export class ExternalProfileComponent {
 
     if (this.isFavorite) {
       // Si ya es favorito, eliminar de favoritos
-      this.clubService.removeFavorite(this.club._id).subscribe(
+      this.favoritosService.removeFavorite(this.club._id, this.userType).subscribe(
         () => {
           this.isFavorite = false;
           console.log('club eliminado de favoritos');
@@ -66,7 +68,7 @@ export class ExternalProfileComponent {
       );
     } else {
       // Si no es favorito, agregar a favoritos
-      this.clubService.addFavorite(this.club._id).subscribe(
+      this.favoritosService.addFavorite(this.club._id, this.userType).subscribe(
         () => {
           this.isFavorite = true;
           console.log('club añadido a favoritos');

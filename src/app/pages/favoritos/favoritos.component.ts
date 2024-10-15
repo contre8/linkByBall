@@ -6,6 +6,7 @@ import { NavbarComponent } from '../navbar/navbar.component'; // Importa la navb
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../service/auth/auth.service';
+import { FavoritosService } from '../../service/favoritos/favoritos.service';
 
 @Component({
   selector: 'app-favoritos',
@@ -21,8 +22,16 @@ export class FavoritosComponent implements OnInit {
   defaultPicture: string = '../../../../default-picture-profile.jpg'; // Imagen por defecto si no tiene foto
   userId: string = '';
   isLoading: boolean = false;
+  //userType: string | null = localStorage.getItem('userType'); // Obtén el valor de localStorage directamente al declarar
+  userType: string = localStorage.getItem('userType') || ''; // Si es null, asigna una cadena vacía
 
-  constructor(private clubService: ClubService, private route: ActivatedRoute, private authService: AuthService, private router: Router) { }
+  constructor(
+    private clubService: ClubService,
+    private route: ActivatedRoute,
+    private authService: AuthService,
+    private router: Router,
+    private favoritosService: FavoritosService,
+  ) { }
 
   ngOnInit(): void {
     this.authService.getProfile().subscribe(
@@ -38,12 +47,11 @@ export class FavoritosComponent implements OnInit {
     );
   }
 
-  loadFavorites(clubId: string): void {
+  loadFavorites(userId: string): void {
     this.isLoading = true;
-    this.clubService.getFavorites(clubId).subscribe(
+    this.favoritosService.getFavorites(userId, this.userType).subscribe(
       (favorites) => {
         console.log('Favoritos cargados:', favorites);
-
         // Dividir los favoritos en categorías
         this.favoritosFutbolistas = favorites.filter((fav: any) => fav.tipo === 'Futbolista');
         this.favoritosEntrenadores = favorites.filter((fav: any) => fav.tipo === 'Entrenador');
@@ -58,7 +66,7 @@ export class FavoritosComponent implements OnInit {
   }
 
   removeFromFavorites(favoriteId: string): void {
-    this.clubService.removeFavorite(favoriteId).subscribe(
+    this.favoritosService.removeFavorite(favoriteId, this.userType).subscribe(
       () => {
         console.log('Favorito eliminado');
 

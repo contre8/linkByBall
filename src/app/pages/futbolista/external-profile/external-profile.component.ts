@@ -8,6 +8,7 @@ import { FutbolistaService } from '../../../service/futbolista/futbolista.servic
 import { ActivatedRoute, Router } from '@angular/router'; // Importar Router
 import { NavbarComponent } from '../../navbar/navbar.component';
 import { EntrenadorService } from '../../../service/entrenador/entrenador.service';
+import { FavoritosService } from '../../../service/favoritos/favoritos.service';
 
 @Component({
   selector: 'app-profile',
@@ -21,6 +22,7 @@ export class ExternalProfileComponent implements OnInit {
   defaultPicture: string = '../../../../default-picture-profile.jpg'; // Imagen por defecto si no tiene foto
   posiciones: string[] = []; // Para almacenar las posiciones desde la base de datos
   isFavorite: boolean = false;
+  userType: string = localStorage.getItem('userType') || '';
 
   constructor(
     private authService: AuthService,
@@ -29,6 +31,7 @@ export class ExternalProfileComponent implements OnInit {
     private router: Router,
     private clubService: ClubService,
     private entrenadorService: EntrenadorService,
+    private favoritosService: FavoritosService,
   ) { }
 
   ngOnInit(): void {
@@ -52,7 +55,7 @@ export class ExternalProfileComponent implements OnInit {
   }
 
   checkIfFavorite(futbolistaId: string): void {
-    this.clubService.isFavorite(futbolistaId).subscribe(
+    this.favoritosService.isFavorite(futbolistaId, this.userType).subscribe(
       (response) => {
         this.isFavorite = response.isFavorite;
       },
@@ -67,7 +70,7 @@ export class ExternalProfileComponent implements OnInit {
 
     if (this.isFavorite) {
       // Si ya es favorito, eliminar de favoritos
-      this.clubService.removeFavorite(this.futbolista._id).subscribe(
+      this.favoritosService.removeFavorite(this.futbolista._id, this.userType).subscribe(
         () => {
           this.isFavorite = false;
         },
@@ -77,7 +80,7 @@ export class ExternalProfileComponent implements OnInit {
       );
     } else {
       // Si no es favorito, agregar a favoritos
-      this.clubService.addFavorite(this.futbolista._id).subscribe(
+      this.favoritosService.addFavorite(this.futbolista._id, this.userType).subscribe(
         () => {
           this.isFavorite = true;
         },
@@ -98,7 +101,7 @@ export class ExternalProfileComponent implements OnInit {
 
     if (this.futbolista && this.futbolista._id) {
       if (userType === 'club') {
-        this.clubService.addFavorite(this.futbolista._id).subscribe(
+        this.favoritosService.addFavorite(this.futbolista._id, userType).subscribe(
           () => {
             console.log('Futbolista marcado como favorito por el club');
             alert('Futbolista añadido a favoritos');
@@ -108,7 +111,7 @@ export class ExternalProfileComponent implements OnInit {
           }
         );
       } else if (userType === 'entrenador') {
-        this.entrenadorService.addFavorite(this.futbolista._id).subscribe(
+        this.favoritosService.addFavorite(this.futbolista._id, userType).subscribe(
           () => {
             console.log('Futbolista marcado como favorito por el entrenador');
             alert('Futbolista añadido a favoritos');

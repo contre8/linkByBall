@@ -5,11 +5,12 @@ import { FormsModule } from '@angular/forms'; // Si usas formularios
 import { AuthService } from '../../../service/auth/auth.service';
 import { FutbolistaService } from '../../../service/futbolista/futbolista.service';
 import { ActivatedRoute, Router } from '@angular/router'; // Importar Router
+import { NavbarComponent } from '../../navbar/navbar.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true, // Declarar standalone
-  imports: [CommonModule, RouterModule, FormsModule], // Importar módulos necesarios
+  imports: [CommonModule, RouterModule, FormsModule, NavbarComponent], // Importar módulos necesarios
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })

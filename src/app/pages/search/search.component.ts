@@ -13,6 +13,7 @@ import { debounceTime, switchMap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { AfterViewInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';  // Asegúrate de importar FormsModule
+import { FavoritosService } from '../../service/favoritos/favoritos.service';
 
 
 @Component({
@@ -39,6 +40,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   totalPages: number = 1;
   pages: number[] = [];
   isLoading: boolean = false;
+  userType: string = localStorage.getItem('userType') || '';
 
   futbolistaPositions = POSICIONES_FUTBOLISTAS;
   entrenadorEspecialidades = ESPECIALIDADES_ENTRENADOR;
@@ -49,7 +51,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   especialidadesEntrenador = ESPECIALIDADES_ENTRENADOR;
   //isFavorite: boolean = false;
 
-  constructor(private searchService: SearchService, private router: Router, private clubService: ClubService) { }
+  constructor(private searchService: SearchService, private router: Router, private clubService: ClubService, private favoritoService: FavoritosService) { }
 
   ngAfterViewInit(): void {
     // Llamamos al método aquí para asegurarnos de que el DOM está cargado
@@ -80,7 +82,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
       }
     );
   }
-
 
   // Método que se activa al escribir en el campo de búsqueda
   onClubSearch(event: Event): void {
@@ -307,7 +308,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
       //console.log(this.searchResults)
       // Comprobar si cada resultado es favorito
       this.searchResults.forEach(result => {
-        this.clubService.isFavorite(result._id).subscribe(
+        this.favoritoService.isFavorite(result._id, this.userType).subscribe(
           (response) => {
             result.isFavorite = response.isFavorite; // Guardar el estado de favorito en el perfil
           },
@@ -316,7 +317,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
           }
         );
       });
-      this.isLoading= false;
+      this.isLoading = false;
     }, error => {
       console.error('Error al realizar la búsqueda:', error);
     });
@@ -327,9 +328,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
       this.buscar(page);  // Llamar a la búsqueda con la página seleccionada
     }
   }
-
-
-
 
   viewSearchProfile(result: any): void {
     const profileId = result._id;
@@ -353,7 +351,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
     if (profile.isFavorite) {
       // Si ya es favorito, eliminarlo de favoritos
-      this.clubService.removeFavorite(profileId).subscribe(
+      this.favoritoService.removeFavorite(profileId, this.userType).subscribe(
         () => {
           profile.isFavorite = false; // Actualizar el estado solo para este perfil
           console.log('Eliminado de favoritos');
@@ -364,7 +362,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
       );
     } else {
       // Si no es favorito, agregarlo a favoritos
-      this.clubService.addFavorite(profileId).subscribe(
+      this.favoritoService.addFavorite(profileId, this.userType).subscribe(
         () => {
           profile.isFavorite = true; // Actualizar el estado solo para este perfil
           console.log('Añadido a favoritos');
@@ -378,7 +376,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
 
   checkIfFavorite(futbolistaId: string): void {
-    this.clubService.isFavorite(futbolistaId).subscribe(
+    this.favoritoService.isFavorite(futbolistaId, this.userType).subscribe(
       (response) => {
         return response.isFavorite;
       },
@@ -393,7 +391,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     event.stopPropagation();  // Detiene la propagación del evento de clic
     if (!result.isFavorite) {
       // Si no es favorito, lo añadimos
-      this.clubService.addFavorite(result._id).subscribe(
+      this.favoritoService.addFavorite(result._id, this.userType).subscribe(
         () => {
           result.isFavorite = true;
           console.log(`${result.nombre} añadido a favoritos`);
@@ -404,7 +402,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
       );
     } else {
       // Si ya es favorito, lo eliminamos
-      this.clubService.removeFavorite(result._id).subscribe(
+      this.favoritoService.removeFavorite(result._id, this.userType).subscribe(
         () => {
           result.isFavorite = false;
           console.log(`${result.nombre} eliminado de favoritos`);

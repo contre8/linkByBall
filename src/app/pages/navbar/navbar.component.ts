@@ -24,17 +24,12 @@ export class NavbarComponent {
   isSearchActive: boolean = false; // Variable para mostrar u ocultar los resultados
   profilePictureUrl: string | undefined;
   userId: string = '';
+  userType: string | null = localStorage.getItem('userType'); // Obtén el valor de localStorage directamente al declarar
   avisos: boolean = false;
 
-  constructor(private router: Router, private searchService: SearchService, private authService: AuthService, private  avisosService: AvisosService) { }
+  constructor(private router: Router, private searchService: SearchService, private authService: AuthService, private avisosService: AvisosService) { }
 
   ngOnInit(): void {
-    // Configurar el comportamiento de la búsqueda con un debounce
-    // this.authService.getClubProfile().subscribe(profile => {
-    //   this.profilePictureUrl = profile.fotografia?.url; // O la forma en la que obtienes la URL de la foto de perfil
-    //   this.userId = profile._id;
-    //   this.cargarAvisos(this.userId);
-    // });
     this.authService.getProfile().subscribe(profile => {
       this.profilePictureUrl = profile.fotografia?.url; // O la forma en la que obtienes la URL de la foto de perfil
       this.userId = profile._id;
@@ -57,10 +52,11 @@ export class NavbarComponent {
   }
 
   goHome(): void {
-    sessionStorage.removeItem('profileType');
-    sessionStorage.removeItem('searchFilters');
-    this.router.navigate(['club/home']);
+    sessionStorage.clear();
+    const userType = localStorage.getItem('userType');
+    this.router.navigate([`${userType}/home`]);
   }
+
 
   onSearch(event: Event): void {
     const target = event.target as HTMLInputElement;
@@ -99,10 +95,10 @@ export class NavbarComponent {
   }
 
   goToFavorites(): void {
-    sessionStorage.removeItem('profileType');
-    sessionStorage.removeItem('searchFilters');
-    this.router.navigate(['club/favoritos']);
+    sessionStorage.clear();
+    this.router.navigate([`${this.userType}/favoritos`]);
   }
+
 
   searchProfiles(): void {
     this.router.navigate(['buscador']);
@@ -122,9 +118,8 @@ export class NavbarComponent {
   }
 
   viewProfile(): void {
-    sessionStorage.removeItem('profileType');
-    sessionStorage.removeItem('searchFilters');
-    this.router.navigate(['club/perfil']);
+    sessionStorage.clear();
+    this.router.navigate([`${this.userType || 'error'}/perfil`]);
   }
 
   logout(): void {
