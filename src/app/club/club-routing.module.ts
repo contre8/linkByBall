@@ -5,7 +5,7 @@ import { ModifyClubComponent } from './modify-club/modify-club.component';
 import { CreateVacanteComponent } from './vacantes/create-vacante/create-vacante.component';
 import { DashboardVacantesComponent } from './vacantes/vacantes-dashboard/vacantes-dashboard.component';
 import { ModifyVacantesComponent } from './vacantes/modify-vacantes/modify-vacantes.component';
-import { DashboardClubComponent } from './dashboard/club-dashboard/club-dashboard.component';
+import { DashboardClubComponent } from './club-dashboard/club-dashboard.component';
 import { ExternalProfileComponent } from './external-profile/external-profile.component';
 import { FavoritosComponent } from '../favoritos/favoritos.component';
 import { SearchComponent } from '../search/search.component';

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ClubService } from '../../club.service';
-import { AuthService } from '../../../auth/auth.service';
-import { NavbarComponent } from '../../../navbar/navbar.component';
-import { AvisosService } from '../../../service/avisos/avisos.service';
+import { ClubService } from '../club.service';
+import { AuthService } from '../../auth/auth.service';
+import { NavbarComponent } from '../../navbar/navbar.component';
+import { AvisosService } from '../../service/avisos/avisos.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
