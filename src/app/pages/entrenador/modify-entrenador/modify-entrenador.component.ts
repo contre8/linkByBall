@@ -4,7 +4,7 @@ import { EntrenadorService } from '../../../service/entrenador/entrenador.servic
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { AuthService } from '../../../auth/auth.service';
+import { AuthService } from '../../../service/auth/auth.service';
 import { Observable } from 'rxjs';
 
 @Component({

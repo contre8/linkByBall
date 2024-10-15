@@ -7,7 +7,7 @@ import { HttpClientModule } from '@angular/common/http'; // Importa HttpClientMo
 //import { appRoutes } from './app-routing.module';
 import { AppRoutingModule } from './app-routing.module';  // Asegúrate de que el AppRoutingModule esté importado
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptor } from './auth/services/token.interceptor';
+import { TokenInterceptor } from './service/auth/token.interceptor';
 
 
 @NgModule({

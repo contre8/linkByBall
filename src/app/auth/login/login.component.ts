@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../auth.service'; // Asegúrate de que la ruta sea correcta
+import { AuthService } from '../../service/auth/auth.service'; // Asegúrate de que la ruta sea correcta
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http'; // Importa HttpClientModule

@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../auth.service'; // Ajusta la ruta si es necesario
+import { AuthService } from '../../service/auth/auth.service'; // Ajusta la ruta si es necesario
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';

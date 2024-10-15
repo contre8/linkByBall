@@ -4,7 +4,7 @@ import { FutbolistaService } from '../../../service/futbolista/futbolista.servic
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common'; // Importar CommonModule si es necesario
 import { RouterModule } from '@angular/router'; // Importar RouterModule si necesitas redirigir
-import { AuthService } from '../../../auth/auth.service';
+import { AuthService } from '../../../service/auth/auth.service';
 import { Observable } from 'rxjs';
 
 

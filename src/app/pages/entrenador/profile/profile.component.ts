@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../../auth/auth.service';
+import { AuthService } from '../../../service/auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ESPECIALIDADES_ENTRENADOR } from '../../../const/especialidades-entrenador.const';
 import { EntrenadorService } from '../../../service/entrenador/entrenador.service';

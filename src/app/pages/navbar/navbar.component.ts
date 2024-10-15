@@ -5,7 +5,7 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { CommonModule } from '@angular/common'; // Importar CommonModule
 import { forkJoin } from 'rxjs';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../service/auth/auth.service';
 import { AvisosService } from '../../service/avisos/avisos.service';
 
 

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { NavbarComponent } from '../../navbar/navbar.component'; // Importa la navbar
-import { AuthService } from '../../../auth/auth.service';
+import { AuthService } from '../../../service/auth/auth.service';
 
 @Component({
   selector: 'app-mis-avisos',

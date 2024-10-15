@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 //import { VacanteService } from '../vacante.service';
-import { AuthService } from '../../../../auth/auth.service';
+import { AuthService } from '../../../../service/auth/auth.service';
 import { NavbarComponent } from '../../../navbar/navbar.component';
 
 @Component({

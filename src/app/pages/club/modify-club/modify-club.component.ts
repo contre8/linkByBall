@@ -1,7 +1,7 @@
 import { DIVISIONES_FUTBOL_SENIOR } from './../../../const/categorias.const';
 import { PROVINCIAS_POR_COMUNIDAD } from './../../../const/provincias.const';
 import { COMUNIDADES_AUTONOMAS } from './../../../const/comunidades.const';
-import { AuthService } from './../../../auth/auth.service';
+import { AuthService } from '../../../service/auth/auth.service';
 import { ClubService } from './../../../service/club/club.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';

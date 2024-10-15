@@ -5,7 +5,7 @@ import { RouterModule, Router } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component'; // Importa la navbar
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute } from '@angular/router';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../service/auth/auth.service';
 
 @Component({
   selector: 'app-favoritos',

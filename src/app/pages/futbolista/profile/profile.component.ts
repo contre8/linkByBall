@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Importar el módulo común para standalone
 import { RouterModule } from '@angular/router'; // Para redirecciones si se necesita
 import { FormsModule } from '@angular/forms'; // Si usas formularios
-import { AuthService } from '../../../auth/auth.service';
+import { AuthService } from '../../../service/auth/auth.service';
 import { FutbolistaService } from '../../../service/futbolista/futbolista.service';
 import { ActivatedRoute, Router } from '@angular/router'; // Importar Router
 

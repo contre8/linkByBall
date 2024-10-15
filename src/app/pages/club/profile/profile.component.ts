@@ -1,5 +1,5 @@
 import { ClubService } from './../../../service/club/club.service';
-import { AuthService } from './../../../auth/auth.service';
+import { AuthService } from '../../../service/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
