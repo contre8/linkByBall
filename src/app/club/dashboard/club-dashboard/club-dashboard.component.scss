@@ -18,7 +18,7 @@ $transition: all 0.3s ease;
   background: linear-gradient(to right, $primary-color, $secondary-color);
 
   .container {
-    
+
     background: $white-color;
     border-radius: $border-radius;
     box-shadow: $box-shadow;
@@ -100,10 +100,10 @@ $transition: all 0.3s ease;
     box-shadow: $box-shadow;
     transition: $transition;
 
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    }
+    // &:hover {
+    //   transform: translateY(-5px);
+    //   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    // }
 
     h2 {
       color: $primary-color;
@@ -153,7 +153,7 @@ $transition: all 0.3s ease;
             margin-right: 10px;
             padding: 10px;
             text-transform: uppercase;
-            background-color: $secondary-color;
+            background-color: #ffbb00;
             color: white;
             border: none;
             border-radius: 8px;
@@ -161,7 +161,7 @@ $transition: all 0.3s ease;
             transition: $transition;
 
             &:hover {
-              background-color: darken($secondary-color, 10%);
+              background-color: darken(#ffbb00, 10%);
             }
 
             &:last-child {
@@ -186,10 +186,10 @@ $transition: all 0.3s ease;
     box-shadow: $box-shadow;
     transition: $transition;
 
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    }
+    // &:hover {
+    //   transform: translateY(-5px);
+    //   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    // }
 
     h2 {
       color: $primary-color;
@@ -205,6 +205,16 @@ $transition: all 0.3s ease;
       padding: 20px;
       border-radius: 10px;
       box-shadow: $box-shadow;
+      transition: $transition; // Para un cambio suave de fondo
+
+      &.no-visto {
+        background-color: #ffe5e5; // Rojo clarito para no vistos
+      }
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      }
 
       .aviso-img {
         max-width: 80px;
@@ -235,6 +245,7 @@ $transition: all 0.3s ease;
         background-color: $secondary-color;
         color: white;
         border-radius: 8px;
+        border: none;
         transition: $transition;
 
         &:hover {
@@ -243,67 +254,117 @@ $transition: all 0.3s ease;
       }
     }
   }
+}
 
-  // Sección de Plantilla
-  .plantilla-section {
-    background: $white-color;
-    padding: 25px;
+// Sección de Plantilla
+.plantilla-section {
+  grid-column: 1 / -1; // Ocupar todo el ancho del grid
+  background: $white-color;
+  padding: 25px;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  transition: $transition;
+
+  // &:hover {
+  //   transform: translateY(-5px);
+  //   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  // }
+
+  h2 {
+    color: $primary-color;
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .plantilla-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); // Ajustar el grid para cada jugador
+    gap: 20px;
+    justify-items: center;
+  }
+
+  .jugador-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: $background-color;
+    padding: 15px;
     border-radius: $border-radius;
     box-shadow: $box-shadow;
+    text-align: center;
     transition: $transition;
+    min-width: 200px;
 
     &:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      cursor: pointer;
     }
 
-    h2 {
+    .jugador-img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%; // Imagen circular
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+
+    h3 {
+      font-size: 18px;
       color: $primary-color;
-      font-size: 26px;
-      font-weight: bold;
-      margin-bottom: 20px;
+      margin: 0;
     }
 
-    .jugador-card {
-      background-color: $background-color;
-      padding: 20px;
-      border-radius: $border-radius;
-      box-shadow: $box-shadow;
+    .posiciones {
+      display: flex;
+      flex-wrap: wrap; // Permitir varias posiciones en una fila
+      justify-content: center;
+      margin-top: 10px;
 
-      h3 {
-        font-size: 20px;
-        color: $primary-color;
-        margin-bottom: 10px;
-      }
-
-      p {
+      .posicion-circle {
+        background-color: $primary-color;
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         font-size: 16px;
-        color: $text-color;
-        margin-bottom: 5px;
+        font-weight: bold;
+        margin: 5px;
+        text-transform: uppercase;
+        transition: $transition;
+
+        &:hover {
+          background-color: darken($primary-color, 10%);
+        }
       }
     }
+
+    .cuerpo-tecnico-label {
+      background-color: $error-color;
+      color: white;
+      padding: 10px;
+      border-radius: $border-radius;
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 10px;
+      text-transform: uppercase;
+    }
+
+    &.cuerpo-tecnico {
+      background-color: #fef1f1; // Cambiar a un rojo clarito
+    }
+
   }
 
-  // Botón flotante
-  .btn-float {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: $primary-color;
-    color: white;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    cursor: pointer;
-    transition: $transition;
-
-    &:hover {
-      background-color: darken($primary-color, 10%);
-    }
+  .no-plantilla {
+    text-align: center;
+    font-size: 18px;
+    color: $text-color;
+    margin-top: 20px;
   }
 }

@@ -76,7 +76,7 @@ export class DashboardClubComponent implements OnInit {
   loadPlantilla(): void {
     this.clubService.getPlantillaByClub(this.clubId).subscribe(
       (plantilla) => {
-        this.plantilla = plantilla.futbolistas;
+        this.plantilla = [...plantilla.futbolistas, ...plantilla.entrenadores];
         console.log(plantilla)
       },
       (error) => {
@@ -85,8 +85,14 @@ export class DashboardClubComponent implements OnInit {
     );
   }
 
-  verPerfil(perfilId: string): void {
-    this.router.navigate([`/perfil/${perfilId}`]);
+  verPerfil(perfilId: string, tipoPerfil: string): void {
+    if (tipoPerfil === 'futbolista') {
+      this.router.navigate([`/futbolista/perfil/${perfilId}`]);
+    } else if (tipoPerfil === 'entrenador') {
+      this.router.navigate([`/entrenador/perfil/${perfilId}`]);
+    } else if (tipoPerfil === 'club') {
+      this.router.navigate([`/club/perfil/${perfilId}`]);
+    }
   }
 
   crearNuevaVacante(): void {
@@ -109,6 +115,26 @@ export class DashboardClubComponent implements OnInit {
           console.error('Error al eliminar la vacante', error);
         }
       );
+    }
+  }
+
+  getLabelForPosition(posicion: string): string {
+    switch (posicion) {
+      case 'portero': return 'PO';
+      case 'central_diestro': return 'CD';
+      case 'central_zurdo': return 'CI';
+      case 'lateral_diestro': return 'LD';
+      case 'lateral_zurdo': return 'LI';
+      case 'mediocentro_defensivo': return 'MCD';
+      case 'interior_diestro': return 'ID';
+      case 'interior_zurdo': return 'II';
+      case 'mediapunta': return 'MP';
+      case 'extremo_diestro': return 'ED';
+      case 'extremo_zurdo': return 'EI';
+      case 'delantero_centro': return 'DC';
+      case 'carrilero_diestro': return 'CAD';
+      case 'carrilero_zurdo': return 'CAI';
+      default: return posicion;
     }
   }
 }

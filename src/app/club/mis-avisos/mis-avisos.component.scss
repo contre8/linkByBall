@@ -85,6 +85,7 @@ $text-color: #000000;
       &:hover {
         transform: translateY(-5px);
         box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        cursor: pointer;
       }
 
       .aviso-img {

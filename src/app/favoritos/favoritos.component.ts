@@ -20,6 +20,7 @@ export class FavoritosComponent implements OnInit {
   favoritosClubes: any[] = [];
   defaultPicture: string = '../../../../default-picture-profile.jpg'; // Imagen por defecto si no tiene foto
   userId: string = '';
+  isLoading: boolean = false;
 
   constructor(private clubService: ClubService, private route: ActivatedRoute, private authService: AuthService, private router: Router) { }
 
@@ -27,17 +28,18 @@ export class FavoritosComponent implements OnInit {
     this.authService.getProfile().subscribe(
       (userData) => {
         this.userId = userData._id;
-    
+
         // Obtener los favoritos del usuario (puede ser club, entrenador o futbolista)
         this.loadFavorites(this.userId);
       },
       (error) => {
         console.error('Error al obtener el perfil del usuario', error);
       }
-    );    
+    );
   }
 
   loadFavorites(clubId: string): void {
+    this.isLoading = true;
     this.clubService.getFavorites(clubId).subscribe(
       (favorites) => {
         console.log('Favoritos cargados:', favorites);
@@ -46,8 +48,10 @@ export class FavoritosComponent implements OnInit {
         this.favoritosFutbolistas = favorites.filter((fav: any) => fav.tipo === 'Futbolista');
         this.favoritosEntrenadores = favorites.filter((fav: any) => fav.tipo === 'Entrenador');
         this.favoritosClubes = favorites.filter((fav: any) => fav.tipo === 'Club');
+        this.isLoading = false;
       },
       (error) => {
+        this.isLoading = false;
         console.error('Error al cargar los favoritos:', error);
       }
     );

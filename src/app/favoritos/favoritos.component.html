@@ -4,8 +4,14 @@
   <h2 class="favoritos-title">Mis Favoritos</h2>
   <hr class="separator" style="margin-bottom: 20px;">
 
+  <!-- Mostrar loading spinner o mensaje de carga -->
+  <div *ngIf="isLoading" class="loading-message">
+    <div class="spinner"></div>
+    <p>Cargando favoritos...</p>
+  </div>
+
   <!-- Sección de favoritos clasificados por tipo -->
-  <div class="favoritos-secciones">
+  <div *ngIf="!isLoading" class="favoritos-secciones">
     <div *ngIf="!favoritosFutbolistas.length && !favoritosEntrenadores.length && !favoritosClubes.length" class="no-favorites-message">
       <h3>No tienes favoritos guardados aún</h3>
       <p>Empieza a agregar futbolistas, entrenadores o clubes a tu lista de favoritos para tener acceso rápido a ellos aquí.</p>
