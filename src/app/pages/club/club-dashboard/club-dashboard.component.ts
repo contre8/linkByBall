@@ -52,7 +52,7 @@ export class DashboardClubComponent implements OnInit {
     if (this.clubId) {
       this.clubService.getVacantesByClub(this.clubId).subscribe(
         (vacantes) => {
-          this.vacantes = vacantes;
+          this.vacantes = vacantes.slice(0, 6);
           this.totalVacantesActivas = this.vacantes.length;
         },
         (error) => {
@@ -65,7 +65,7 @@ export class DashboardClubComponent implements OnInit {
   loadAvisos(): void {
     this.avisosService.getAvisos(this.clubId).subscribe(
       (avisos) => {
-        this.avisos = avisos;
+        this.avisos = avisos.slice(0, 3); // Tomar solo los tres primeros avisos
       },
       (error) => {
         console.error('Error al cargar los avisos:', error);

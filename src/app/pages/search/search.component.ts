@@ -38,8 +38,8 @@ export class SearchComponent implements OnInit, AfterViewInit {
   resultsPerPage: number = 10;
   totalPages: number = 1;
   pages: number[] = [];
+  isLoading: boolean = false;
 
-  // Posiciones y especialidades según el tipo
   futbolistaPositions = POSICIONES_FUTBOLISTAS;
   entrenadorEspecialidades = ESPECIALIDADES_ENTRENADOR;
   clubCategorias: string[] = DIVISIONES_FUTBOL_SENIOR;
@@ -294,6 +294,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     sessionStorage.setItem('profileType', this.selectedProfileType);
 
     // Realizar la búsqueda con paginación
+    this.isLoading = true;
     this.searchService.applyFilters(this.selectedProfileType, this.filtros, page, this.resultsPerPage).subscribe(response => {
       this.searchResults = response.resultados;
       this.searchPerformed = true;
@@ -303,9 +304,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
       this.resultsPerPage = response.limit;
       this.totalPages = Math.ceil(this.totalResults / this.resultsPerPage);
       this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
-
-      console.log(this.searchResults)
-
+      //console.log(this.searchResults)
       // Comprobar si cada resultado es favorito
       this.searchResults.forEach(result => {
         this.clubService.isFavorite(result._id).subscribe(
@@ -317,6 +316,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
           }
         );
       });
+      this.isLoading= false;
     }, error => {
       console.error('Error al realizar la búsqueda:', error);
     });

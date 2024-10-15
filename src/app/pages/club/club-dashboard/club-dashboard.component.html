@@ -22,7 +22,7 @@
 
     <!-- Vacantes Activas -->
     <div class="vacantes-section">
-      <h2>Vacantes Activas</h2>
+      <h2>Vacantes Activas recientes</h2>
       <div class="vacantes-grid">
         <div class="vacante-card" *ngFor="let vacante of vacantes">
           <div class="vacante-header">
@@ -46,7 +46,7 @@
 
     <!-- Sección de Avisos -->
     <div class="avisos-section">
-      <h2>Mis Avisos</h2>
+      <h2>Últimos Avisos</h2>
       <div *ngIf="avisos.length > 0" class="avisos-grid">
         <div *ngFor="let aviso of avisos">
           <div class="aviso-card" [ngClass]="{ 'no-visto': !aviso.visto }">

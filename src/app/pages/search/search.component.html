@@ -1,7 +1,5 @@
 <app-navbar></app-navbar>
 
-<app-navbar></app-navbar>
-
 <div class="container search-form">
   <div class="card search-card shadow-lg p-4">
     <div class="card-body">
@@ -199,12 +197,16 @@
         </div>
       </div>
 
-
       <!-- Botón para iniciar la búsqueda -->
       <div class="d-grid mt-4">
         <button class="btn btn-primary" (click)="buscar()">
           <i class="fa fa-search"></i> Buscar
         </button>
+      </div>
+
+      <div *ngIf="isLoading" class="loading-message">
+        <div class="spinner"></div>
+        <p>Buscando resultados...</p>
       </div>
     </div>
     <!-- Resultados de Búsqueda -->
