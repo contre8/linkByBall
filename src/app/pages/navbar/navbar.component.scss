@@ -1,0 +1,176 @@
+$primary-color: #1f8c7c; // Color verde del logo
+$secondary-color: #0c6efd; // Color azul del logo
+$background-color: #f4f7f6;
+$text-color: #333;
+$error-color: #dc3545; // Rojo para errores
+
+/* Navbar Styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  //background-color: $primary-color;
+  background: linear-gradient(to right, $primary-color, $secondary-color);
+  padding: 1%;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  .nav-button {
+    color: white;
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.15s;
+
+
+    //position: relative;
+
+    // .notification-indicator {
+    //   position: absolute;
+    //   top: 10px;
+    //   right: 60px;
+    //   width: 10px;
+    //   height: 10px;
+    //   background-color: red;
+    //   border-radius: 50%;
+    //   content: '';
+    //   display: inline-block;
+    // }
+
+    &:hover {
+      color: black;
+    }
+
+    i {
+      margin-right: 4px;
+    }
+  }
+
+  .has-notifications {
+    color: rgb(204, 12, 12); /* Cambia el color a rojo */
+  }
+
+  .right-aligned-buttons {
+    margin-left: auto;
+    /* Este estilo mueve el grupo a la derecha */
+    display: flex;
+    gap: 15px;
+    /* Espacio entre los botones alineados a la derecha */
+  }
+}
+
+.search-container {
+  position: relative; // Asegurar que los elementos dentro puedan alinearse correctamente
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-left: 25px;
+  width: 400px; // Ajusta según el diseño deseado
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.search-input {
+  border: none;
+  border-radius: 30px;
+  padding: 10px 15px;
+  flex: 1;
+  font-size: 14px;
+  outline: none;
+  transition: background-color 0.3s ease;
+
+  &:focus {
+    background-color: #f0f4f8;
+  }
+}
+
+.search-button {
+  background-color: black;
+  border: none;
+  border-radius: 50%;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: darken($primary-color, 10%);
+  }
+
+  i {
+    font-size: 18px;
+  }
+}
+
+.search-results {
+  position: absolute;
+  top: calc(100% + 5px); // Coloca la caja justo debajo del input
+  left: 0;
+  width: 100%;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  overflow: hidden;
+  font-size: 15px;
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: #f4f7f6; // Color de fondo al pasar el cursor
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .search-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .search-item:hover {
+    background-color: #f4f7f6;
+  }
+
+  .search-item-img {
+    width: 40px; /* Ajusta el tamaño según prefieras */
+    height: 40px;
+    border-radius: 50%; /* Hacer la imagen circular */
+    margin-right: 15px;
+    object-fit: cover;
+  }
+}
+.profile-image {
+  width: 40px; // Ajusta el tamaño según lo necesario
+  height: 40px; // Ajusta el tamaño según lo necesario
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff; // Opcional: borde blanco alrededor
+  background: white;
+}
+

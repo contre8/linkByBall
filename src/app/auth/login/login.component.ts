@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../auth.service'; // Asegúrate de que la ruta sea correcta
+import { AuthService } from '../../service/auth/auth.service'; // Asegúrate de que la ruta sea correcta
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http'; // Importa HttpClientModule
@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
           this.authService.loginClub(email, password).subscribe(
             response => {
               console.log('Login successful as Club', response);
-              this.router.navigate(['../club/perfil']);
+              this.router.navigate(['../club/home']);
             },
             error => {
               console.error('Login as Club failed, trying as Entrenador', error);

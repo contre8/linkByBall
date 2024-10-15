@@ -1,0 +1,118 @@
+$primary-color: #1f8c7c; // Verde del logo
+$secondary-color: #0c6efd; // Azul del logo
+$background-color: #f4f7f6; // Color de fondo
+$text-color: #000000;
+
+.profile-container {
+  background: linear-gradient(to right, $primary-color, $secondary-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $background-color;
+  
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 100vh; // Ocupar todo el alto de la pantalla
+  box-sizing: border-box; // Incluye padding y border en el alto total
+}
+
+.image-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  margin-top: 85px;
+
+  img {
+    background: $background-color;
+    border-radius: 50%;
+    width: 230px;
+    height: 230px;
+    object-fit: cover;
+  }
+}
+
+.info-container {
+  max-width: 40%;
+  width: 100%;
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+
+  h2 {
+    text-align: center;
+    color: $text-color;
+    margin-bottom: 20px;
+  }
+}
+
+.info-block {
+  display: flex;
+  justify-content: start;
+  margin-bottom: 10px;
+
+  .info-title {
+    font-weight: bold;
+    color: $text-color;
+    margin-right: 7px;
+  }
+
+  .info-data {
+    color: $text-color;
+  }
+
+}
+
+.d-flex {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+    i {
+      margin-right: 8px;
+    }
+
+    &:hover {
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+      transform: translateY(-2px);
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  // Estilo para el botón de editar
+  button[color="primary"] {
+    background-color: #1f8c7c; // Cambia esto si quieres otro color primario
+    color: #fff;
+
+    &:hover {
+      background-color: lighten(#1f8c7c, 10%); // Efecto hover
+    }
+  }
+
+  // Estilo para el botón de eliminar
+  button[color="warn"] {
+    background-color: #dc3545; // Cambia esto si quieres otro color de advertencia
+    color: #fff;
+
+    &:hover {
+      background-color: lighten(#dc3545, 10%);
+    }
+  }
+}
+

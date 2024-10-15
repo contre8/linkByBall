@@ -1,0 +1,291 @@
+<app-navbar></app-navbar>
+
+<app-navbar></app-navbar>
+
+<div class="container search-form">
+  <div class="card search-card shadow-lg p-4">
+    <div class="card-body">
+      <h2 class="text-center mb-4">Buscar Perfiles</h2>
+
+      <!-- Selector de tipo de perfil -->
+      <div class="form-group">
+        <label for="profile-type" class="form-label"><i class="fa fa-users"></i> Buscar por:</label>
+        <select [(ngModel)]="selectedProfileType" id="profile-type" class="form-control"
+          (change)="onProfileTypeChange($event)">
+          <option value="">Selecciona un tipo</option>
+          <option value="futbolista">Futbolista</option>
+          <option value="entrenador">Entrenador</option>
+          <option value="club">Club</option>
+        </select>
+      </div>
+
+      <!-- Filtros dinámicos para Futbolistas -->
+      <div *ngIf="selectedProfileType === 'futbolista'" class="futbolista-filters">
+        <h3 class="text-center mb-4">Filtros para Futbolistas</h3>
+
+        <!-- Filtro de nombre --> <!-- Filtro de posición -->
+        <div class="form-row">
+          <div class="form-group col-md-6 mb-3">
+            <label>Nombre:</label>
+            <input type="text" class="form-control" placeholder="Nombre" (input)="onFilterChange('nombre', $event)">
+          </div>
+          <div class="form-group col-md-6 mb-3">
+            <label>Posición:</label>
+            <select [(ngModel)]="filtros.posicion" class="form-control" (change)="onFilterChange('posicion', $event)">
+              <option value="">Cualquier posición</option>
+              <option *ngFor="let pos of futbolistaPositions" [value]="pos.value">{{ pos.label }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Filtro de club actual --> <!-- Filtro de categoría actual -->
+        <div class="form-row">
+          <div class="form-group col-md-6 mb-3">
+            <label>Club Actual:</label>
+            <input type="text" class="form-control" placeholder="Buscar club" (input)="onClubSearch($event)"
+              [value]="selectedClub?.nombre || ''" (focus)="showClubResults = true" (blur)="hideClubResults()" />
+            <ul *ngIf="clubSearchResults.length > 0 && showClubResults" class="club-results">
+              <li *ngFor="let club of clubSearchResults" (click)="selectClub(club)">
+                <img [src]="club.fotografia?.url || defaultPicture" alt="Logo de {{ club.nombre }}"
+                  class="club-result-img" />
+                {{ club.nombre }}
+              </li>
+            </ul>
+          </div>
+
+          <div class="form-group col-md-6 mb-3">
+            <label>Categoría Actual:</label>
+            <select [(ngModel)]="filtros.categoria" class="form-control"
+              (change)="onFilterChange('categoriaActual', $event)">
+              <option value="">Cualquier categoría</option>
+              <option *ngFor="let categoria of clubCategorias">{{ categoria }}</option>
+            </select>
+          </div>
+        </div>
+
+
+        <!-- Filtro de pierna dominante --> <!-- Filtro de nacionalidad -->
+        <div class="filter-row">
+          <!-- Filtro de edad (edad mínima y máxima en una sola sección) -->
+          <div class="form-group edad-group">
+            <label>Edad:</label>
+            <div class="edad-inputs">
+              <input type="number" class="form-control" placeholder="Edad mínima"
+                (input)="onFilterChange('edadMin', $event)">
+              <input type="number" class="form-control" placeholder="Edad máxima"
+                (input)="onFilterChange('edadMax', $event)">
+            </div>
+          </div>
+
+          <!-- Filtro de pierna dominante -->
+          <div class="form-group col-md-4 mb-3">
+            <label>Pierna Dominante:</label>
+            <select [(ngModel)]="filtros.pierna" class="form-control"
+              (change)="onFilterChange('piernaDominante', $event)">
+              <option value="">Cualquiera</option>
+              <option value="Izquierda">Izquierda</option>
+              <option value="Derecha">Derecha</option>
+              <option value="Ambas">Ambas</option>
+            </select>
+          </div>
+
+          <!-- Filtro de nacionalidad -->
+          <div class="form-group col-md-4 mb-3">
+            <label>Nacionalidad:</label>
+            <input type="text" class="form-control" placeholder="País" (input)="onFilterChange('nacionalidad', $event)">
+          </div>
+        </div>
+
+      </div>
+
+      <div *ngIf="selectedProfileType === 'entrenador'" class="entrenador-filters">
+        <h3>Filtros para Entrenadores</h3>
+
+        <!-- Filtros en dos columnas -->
+        <div class="filter-row">
+          <!-- Filtro por Nombre -->
+          <div class="form-group">
+            <label>Nombre:</label>
+            <input type="text" placeholder="Buscar por nombre" (input)="onFilterChange('nombre', $event)">
+          </div>
+
+          <!-- Filtro por Especialidad -->
+          <div class="form-group">
+            <label>Especialidad:</label>
+            <select [(ngModel)]="filtros.especialidad" (change)="onFilterChange('especialidad', $event)">
+              <option value="">Cualquier especialidad</option>
+              <option *ngFor="let key of getEspecialidadesKeys()" [value]="key">
+                {{ entrenadorEspecialidades[key] }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="filter-row">
+          <!-- Filtro por Años de experiencia -->
+          <div class="form-group">
+            <label>Años de experiencia:</label>
+            <input type="number" placeholder="Años mínimos" (input)="onFilterChange('experienciaMin', $event)">
+          </div>
+
+          <!-- Filtro por Edad -->
+          <div class="form-group edad-group">
+            <label>Edad:</label>
+            <div class="edad-inputs">
+              <input type="number" placeholder="Edad mínima" (input)="onFilterChange('edadMin', $event)">
+              <input type="number" placeholder="Edad máxima" (input)="onFilterChange('edadMax', $event)">
+            </div>
+          </div>
+        </div>
+
+
+        <div class="filter-row">
+          <!-- Filtro por Club Actual -->
+          <div class="form-group col-md-6 mb-3">
+            <label>Club Actual:</label>
+            <input type="text" class="form-control" placeholder="Buscar club" (input)="onClubSearch($event)"
+              [value]="selectedClub?.nombre || ''" (focus)="showClubResults = true" (blur)="hideClubResults()" />
+            <ul *ngIf="clubSearchResults.length > 0 && showClubResults" class="club-results">
+              <li *ngFor="let club of clubSearchResults" (click)="selectClub(club)">
+                <img [src]="club.fotografia?.url || defaultPicture" alt="Logo de {{ club.nombre }}"
+                  class="club-result-img" />
+                {{ club.nombre }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="selectedProfileType === 'club'" class="club-filters">
+        <h3>Filtros para Clubes</h3>
+
+        <!-- Filtros en dos columnas -->
+        <div class="filter-row">
+          <!-- Filtro por Nombre -->
+          <div class="form-group">
+            <label>Nombre:</label>
+            <input type="text" placeholder="Buscar por nombre" (input)="onFilterChange('nombre', $event)">
+          </div>
+
+          <!-- Filtro por Categoría -->
+          <div class="form-group">
+            <label>Categoría:</label>
+            <select (change)="onFilterChange('categoria', $event)">
+              <option value="">Cualquier categoría</option>
+              <option *ngFor="let categoria of clubCategorias">{{ categoria }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="filter-row">
+          <!-- Filtro por Comunidad -->
+          <div class="form-group">
+            <label>Comunidad:</label>
+            <select [(ngModel)]="filtros.comunidad" (change)="onFilterChange('comunidad', $event)"
+              (change)="onComunidadChange($event)">
+              <option value="">Cualquier comunidad</option>
+              <option *ngFor="let comunidad of comunidades">{{ comunidad }}</option>
+            </select>
+          </div>
+
+          <!-- Filtro por Provincia -->
+          <div class="form-group">
+            <label>Provincia:</label>
+            <select [(ngModel)]="filtros.provincia" (change)="onFilterChange('provincia', $event)" class="form-control">
+              <option value="">Cualquier provincia</option>
+              <option *ngFor="let provincia of provincias" [value]="provincia">{{ provincia }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Botón para iniciar la búsqueda -->
+      <div class="d-grid mt-4">
+        <button class="btn btn-primary" (click)="buscar()">
+          <i class="fa fa-search"></i> Buscar
+        </button>
+      </div>
+    </div>
+    <!-- Resultados de Búsqueda -->
+    <div *ngIf="searchResults.length > 0" class="search-results">
+      <h3>Resultados de la búsqueda:</h3>
+
+      <!-- Si el perfil es futbolista -->
+      <div *ngIf="selectedProfileType === 'futbolista'">
+        <div *ngFor="let futbolista of searchResults" class="result-card" (click)="viewSearchProfile(futbolista)">
+          <img [src]="futbolista.fotografia?.url || defaultPicture" alt="Foto de {{ futbolista.nombre }}"
+            class="result-img">
+          <div class="result-info">
+            <h4>{{ futbolista.nombre }} {{ futbolista.apellidos }}</h4>
+            <p>Posiciones: {{ getPosicionLabel(futbolista.posiciones) }}</p>
+            <p>Edad: {{ futbolista.edad }} años</p>
+            <p>Nacionalidad: {{ futbolista.nacionalidad }}</p>
+          </div>
+
+          <!-- Botón de favorito -->
+          <button class="favorite-button" (click)="toggleFavorite(futbolista, $event)">
+            <i class="fa" [ngClass]="futbolista.isFavorite ? 'fa-heart' : 'fa-heart-o'"></i>
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="selectedProfileType === 'entrenador'">
+        <div *ngFor="let entrenador of searchResults" class="result-card" (click)="viewSearchProfile(entrenador)">
+          <img [src]="entrenador.fotografia?.url || defaultPicture" alt="Foto de {{ entrenador.nombre }}"
+            class="result-img">
+          <div class="result-info">
+            <h4>{{ entrenador.nombre }} {{ entrenador.apellidos }}</h4>
+            <p>Especialidades: {{ getEspecialidadesLabels(entrenador.especialidades) }}</p>
+            <p>Edad: {{ entrenador.edad }} años</p>
+          </div>
+
+          <!-- Botón de favorito -->
+          <button class="favorite-button" (click)="toggleFavorite(entrenador, $event)">
+            <i class="fa" [ngClass]="entrenador.isFavorite ? 'fa-heart' : 'fa-heart-o'"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Si el perfil es club -->
+      <div *ngIf="selectedProfileType === 'club'">
+        <div *ngFor="let club of searchResults" class="result-card" (click)="viewSearchProfile(club)">
+          <img [src]="club.fotografia?.url || defaultPicture" alt="Logo de {{ club.nombre }}" class="result-img">
+          <div class="result-info">
+            <h4>{{ club.nombre }}</h4>
+            <p>Categoría: {{ club.categoria }}</p>
+            <p>Ubicación: {{ club.comunidad }}, {{ club.provincia }}</p>
+          </div>
+          <button class="favorite-button" (click)="toggleFavorite(club, $event)">
+            <i class="fa" [ngClass]="club.isFavorite ? 'fa-heart' : 'fa-heart-o'"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Paginador -->
+      <nav *ngIf="totalResults > 10" aria-label="Paginador">
+        <ul class="pagination">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <button class="page-link" (click)="goToPage(currentPage - 1)" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </button>
+          </li>
+
+          <li class="page-item" *ngFor="let page of pages" [class.active]="page === currentPage">
+            <button class="page-link" (click)="goToPage(page)">{{ page }}</button>
+          </li>
+
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <button class="page-link" (click)="goToPage(currentPage + 1)" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+    </div>
+    <!-- Mensaje si no hay resultados -->
+    <div *ngIf="searchResults.length === 0 && searchPerformed" class="no-results">
+      <p>No se encontraron resultados para tu búsqueda.</p>
+    </div>
+  </div>
