@@ -1,0 +1,39 @@
+<app-navbar></app-navbar>
+
+<div class="dashboard-container">
+  <div class="header">
+    <h2 class="text-center mb-4">
+       Mis Solicitudes
+    </h2>
+  </div>
+  <div class="solicitudes-section">
+
+    <!-- Tarjetas de solicitudes -->
+    <div class="solicitud-card" *ngFor="let solicitud of solicitudes">
+      <div class="solicitud-header">
+        <img [src]="solicitud.club.fotografia?.url || defaultPicture" alt="Logo de {{ solicitud.vacante.nombreClub }}" class="club-logo">
+        <h3>{{ solicitud.club.nombre }}</h3>
+      </div>
+
+      <div class="solicitud-info">
+        <p><strong>{{ userType === 'entrenador' ? 'Especialidad:' : 'Posición:' }}</strong> {{ solicitud.vacante.posicion }}</p>
+        <p><strong>Salario:</strong> {{ solicitud.vacante.salario ? solicitud.vacante.salario.toLocaleString('es-ES') + ' €' : 'No especificado' }}</p>
+        <p><strong>Fecha:</strong> {{ solicitud.fecha | date:'short' }}</p>
+        <p><strong>Estado: </strong>
+          <span [ngClass]="{
+            'estado-pendiente': solicitud.estado === 'Pendiente',
+            'estado-en-proceso': solicitud.estado === 'En Proceso',
+            'estado-aceptada': solicitud.estado === 'Aceptada',
+            'estado-rechazada': solicitud.estado === 'Rechazada'
+          }">{{ solicitud.estado }}</span>
+        </p>
+      </div>
+      <div class="solicitud-actions">
+        <button class="btn-cancelar" (click)="cancelarSolicitud(solicitud._id)">
+          Cancelar Solicitud
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

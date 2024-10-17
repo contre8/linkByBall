@@ -89,9 +89,18 @@ export class NavbarComponent {
   }
 
   myVacantes(): void {
-    sessionStorage.removeItem('profileType');
-    sessionStorage.removeItem('searchFilters');
+    sessionStorage.clear();
     this.router.navigate(['club/vacantes-dashboard']);
+  }
+
+  mySolicitudes(): void {
+    sessionStorage.clear();
+    this.router.navigate([`${this.userType}/mis-solicitudes`]);
+  }
+
+  buscarEquipo() {
+    sessionStorage.clear();
+    this.router.navigate([`${this.userType}/buscar-equipo`]);
   }
 
   goToFavorites(): void {
@@ -105,15 +114,12 @@ export class NavbarComponent {
   }
 
   viewNotifications(): void {
-    sessionStorage.removeItem('profileType');
-    sessionStorage.removeItem('searchFilters');
-    // Implementar lógica para ver notificaciones (puede ser un modal o redirigir a una página específica)
+    sessionStorage.clear();
     this.router.navigate(['mis-avisos']);
   }
 
   openChat(): void {
-    sessionStorage.removeItem('profileType');
-    sessionStorage.removeItem('searchFilters');
+    sessionStorage.clear();
     this.router.navigate(['/chat']);
   }
 

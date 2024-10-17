@@ -1,0 +1,132 @@
+$primary-color: #1f8c7c; // Verde del logo
+$secondary-color: #0c6efd; // Azul del logo
+$background-color: #f4f7f6; // Fondo claro
+$text-color: #333;
+$input-background: #ffffff;
+$input-border: #ccc;
+$error-color: #dc3545; // Rojo para errores
+
+:host {
+  display: block;
+  min-height: 95vh;
+  background: linear-gradient(to right, $primary-color, $secondary-color);
+  padding: 20px 0;
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: $input-background;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 80px;
+    max-width: 92%;
+    min-height: 77vh;
+  }
+}
+
+.dashboard-container {
+  background-color: $background-color;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 92%;
+  margin: 0 auto;
+  min-height: 76vh;
+  margin-top: 85px;
+
+  .header {
+    h2 {
+      color: $primary-color;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+  }
+
+  .solicitudes-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .solicitud-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .solicitud-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+
+      .club-logo {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 15px;
+      }
+
+      h3 {
+        font-size: 20px;
+        color: #333;
+        font-weight: bold;
+      }
+    }
+
+    .solicitud-info {
+      p {
+        font-size: 16px;
+        margin: 5px 0;
+        color: #555;
+      }
+
+      .estado-pendiente {
+        color: #ffc107; // Amarillo para pendientes
+        font-weight: bold;
+      }
+
+      .estado-en-proceso {
+        color: #0c6efd; // Azul para en proceso
+        font-weight: bold;
+      }
+
+      .estado-aceptada {
+        color: #1f8c7c; // Verde para aceptadas
+        font-weight: bold;
+      }
+
+      .estado-rechazada {
+        color: #dc3545; // Rojo para rechazadas
+        font-weight: bold;
+      }
+    }
+    .solicitud-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 15px;
+
+      .btn-cancelar {
+        background-color: #dc3545; // Rojo para cancelar
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: darken(#dc3545, 10%);
+        }
+      }
+    }
+  }
+}

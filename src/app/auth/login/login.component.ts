@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit {
               this.authService.loginEntrenador(email, password).subscribe(
                 response => {
                   console.log('Login successful as Entrenador', response);
-                  this.router.navigate(['../entrenador/perfil']);
+                  this.router.navigate(['../entrenador/home']);
                 },
                 error => {
                   console.error('Login as Entrenador failed, trying as Administrador', error);

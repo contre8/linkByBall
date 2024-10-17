@@ -1,0 +1,156 @@
+<app-navbar></app-navbar>
+
+<div class="search-team-container">
+  <!-- Título según el tipo de usuario -->
+  <div class="header">
+    <h2 class="text-center mb-4" *ngIf="userType === 'futbolista'">
+       Vacantes para Futbolistas
+    </h2>
+    <h2 class="text-center mb-4" *ngIf="userType === 'entrenador'">
+       Vacantes para Entrenadores
+    </h2>
+  </div>
+
+  <!-- Filtros generales -->
+  <div class="filter-section">
+    <div class="form-row">
+      <!-- Selector de Nombre del Club (ocupa la mitad del espacio) -->
+      <div class="form-group col-md-6 mb-3">
+        <label>Nombre del Club:</label>
+        <input type="text" class="form-control" placeholder="Buscar club" (input)="onClubSearch($event)"
+          [value]="selectedClub?.nombre || ''" (focus)="showClubResults = true" (blur)="hideClubResults()" />
+        <ul *ngIf="clubSearchResults.length > 0 && showClubResults" class="club-results">
+          <li *ngFor="let club of clubSearchResults" (click)="selectClub(club)">
+            <img [src]="club.fotografia?.url || defaultPicture" alt="Logo de {{ club.nombre }}"
+              class="club-result-img" />
+            {{ club.nombre }}
+          </li>
+        </ul>
+      </div>
+
+      <!-- Selector de Comunidad y Provincia (comparten la otra mitad del espacio) -->
+      <div class="form-group col-md-6 mb-3 d-flex">
+        <!-- Selector de Comunidad (ocupa la mitad del espacio restante) -->
+        <div class="col-md-6 pr-2">
+          <label>Comunidad:</label>
+          <select class="form-control" (change)="onComunidadChange($event)">
+            <option value="">Cualquier comunidad</option>
+            <option *ngFor="let comunidad of comunidades">{{ comunidad }}</option>
+          </select>
+        </div>
+
+        <!-- Selector de Provincia (ocupa la otra mitad del espacio restante) -->
+        <div class="col-md-6">
+          <label>Provincia:</label>
+          <select class="form-control" (change)="onFilterChange('provincia', $event)">
+            <option value="">Cualquier provincia</option>
+            <option *ngFor="let provincia of provincias">{{ provincia }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- </div> -->
+
+    <!-- Filtros específicos para Futbolistas -->
+    <div class="form-row" *ngIf="userType === 'futbolista'">
+      <div class="form-group col-md-3 mb-3" style="margin-left: 15px;">
+        <label>Posición:</label>
+        <select class="form-control" (change)="onFilterChange('posicion', $event)">
+          <option value="">Cualquier posición</option>
+          <option *ngFor="let posicion of futbolistaPositions" [value]="posicion.label">{{ posicion.label }}</option>
+        </select>
+      </div>
+      <div class="form-group col-md-3 mb-3" style="margin-right: 60px;">
+        <label>Categoría:</label>
+        <select class="form-control" (change)="onFilterChange('categoria', $event)">
+          <option value="">Cualquier categoría</option>
+          <option *ngFor="let categoria of categorias">{{ categoria }}</option>
+        </select>
+      </div>
+      <div class="form-group col-md-3 mb-3">
+        <label>Salario Mínimo:</label>
+        <input type="number" class="form-control" placeholder="Salario mínimo" (input)="onFilterChange('salarioMin', $event)">
+      </div>
+      <div class="form-group col-md-3 mb-3">
+        <label>Salario Máximo:</label>
+        <input type="number" class="form-control" placeholder="Salario máximo" (input)="onFilterChange('salarioMax', $event)">
+      </div>
+    </div>
+
+
+    <!-- Filtros específicos para Entrenadores -->
+    <div class="form-row" *ngIf="userType === 'entrenador'">
+      <div class="form-group col-md-3 mb-3" style="margin-left: 15px;">
+        <label>Especialidad:</label>
+        <select class="form-control" (change)="onFilterChange('posicion', $event)">
+          <option value="">Cualquier especialidad</option>
+          <option *ngFor="let key of getEspecialidadesKeys()" [value]="especialidadesEntrenador[key]">
+            {{ especialidadesEntrenador[key] }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group col-md-3 mb-3" style="margin-right: 60px;">
+        <label>Experiencia:</label>
+        <input type="number" class="form-control" placeholder="Años de experiencia" (input)="onFilterChange('experiencia', $event)">
+      </div>
+
+      <div class="form-group col-md-3 mb-3">
+        <label>Salario Mínimo:</label>
+        <input type="number" class="form-control" placeholder="Salario mínimo" (input)="onFilterChange('salarioMin', $event)">
+      </div>
+
+      <div class="form-group col-md-3 mb-3">
+        <label>Salario Máximo:</label>
+        <input type="number" class="form-control" placeholder="Salario máximo" (input)="onFilterChange('salarioMax', $event)">
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Botón para buscar -->
+  <div class="search-button">
+    <button class="btn btn-primary btn-lg btn-block" (click)="buscar()">
+      <i class="fa fa-search"></i> Buscar
+    </button>
+  </div>
+
+  <!-- Resultados de la búsqueda -->
+  <div *ngIf="vacantes.length > 0" class="results-section">
+    <h3>Resultados de la Búsqueda</h3>
+    <ul class="result-list">
+      <!-- Iterar directamente sobre las vacantes, ya que los datos de club están incluidos en cada vacante -->
+      <li *ngFor="let vacante of vacantes" class="result-item">
+        <div class="vacante-card">
+          <div class="vacante-header">
+            <img [src]="vacante.fotografiaUrl || defaultPicture" alt="Logo de {{ vacante.nombreClub }}" class="result-img">
+            <h4>{{ vacante.nombreClub }}</h4>
+          </div>
+          <div class="vacante-info">
+            <p><strong>Categoría:</strong> {{ vacante.categoria }}</p>
+            <p><strong>{{ userType === 'futbolista' ? 'Posición:' : 'Especialidad:' }}</strong> {{ vacante.posicion }}</p>
+            <p><strong>Descripción:</strong> {{ vacante.descripcion || 'No disponible' }}</p>
+            <p><strong>Salario:</strong> {{ vacante.salario ? vacante.salario.toLocaleString('es-ES') + ' €' : 'No especificado' }}</p>
+          </div>
+          <div class="vacante-actions">
+            <button class="btn btn-solicitud" (click)="mandarSolicitud(vacante)">
+              <i class="fa fa-paper-plane"></i> Mandar Solicitud
+            </button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Paginador -->
+  <div *ngIf="total > limit" class="pagination-controls">
+    <button (click)="changePage(page - 1)" [disabled]="page === 1">Anterior</button>
+    <button *ngFor="let p of getPages()" (click)="changePage(p)" [class.active]="p === page">
+      {{ p }}
+    </button>
+    <button (click)="changePage(page + 1)" [disabled]="page === total">Siguiente</button>
+  </div>
+
+  <p *ngIf="vacantes.length === 0 && searchPerformed" class="no-results">No se encontraron resultados.</p>
+</div>

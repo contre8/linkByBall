@@ -110,12 +110,22 @@ $input-border: #ccc;
   }
 }
 
-.form-control:focus {
-  border-color: $primary-color;
-  box-shadow: 0 0 0 0.2rem rgba(31, 140, 124, 0.25);
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  &:focus {
+    outline: none;
+    border-color: #1f8c7c; // Cambia el borde al color primario cuando está enfocado
+    box-shadow: 0 0 5px rgba(31, 140, 124, 0.5); // Sombra verde al enfocarse
+  }
 }
 
-.entrenador-filters, .club-filters {
+.entrenador-filters,
+.club-filters {
   .filter-row {
     display: flex;
     justify-content: space-between;
@@ -135,7 +145,8 @@ $input-border: #ccc;
         display: block;
       }
 
-      input, select {
+      input,
+      select {
         width: 100%;
         padding: 8px;
         font-size: 1rem;
@@ -160,12 +171,17 @@ $input-border: #ccc;
     background-color: #fff;
     padding: 15px;
     border-radius: 10px;
+    position: relative;
+    padding: 15px;
+    border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-bottom: 15px;
+    align-items: center;
+    justify-content: space-between;
 
     .result-img {
-      width: 80px;
-      height: 80px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       object-fit: cover;
       margin-right: 15px;
@@ -177,6 +193,9 @@ $input-border: #ccc;
     }
 
     .result-info {
+      flex: 1;
+      margin-right: 40px;
+
       h4 {
         font-weight: bold;
         margin-bottom: 5px;
@@ -194,21 +213,11 @@ $input-border: #ccc;
 .no-results {
   text-align: center;
   margin-top: 50px;
+
   p {
     color: #ff0000;
     font-size: 18px;
   }
-}
-
-.result-card {
-  position: relative; /* Asegura que el botón de favorito esté posicionado relativo a la tarjeta */
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 .favorite-button {
@@ -219,68 +228,16 @@ $input-border: #ccc;
   font-size: 24px;
   position: absolute;
   top: 10px;
-  right: 10px; /* Asegura que el botón esté en la esquina superior derecha */
-}
+  right: 10px;
 
-.favorite-button .fa-heart-o {
-  color: grey;
-}
-
-.favorite-button .fa-heart {
-  color: red;
-}
-
-.result-info {
-  flex: 1;
-  margin-right: 40px; /* Asegura que el texto no se solape con el botón */
-}
-
-.result-img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 15px;
-}
-
-.filter-row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-
-  .form-group {
-    flex: 1;
-    margin-right: 20px;
-
-    label {
-      font-weight: bold;
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    input {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
+  .favorite-button .fa-heart-o {
+    color: grey;
   }
 
-  .edad-group {
-    display: flex;
-    flex-direction: column;
-
-    .edad-inputs {
-      display: flex;
-      justify-content: space-between;
-
-      input {
-        width: 48%;  // Ajusta el ancho para que ambos campos estén al mismo nivel
-      }
-    }
+  .favorite-button .fa-heart {
+    color: red;
   }
 }
-
 
 .filter-row {
   display: flex;
@@ -298,7 +255,8 @@ $input-border: #ccc;
       margin-bottom: 5px;
     }
 
-    input, select {
+    input,
+    select {
       width: 100%;
       padding: 8px;
       border: 1px solid #ccc;
@@ -351,7 +309,8 @@ $input-border: #ccc;
         margin-bottom: 5px;
       }
 
-      input, select {
+      input,
+      select {
         width: 100%;
         padding: 10px;
         border: 1px solid #ccc;
@@ -401,7 +360,8 @@ $input-border: #ccc;
         margin-bottom: 5px;
       }
 
-      input, select {
+      input,
+      select {
         width: 100%;
         padding: 10px;
         border: 1px solid #ccc;
@@ -451,7 +411,8 @@ $input-border: #ccc;
         margin-bottom: 5px;
       }
 
-      input, select {
+      input,
+      select {
         width: 100%;
         padding: 10px;
         border: 1px solid #ccc;
@@ -474,20 +435,21 @@ $input-border: #ccc;
 }
 
 .form-group {
-  position: relative;  // Asegura que los resultados estén posicionados correctamente dentro del contenedor del input
+  position: relative; // Asegura que los resultados estén posicionados correctamente dentro del contenedor del input
 
   .club-results {
     position: absolute;
-    top: 80%;  // Posiciona la lista justo debajo del input
+    top: 80%; // Posiciona la lista justo debajo del input
     left: 0;
     width: 100%;
-    max-height: 200px;  // Limita la altura de la lista
-    overflow-y: auto;  // Añade un scroll si hay demasiados resultados
+    max-height: 200px; // Limita la altura de la lista
+    overflow-y: auto; // Añade un scroll si hay demasiados resultados
     background-color: #fff;
-    //border: 1px solid #ccc;
     border-radius: 0 0 5px 5px;
-    z-index: 10;  // Asegura que la lista esté sobre otros elementos
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    z-index: 1000;
+    padding: 0; // Eliminar el padding del contenedor de la lista
 
     li {
       display: flex;
@@ -495,7 +457,8 @@ $input-border: #ccc;
       padding: 10px;
       cursor: pointer;
       transition: background-color 0.2s;
-      background-color: transparent;  // Asegura que no haya fondo no deseado
+      background-color: transparent; // Asegura que no haya fondo no deseado
+      margin: 0; // Eliminar márgenes de los elementos de la lista
 
       &:hover {
         background-color: #f0f4f8;
@@ -505,9 +468,9 @@ $input-border: #ccc;
         width: 40px;
         height: 40px;
         border-radius: 50%;
-        margin-right: 10px;
+        margin-right: 10px; // Añadir espacio entre la imagen y el texto
         object-fit: cover;
-        background-color: transparent;  // Elimina cualquier fondo de imagen
+        background-color: transparent; // Elimina cualquier fondo de imagen
       }
 
       span {
@@ -515,51 +478,9 @@ $input-border: #ccc;
         color: #333;
       }
     }
-
   }
 }
 
-// .form-control {
-//   width: 100%;
-//   padding: 10px;
-//   border-radius: 5px;
-//   border: 1px solid #ccc;
-//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-//   &:focus {
-//     outline: none;
-//     border-color: #1f8c7c;  // Cambia el borde al color primario cuando está enfocado
-//     box-shadow: 0 0 5px rgba(31, 140, 124, 0.5);  // Sombra verde al enfocarse
-//   }
-// }
-
-.club-results {
-  position: absolute;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  width: 100%;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 1000;
-
-  li {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #f1f1f1;
-    }
-
-    img.club-result-img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin-right: 10px;
-    }
-  }
-}
 
 .pagination {
   display: flex;
@@ -621,6 +542,7 @@ $input-border: #ccc;
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }

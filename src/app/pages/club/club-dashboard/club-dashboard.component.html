@@ -29,7 +29,7 @@
             <h3>{{ vacante.posicion }}</h3>
           </div>
           <div class="vacante-body">
-            <p><strong>Salario:</strong> {{ vacante.salario ? vacante.salario + ' €' : 'No especificado' }}</p>
+            <p><strong>Salario:</strong> {{ vacante.salario ? vacante.salario.toLocaleString('es-ES') + ' €' : 'No especificado' }}</p>
             <p><strong>Descripción:</strong> {{ vacante.descripcion || 'No hay descripción disponible.' }}</p>
           </div>
           <div class="vacante-actions">
