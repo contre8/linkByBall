@@ -6,16 +6,15 @@
 
   <!-- Sección de avisos -->
   <div class="avisos-secciones" *ngIf="!isLoading && !hasError">
-
-    <div *ngIf="avisos.length === 0" class="no-avisos-message">
+    <div *ngIf="currentAvisos.length === 0" class="no-avisos-message">
       <h3>No tienes avisos nuevos.</h3>
       <p>No se han registrado cambios en los perfiles de tus favoritos.</p>
     </div>
 
-    <div class="avisos-grid" *ngIf="avisos.length > 0">
+    <div class="avisos-grid" *ngIf="currentAvisos.length > 0">
       <div
         class="aviso-card"
-        *ngFor="let aviso of avisos"
+        *ngFor="let aviso of currentAvisos"
         [ngClass]="{'unseen': !aviso.visto}"
         (click)="marcarComoVisto(aviso)">
         <img [src]="aviso.perfil?.fotografia?.url || defaultPicture" alt="Imagen de {{ aviso.perfil?.nombre }}" class="aviso-img">
@@ -34,7 +33,12 @@
       </div>
     </div>
 
-
+    <!-- Paginador -->
+    <div class="pagination" *ngIf="totalPages > 1">
+      <button [disabled]="currentPage === 1" (click)="setPage(currentPage - 1)">Anterior</button>
+      <span>Página {{ currentPage }} de {{ totalPages }}</span>
+      <button [disabled]="currentPage === totalPages" (click)="setPage(currentPage + 1)">Siguiente</button>
+    </div>
   </div>
 
   <div *ngIf="isLoading" class="loading">
