@@ -80,5 +80,8 @@ export class MisAvisosComponent implements OnInit {
     }
   }
 
+  verSolicitudes(vacanteId: string) {
+    this.router.navigate([`/club/vacante/${vacanteId}`]);
+  }
 
 }

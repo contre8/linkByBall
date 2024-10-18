@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 //import { VacanteService } from '../vacante.service';
 import { AuthService } from '../../../../service/auth/auth.service';
 import { NavbarComponent } from '../../../navbar/navbar.component';
+import { SolicitudService } from '../../../../service/solicitudes.service';
 
 @Component({
   selector: 'app-dashboard-vacantes',
@@ -22,7 +23,8 @@ export class DashboardVacantesComponent implements OnInit {
     //private vacanteService: VacanteService,
     private router: Router,
     private authService: AuthService,
-    private clubService: ClubService
+    private clubService: ClubService,
+    private solicitudService: SolicitudService,
   ) {}
 
   ngOnInit(): void {
@@ -75,5 +77,9 @@ export class DashboardVacantesComponent implements OnInit {
         }
       );
     }
+  }
+
+  verSolicitudes(vacanteId: string): void {
+    this.router.navigate([`/club/vacante/${vacanteId}`]);
   }
 }

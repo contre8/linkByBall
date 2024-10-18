@@ -23,6 +23,7 @@ export class DashboardClubComponent implements OnInit {
   isLoading: boolean = true;
   clubId: string = '';
   defaultPicture: string = '../../../../default-picture-profile.jpg'; // Imagen por defecto si no tiene foto
+  solicitudes: number = 0;
 
 
   constructor(
@@ -36,7 +37,7 @@ export class DashboardClubComponent implements OnInit {
     this.authService.getClubProfile().subscribe(
       (clubData) => {
         this.clubId = clubData._id;
-
+        this.solicitudes = clubData.solicitudes?.length;
         // Cargar todas las secciones
         this.loadVacantes();
         this.loadAvisos();

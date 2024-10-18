@@ -12,7 +12,7 @@ export class SolicitudService {
 
   // Método para crear una nueva solicitud
   createSolicitud(solicitudData: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/`, solicitudData);
+    return this.http.post(`${this.baseUrl}/crear`, solicitudData);
   }
 
   // Método para obtener todas las solicitudes
@@ -37,6 +37,10 @@ export class SolicitudService {
 
   getSolicitudesByUser(userId: string, userType: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/user/${userType}/${userId}`);
+  }
+
+  getSolicitudesByVacante(vacanteId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/vacante/${vacanteId}`);
   }
 }
 
