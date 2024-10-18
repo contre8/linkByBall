@@ -96,6 +96,10 @@ export class DashboardClubComponent implements OnInit {
     }
   }
 
+  verSolicitudes(vacanteId: string) {
+    this.router.navigate([`/club/vacante/${vacanteId}`]);
+  }
+
   crearNuevaVacante(): void {
     this.router.navigate(['/vacante/create']);
   }
