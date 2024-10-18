@@ -27,6 +27,9 @@
           <button class="btn btn-primary ver-perfil-btn" (click)="verPerfil(aviso.perfilId, aviso.tipoPerfil)">
             Ver perfil
           </button>
+          <button *ngIf="aviso.vacante" class="btn btn-primary ver-solicitudes-btn" (click)="verSolicitudes(aviso.vacante)">
+            Ver solicitudes
+          </button>
         </div>
       </div>
     </div>
