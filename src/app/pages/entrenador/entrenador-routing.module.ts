@@ -5,7 +5,7 @@ import { ModifyEntrenadorComponent } from './modify-entrenador/modify-entrenador
 import { ExternalProfileComponent } from './external-profile/external-profile.component';
 import { FavoritosComponent } from '../favoritos/favoritos.component';
 import { MisSolicitudesComponent } from '../solicitudes/mis-solicitudes.component';
-import { BuscarVacantesComponent } from '../buscar-vacantes/buscar-vacantes/buscar-vacantes.component';
+import { BuscarVacantesComponent } from '../buscar-vacantes/buscar-vacantes.component';
 import { EntrenadorDashboardComponent } from './entrenador-dashboard/entrenador-dashboard.component';
 
 const routes: Routes = [

@@ -1,3 +1,4 @@
+import { SolicitudService } from './../../../../service/solicitudes/solicitudes.service';
 import { ClubService } from './../../../../service/club/club.service';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -6,7 +7,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 //import { VacanteService } from '../vacante.service';
 import { AuthService } from '../../../../service/auth/auth.service';
 import { NavbarComponent } from '../../../navbar/navbar.component';
-import { SolicitudService } from '../../../../service/solicitudes.service';
 
 @Component({
   selector: 'app-dashboard-vacantes',

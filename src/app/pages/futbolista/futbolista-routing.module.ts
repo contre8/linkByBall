@@ -6,7 +6,7 @@ import { ExternalProfileComponent } from './external-profile/external-profile.co
 import { FutbolistaDashboardComponent } from './futbolista-dashboard/futbolista-dashboard/futbolista-dashboard.component';
 import { FavoritosComponent } from '../favoritos/favoritos.component';
 import { MisSolicitudesComponent } from '../solicitudes/mis-solicitudes.component';
-import { BuscarVacantesComponent } from '../buscar-vacantes/buscar-vacantes/buscar-vacantes.component';
+import { BuscarVacantesComponent } from '../buscar-vacantes/buscar-vacantes.component';
 
 const routes: Routes = [
   { path: 'futbolista/perfil', component: ProfileComponent },

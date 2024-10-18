@@ -1,5 +1,5 @@
+import { SolicitudService } from './../../../service/solicitudes/solicitudes.service';
 import { Component, OnInit } from '@angular/core';
-import { SolicitudService } from '../../../service/solicitudes.service';
 import { NavbarComponent } from '../../navbar/navbar.component';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';

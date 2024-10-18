@@ -1,18 +1,18 @@
+import { SolicitudService } from './../../service/solicitudes/solicitudes.service';
 import { CommonModule } from '@angular/common';
-import { SearchService } from './../../../service/search/search.service';
+import { SearchService } from '../../service/search/search.service';
 import { Component } from '@angular/core';
-import { NavbarComponent } from '../../navbar/navbar.component';
+import { NavbarComponent } from '../navbar/navbar.component';
 import { OnInit } from '@angular/core';
-import { POSICIONES_FUTBOLISTAS } from '../../../const/posiciones-futbolista.const';
-import { ESPECIALIDADES_ENTRENADOR } from '../../../const/especialidades-entrenador.const';
-import { COMUNIDADES_AUTONOMAS } from '../../../const/comunidades.const';
-import { DIVISIONES_FUTBOL_SENIOR } from '../../../const/categorias.const';
-import { PROVINCIAS_POR_COMUNIDAD } from '../../../const/provincias.const';
-import { VacantesService } from '../../../service/vacantes/vacantes.service';
+import { POSICIONES_FUTBOLISTAS } from '../../const/posiciones-futbolista.const';
+import { ESPECIALIDADES_ENTRENADOR } from '../../const/especialidades-entrenador.const';
+import { COMUNIDADES_AUTONOMAS } from '../../const/comunidades.const';
+import { DIVISIONES_FUTBOL_SENIOR } from '../../const/categorias.const';
+import { PROVINCIAS_POR_COMUNIDAD } from '../../const/provincias.const';
+import { VacantesService } from '../../service/vacantes/vacantes.service';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { SolicitudService } from '../../../service/solicitudes.service';
-import { AuthService } from '../../../service/auth/auth.service';
+import { AuthService } from '../../service/auth/auth.service';
 
 
 interface Vacante {

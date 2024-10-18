@@ -1,4 +1,4 @@
-import { SolicitudService } from './../../service/solicitudes.service';
+import { SolicitudService } from './../../service/solicitudes/solicitudes.service';
 import { Component } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { OnInit } from '@angular/core';
