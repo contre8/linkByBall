@@ -26,14 +26,16 @@ export class SolicitudService {
   }
 
   // Método para cambiar el estado de una solicitud por ID
-  cambiarEstadoSolicitud(id: string, estado: string): Observable<any> {
-    return this.http.put(`${this.baseUrl}/${id}/estado`, { estado });
+  cambiarEstadoSolicitud(id: string, estado: string, vacante:string): Observable<any> {
+    return this.http.put(`${this.baseUrl}/${id}/estado`, { estado, vacante });
   }
 
   // Método para eliminar una solicitud por ID
-  deleteSolicitud(id: string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`);
-  }
+  deleteSolicitud(id: string, perfilId: string): Observable<any> {
+    return this.http.request('delete', `${this.baseUrl}/${id}`, {
+        body: { perfilId }
+    });
+}
 
   getSolicitudesByUser(userId: string, userType: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/user/${userType}/${userId}`);

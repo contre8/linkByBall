@@ -134,7 +134,9 @@
             <p><strong>Salario:</strong> {{ vacante.salario ? vacante.salario.toLocaleString('es-ES') + ' €' : 'No especificado' }}</p>
           </div>
           <div class="vacante-actions">
-            <button class="btn btn-solicitud" (click)="mandarSolicitud(vacante)">
+            <button class="btn btn-solicitud"
+                    (click)="mandarSolicitud(vacante)"
+                    [disabled]="haEnviadoSolicitud(vacante.vacanteId)">
               <i class="fa fa-paper-plane"></i> Mandar Solicitud
             </button>
           </div>

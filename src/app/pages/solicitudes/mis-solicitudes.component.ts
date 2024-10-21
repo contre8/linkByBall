@@ -16,6 +16,7 @@ export class MisSolicitudesComponent implements OnInit {
   solicitudes: any[] = [];
   defaultPicture: string = '../../../../default-picture-profile.jpg'; // Imagen por defecto si no tiene foto
   userType: string = localStorage.getItem('userType') || ''; // Si es null, asigna una cadena vacía
+  userId: string = '';
 
   constructor(private solicitudService: SolicitudService, private authService: AuthService) {}
 
@@ -26,8 +27,8 @@ export class MisSolicitudesComponent implements OnInit {
   loadSolicitudes(): void {
     this.authService.getProfile().subscribe(
       (userData) => {
-        const userId = userData._id;
-        this.solicitudService.getSolicitudesByUser(userId, this.userType).subscribe(
+        this.userId = userData._id;
+        this.solicitudService.getSolicitudesByUser(this.userId, this.userType).subscribe(
           (solicitudes) => {
             this.solicitudes = solicitudes;
           },
@@ -44,7 +45,7 @@ export class MisSolicitudesComponent implements OnInit {
 
   cancelarSolicitud(solicitudId: string): void {
     if (confirm('¿Estás seguro de que quieres cancelar esta solicitud?')) {
-      this.solicitudService.deleteSolicitud(solicitudId).subscribe(
+      this.solicitudService.deleteSolicitud(solicitudId, this.userId).subscribe(
         () => {
           console.log('Solicitud cancelada');
           // Elimina la solicitud de la lista local

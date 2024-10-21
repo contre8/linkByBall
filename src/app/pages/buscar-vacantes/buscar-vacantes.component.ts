@@ -90,8 +90,10 @@ export class BuscarVacantesComponent implements OnInit {
   userId: string = '';
   filtros: any = {};
   searchResults: any[] = [];
+  solicitudes: any[] = [];
   searchPerformed: boolean = false;
   defaultPicture: string = '../../../../default-picture-profile.jpg'; // Imagen por defecto si no tiene foto
+  solicitudesEnviadas: Set<string> = new Set(); // Usar un Set para almacenar los IDs de vacantes con solicitudes enviadas
 
   constructor(
     private vacantesService: VacantesService,
@@ -103,7 +105,9 @@ export class BuscarVacantesComponent implements OnInit {
   ngOnInit(): void {
     this.authService.getProfile().subscribe(
       (userData) => {
-        this.userId = userData._id;      },
+        this.userId = userData._id;
+        this.solicitudes = userData.solicitudes;
+      },
       (error) => {
         console.error('Error al obtener el perfil del usuario', error);
       }
@@ -184,6 +188,14 @@ export class BuscarVacantesComponent implements OnInit {
     return pages;
   }
 
+  // Método para verificar si ya se ha enviado una solicitud a la vacante
+  haEnviadoSolicitud(vacanteId: string): boolean {
+    if (this.solicitudesEnviadas.has(vacanteId)) {
+      return true;
+    }
+    return this.solicitudes.some(solicitud => solicitud.vacante === vacanteId);
+  }
+
   // Navegar al perfil del resultado
   verPerfil(result: any): void {
     // Navega a la página del perfil del equipo
@@ -228,6 +240,8 @@ export class BuscarVacantesComponent implements OnInit {
   }
 
   mandarSolicitud(vacante: any): void {
+    this.solicitudesEnviadas.add(vacante.vacanteId);
+
     const solicitudData = {
       solicitante: {
         id: this.userId, // ID del solicitante (futbolista o entrenador)
@@ -242,11 +256,10 @@ export class BuscarVacantesComponent implements OnInit {
     // Enviar la solicitud al servidor
     this.solicitudService.createSolicitud(solicitudData).subscribe(
       (response) => {
-        console.log('Solicitud enviada con éxito:', response);
         alert('¡Solicitud enviada con éxito!');
+        this.haEnviadoSolicitud(solicitudData.vacante)
       },
       (error) => {
-        console.error('Error al enviar la solicitud:', error);
         alert('Hubo un problema al enviar la solicitud.');
       }
     );

@@ -24,4 +24,9 @@ export class VacantesService {
     // Hacer la solicitud POST con el body
     return this.http.post(`${this.baseUrl}/filtrar-vacantes`, body);
   }
+
+  getVacanteById(id: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/vacante/${id}`);
+  }
+
 }

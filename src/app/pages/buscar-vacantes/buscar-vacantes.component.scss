@@ -10,7 +10,7 @@ $error-color: #dc3545; // Rojo para errores
   display: block;
   min-height: 95vh;
   background: linear-gradient(to right, $primary-color, $secondary-color);
-  padding: 20px 0;
+  padding: 19.5px 0;
 
   .container {
     max-width: 900px;
@@ -249,6 +249,7 @@ $error-color: #dc3545; // Rojo para errores
       flex-direction: column;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       width: 100%;
+      justify-content: space-between;
 
       // &:hover {
       //   transform: translateY(-5px);
@@ -285,36 +286,63 @@ $error-color: #dc3545; // Rojo para errores
         }
       }
 
-      // Estilo del botón "Mandar Solicitud"
+      .vacante-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; // Distribuir el contenido para que los botones estén alineados
+        height: 100%; // Asegurar que cada tarjeta tenga la misma altura
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin: 15px;
+      }
+
+      .vacante-details {
+        flex: 1; // Tomar todo el espacio disponible
+      }
+
       .vacante-actions {
         display: flex;
         justify-content: flex-end;
-        margin-top: 25px;
+        margin-top: 15px;
+      }
 
-        .btn-solicitud {
-          background-color: #1f8c7c; // Color verde acorde al diseño
-          color: white;
-          padding: 10px 15px;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-          font-size: 16px;
-          transition: background-color 0.3s ease, transform 0.2s ease;
-          display: flex;
-          align-items: center;
+      .btn-solicitud {
+        background-color: #1f8c7c; // Color verde acorde al diseño
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        display: flex;
+        align-items: center;
 
-          i {
-            margin-right: 8px; // Espacio entre el icono y el texto
-          }
+        i {
+          margin-right: 8px; // Espacio entre el icono y el texto
+        }
+
+        &:hover {
+          background-color: darken(#1f8c7c, 10%);
+          transform: translateY(-3px); // Efecto de elevación al pasar el ratón
+        }
+
+        &:active {
+          background-color: darken(#1f8c7c, 15%);
+          transform: translateY(0); // Eliminar elevación cuando se hace clic
+        }
+
+        &:disabled {
+          background-color: #ccc; // Color gris para indicar que está deshabilitado
+          color: #666; // Color de texto más claro
+          cursor: not-allowed; // Cambiar el cursor para mostrar que no se puede hacer clic
+          transform: none; // Eliminar cualquier efecto de elevación
 
           &:hover {
-            background-color: darken(#1f8c7c, 10%);
-            transform: translateY(-3px); // Efecto de elevación al pasar el ratón
-          }
-
-          &:active {
-            background-color: darken(#1f8c7c, 15%);
-            transform: translateY(0); // Eliminar elevación cuando se hace clic
+            background-color: #ccc; // Mantener el mismo color en hover para disabled
+            transform: none; // Sin efecto de elevación en hover para disabled
           }
         }
       }
@@ -334,7 +362,7 @@ $error-color: #dc3545; // Rojo para errores
   }
 
   .form-control {
-    padding: 10px;  // Aumentar el padding para dar más espacio dentro de los inputs
+    padding: 10px; // Aumentar el padding para dar más espacio dentro de los inputs
   }
 }
 
@@ -372,6 +400,3 @@ $error-color: #dc3545; // Rojo para errores
     }
   }
 }
-
-
-

@@ -10,7 +10,7 @@ $error-color: #dc3545; // Rojo para errores
   display: block;
   min-height: 95vh;
   background: linear-gradient(to right, $primary-color, $secondary-color);
-  padding: 20px 0;
+  padding: 19.5px 0;
 
   .container {
     max-width: 900px;
@@ -21,7 +21,7 @@ $error-color: #dc3545; // Rojo para errores
     padding: 20px;
     margin-top: 80px;
     max-width: 92%;
-    min-height: 77vh;
+    min-height: 76vh;
   }
 }
 
@@ -32,7 +32,7 @@ $error-color: #dc3545; // Rojo para errores
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 92%;
   margin: 0 auto;
-  min-height: 76vh;
+  min-height: 75vh;
   margin-top: 85px;
 
   .header {
@@ -125,6 +125,15 @@ $error-color: #dc3545; // Rojo para errores
 
         &:hover {
           background-color: darken(#dc3545, 10%);
+        }
+
+        &:disabled {
+          background-color: #ccc; // Cambia el color de fondo cuando está deshabilitado
+          color: #666; // Color de texto más claro para indicar deshabilitado
+          cursor: not-allowed; // Cambiar el cursor para mostrar que no se puede hacer clic
+          &:hover {
+            background-color: #ccc; // Mantener el mismo color en hover cuando está deshabilitado
+          }
         }
       }
     }

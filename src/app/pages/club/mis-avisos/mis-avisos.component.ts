@@ -62,6 +62,7 @@ export class MisAvisosComponent implements OnInit {
     const startIndex = (page - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     this.currentAvisos = this.avisos.slice(startIndex, endIndex);
+    console.log(this.currentAvisos)
   }
 
   get totalPages(): number {

@@ -29,7 +29,10 @@
         </p>
       </div>
       <div class="solicitud-actions">
-        <button class="btn-cancelar" (click)="cancelarSolicitud(solicitud._id)">
+        <button
+          class="btn-cancelar"
+          (click)="cancelarSolicitud(solicitud._id)"
+          [disabled]="solicitud.estado === 'Aceptada' || solicitud.estado === 'Rechazada'">
           Cancelar Solicitud
         </button>
       </div>
