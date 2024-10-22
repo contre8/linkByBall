@@ -48,6 +48,12 @@ $error-color: #dc3545;
     width: 100%; // Asegurar que se ajusta al contenedor
     max-width: 350px; // Reducir el máximo para evitar desbordamiento y que las tarjetas sean más uniformes
     margin: 0 auto; // Centrar tarjetas dentro de cada celda de la cuadrícula
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
 
     .solicitante-info {
       display: flex;

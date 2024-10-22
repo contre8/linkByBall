@@ -4,6 +4,7 @@ import { NavbarComponent } from '../../navbar/navbar.component';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { VacantesService } from '../../../service/vacantes/vacantes.service';
+import { Router } from '@angular/router';
 
 interface Solicitud {
   _id: string;
@@ -18,10 +19,12 @@ interface Solicitud {
     };
   };
   solicitanteDatos: {
-    id: string;
+    _id: string;
     nombre: string;
     apellidos: string;
     edad: number;
+    email: string;
+    nacionalidad: string;
     tipo: string; // 'futbolista' o 'entrenador'
     fotografia: {
       url: string;
@@ -46,7 +49,7 @@ export class GestSolicitudesComponent implements OnInit {
   vacanteId: string = ''; // ID de la vacante seleccionada
   defaultPicture: string = '../../../../default-picture-profile.jpg'; // Imagen por defecto si no tiene foto
 
-  constructor(private solicitudService: SolicitudService,private route: ActivatedRoute, private vacantesService: VacantesService) {}
+  constructor(private solicitudService: SolicitudService,private route: ActivatedRoute, private vacantesService: VacantesService, private router: Router) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -89,4 +92,15 @@ export class GestSolicitudesComponent implements OnInit {
       }
     );
   }
+
+  verPerfil(id: string, tipo: string): void {
+    if (tipo === 'futbolista') {
+      this.router.navigate(['/futbolista/perfil', id]);
+    } else if (tipo === 'entrenador') {
+      this.router.navigate(['/entrenador/perfil', id]);
+    } else if (tipo === 'club') {
+      this.router.navigate(['/club/perfil', id]);
+    }
+  }
+
 }

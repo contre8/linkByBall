@@ -57,6 +57,23 @@ $error-color: #dc3545; // Rojo para errores
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 
+    // Colores dinámicos basados en el estado de la solicitud
+  &.card-pendiente {
+    background-color: #fff3cd; // Color amarillo claro para pendientes
+  }
+
+  &.card-en-proceso {
+    background-color: #cce5ff; // Color azul claro para en proceso
+  }
+
+  &.card-aceptada {
+    background-color: #d4edda; // Color verde claro para aceptadas
+  }
+
+  &.card-rechazada {
+    background-color: #f8d7da; // Color rojo claro para rechazadas
+  }
+
     &:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
@@ -136,6 +153,48 @@ $error-color: #dc3545; // Rojo para errores
           }
         }
       }
+    }
+  }
+}
+
+.no-solicitudes-message {
+  text-align: center;
+  padding: 40px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  //margin-top: 30px;
+
+  .no-solicitudes-image {
+    width: 200px;
+    margin-bottom: 20px;
+    opacity: 0.8;
+  }
+
+  h3 {
+    color: #1f8c7c; // Color primario
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  p {
+    color: #777;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  .start-search-btn {
+    background-color: #0c6efd; // Color azul del logo
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: darken(#0c6efd, 10%);
     }
   }
 }

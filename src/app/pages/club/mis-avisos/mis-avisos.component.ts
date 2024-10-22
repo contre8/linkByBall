@@ -21,6 +21,7 @@ export class MisAvisosComponent implements OnInit {
   currentPage: number = 1;
   currentAvisos: any[] = [];
   itemsPerPage: number = 7;
+  userType: string = localStorage.getItem('userType') || ''; // Si es null, asigna una cadena vacía
 
   constructor(private avisosService: AvisosService, private authService: AuthService, private router: Router) { }
 

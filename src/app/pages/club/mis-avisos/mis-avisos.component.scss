@@ -44,8 +44,8 @@ $text-color: #000000;
 
     .avisos-grid {
       width: 100%;
-      max-width: 70%;  // Ajusta el ancho máximo para centrar
-      margin: 0 auto;     // Centra el contenedor dentro de su padre
+      max-width: 70%; // Ajusta el ancho máximo para centrar
+      margin: 0 auto; // Centra el contenedor dentro de su padre
       display: flex;
       flex-direction: column;
       gap: 15px;
@@ -53,7 +53,8 @@ $text-color: #000000;
     }
 
     .aviso-card.unseen {
-      background-color: #ffe6e6; /* Rojo claro si no está visto */
+      background-color: #ffe6e6;
+      /* Rojo claro si no está visto */
     }
 
     .aviso-card {
@@ -135,32 +136,46 @@ $text-color: #000000;
       }
     }
   }
+}
 
-  // Mensaje cuando no hay avisos
-  .no-avisos-message {
-    text-align: center;
+.no-avisos-message {
+  text-align: center;
+  padding: 40px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  //margin-top: 30px;
 
-    h3 {
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
+  .no-avisos-image {
+    width: 200px;
+    margin-bottom: 20px;
+    opacity: 0.8;
+  }
 
-    p {
-      font-size: 16px;
-      margin-bottom: 20px;
-    }
+  h3 {
+    color: #1f8c7c; // Color primario
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
 
-    .start-search-btn {
-      padding: 10px 20px;
-      background-color: $secondary-color;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
+  p {
+    color: #777;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
 
-      &:hover {
-        background-color: darken($secondary-color, 10%);
-      }
+  .start-search-btn {
+    background-color: #0c6efd; // Color azul del logo
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: darken(#0c6efd, 10%);
     }
   }
 }
@@ -200,4 +215,3 @@ $text-color: #000000;
     font-weight: bold;
   }
 }
-

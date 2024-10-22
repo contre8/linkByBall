@@ -42,6 +42,9 @@
           </div>
         </div>
       </div>
+      <div *ngIf="vacantes.length === 0">
+        <p>No tienes vacantes activas.</p>
+      </div>
     </div>
 
     <!-- Sección de Avisos -->

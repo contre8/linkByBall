@@ -4,13 +4,13 @@
   <h2 class="avisos-title">Mis Avisos</h2>
   <hr class="separator" style="margin-bottom: 20px;">
 
+  <div *ngIf="currentAvisos.length === 0" class="no-avisos-message">
+    <h3>No tienes avisos nuevos.</h3>
+    <p>No se han registrado cambios en los perfiles de tus favoritos, solicitudes nuevas...</p>
+  </div>
+
   <!-- Sección de avisos -->
   <div class="avisos-secciones" *ngIf="!isLoading && !hasError">
-    <div *ngIf="currentAvisos.length === 0" class="no-avisos-message">
-      <h3>No tienes avisos nuevos.</h3>
-      <p>No se han registrado cambios en los perfiles de tus favoritos.</p>
-    </div>
-
     <div class="avisos-grid" *ngIf="currentAvisos.length > 0">
       <div
         class="aviso-card"
@@ -26,9 +26,9 @@
           <button class="btn btn-primary ver-perfil-btn" (click)="verPerfil(aviso.perfilId, aviso.tipoPerfil)">
             Ver perfil
           </button>
-          <button *ngIf="aviso.vacante" class="btn btn-primary ver-solicitudes-btn" (click)="verSolicitudes(aviso.vacante)">
+          <button *ngIf="aviso.vacante && userType === 'club'" class="btn btn-primary ver-solicitudes-btn" (click)="verSolicitudes(aviso.vacante)">
             Ver solicitudes
-          </button>
+        </button>        
         </div>
       </div>
     </div>

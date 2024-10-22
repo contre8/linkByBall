@@ -4,6 +4,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { OnInit } from '@angular/core';
 import { AuthService } from '../../service/auth/auth.service';
 import { CommonModule } from '@angular/common';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-mis-solicitudes',
@@ -18,7 +19,7 @@ export class MisSolicitudesComponent implements OnInit {
   userType: string = localStorage.getItem('userType') || ''; // Si es null, asigna una cadena vacía
   userId: string = '';
 
-  constructor(private solicitudService: SolicitudService, private authService: AuthService) {}
+  constructor(private solicitudService: SolicitudService, private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadSolicitudes();
@@ -58,5 +59,9 @@ export class MisSolicitudesComponent implements OnInit {
         }
       );
     }
+  }
+
+  goToSearch(): void {
+    this.router.navigate([`${this.userType}/buscar-equipo`]);
   }
 }
