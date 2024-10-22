@@ -66,13 +66,20 @@ export class RegisterClubComponent implements OnInit {
         formData.append('fotografia', fileInput);
       }
 
+      const email = this.registerForm.get('email')?.value;
+      const password = this.registerForm.get('password')?.value;
+
       this.authService.registerClub(formData).subscribe(
         response => {
-          console.log('Registration successful', response);
-          this.router.navigate(['/dashboard']);
-        },
-        error => {
-          console.error('Registration failed', error);
+          this.authService.loginClub(email, password).subscribe(
+            loginResponse => {
+              console.log('Login successful as Club', loginResponse);
+              this.router.navigate(['../club/home']);
+            },
+            loginError => {
+              console.error('Login as Club failed', loginError);
+            }
+          );
         }
       );
     }

@@ -135,11 +135,23 @@ export class RegisterFutbolistaComponent implements OnInit {
 
       formData.append('nacionalidad', this.registerForm.get('nacionalidad')?.value);
 
+      // Obtener el email y password para el login después del registro
+      const email = this.registerForm.get('email')?.value;
+      const password = this.registerForm.get('password')?.value;
+
       // Llamada al servicio de autenticación para registrar al futbolista
       this.authService.registerFutbolista(formData).subscribe(
         response => {
-          console.log('Registro exitoso', response);
-          this.router.navigate(['/dashboard']);
+          // Intentar iniciar sesión después del registro
+          this.authService.loginFutbolista(email, password).subscribe(
+            loginResponse => {
+              console.log('Login successful as Futbolista', loginResponse);
+              this.router.navigate(['../futbolista/home']);
+            },
+            loginError => {
+              console.error('Login as Futbolista failed, trying as Club', loginError);
+            }
+          );
         },
         error => {
           console.error('Error en el registro', error);
@@ -147,6 +159,7 @@ export class RegisterFutbolistaComponent implements OnInit {
       );
     }
   }
+
 
   onPositionChange(event: any) {
     const position = event.target.value;

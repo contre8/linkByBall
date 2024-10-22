@@ -97,10 +97,20 @@ export class RegisterEntrenadorComponent implements OnInit {
       formData.append('categoriasEspecialidad', JSON.stringify(this.registerForm.get('categoriasEspecialidad')?.value));
       formData.append('nacionalidad', this.registerForm.get('nacionalidad')?.value);
 
+      const email = this.registerForm.get('email')?.value;
+      const password = this.registerForm.get('password')?.value;
+
       this.authService.registerEntrenador(formData).subscribe(
         response => {
-          console.log('Registro exitoso', response);
-          this.router.navigate(['/dashboard']);
+          this.authService.loginEntrenador(email, password).subscribe(
+            loginResponse => {
+              console.log('Login successful as Entrenador', loginResponse);
+              this.router.navigate(['../entrenador/home']);
+            },
+            loginError => {
+              console.error('Login as Entrenador failed', loginError);
+            }
+          );
         },
         error => {
           console.error('Error en el registro', error);
