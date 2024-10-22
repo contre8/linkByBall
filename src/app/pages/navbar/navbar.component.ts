@@ -120,7 +120,7 @@ export class NavbarComponent {
 
   openChat(): void {
     sessionStorage.clear();
-    this.router.navigate(['/chat']);
+    this.router.navigate(['chat']);
   }
 
   viewProfile(): void {

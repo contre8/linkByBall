@@ -7,6 +7,7 @@ import { FavoritosComponent } from '../favoritos/favoritos.component';
 import { MisSolicitudesComponent } from '../solicitudes/mis-solicitudes.component';
 import { BuscarVacantesComponent } from '../buscar-vacantes/buscar-vacantes.component';
 import { EntrenadorDashboardComponent } from './entrenador-dashboard/entrenador-dashboard.component';
+import { ChatComponent } from '../chat/chat.component';
 
 const routes: Routes = [
   { path: 'entrenador/perfil', component: ProfileEntrenadorComponent },
@@ -16,6 +17,8 @@ const routes: Routes = [
   { path: 'entrenador/mis-solicitudes', component: MisSolicitudesComponent},
   { path: 'entrenador/buscar-equipo', component: BuscarVacantesComponent},
   { path: 'entrenador/home', component: EntrenadorDashboardComponent},
+  { path: 'chat/:id', component: ChatComponent},
+  { path: 'chat', component: ChatComponent}
 ];
 
 @NgModule({

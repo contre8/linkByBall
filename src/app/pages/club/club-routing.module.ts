@@ -11,6 +11,7 @@ import { DashboardClubComponent } from './club-dashboard/club-dashboard.componen
 import { ExternalProfileComponent } from './external-profile/external-profile.component';
 import { MisAvisosComponent } from './mis-avisos/mis-avisos.component';
 import { GestSolicitudesComponent } from './gest-solicitudes/gest-solicitudes.component';
+import { ChatComponent } from '../chat/chat.component';
 
 const routes: Routes = [
   { path: 'club/perfil', component: ProfileClubComponent },
@@ -24,6 +25,8 @@ const routes: Routes = [
   { path: 'buscador', component: SearchComponent},
   { path: 'mis-avisos', component: MisAvisosComponent},
   { path: 'club/vacante/:id', component: GestSolicitudesComponent},
+  { path: 'chat/:id', component: ChatComponent},
+  { path: 'chat', component: ChatComponent}
 ];
 
 @NgModule({
