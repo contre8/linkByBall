@@ -61,8 +61,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     );
     this.chatSocketService.escucharMensajes().subscribe(mensaje => {
       if (mensaje.conversacionId === this.conversacionActiva._id) {
-        console.log('MENSAJE NUEVO')
         this.mensajes.push(mensaje);
+        //this.cargarMensajes(mensaje.conversacionId);
         this.scrollToBottom(); // Desplazarse hacia el final al recibir un mensaje nuevo
         //this.cdr.detectChanges(); // Forzar la detección de cambios
       }
@@ -151,11 +151,11 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         console.error('Error al enviar el mensaje:', error);
       }
     });
-    console.log(this.nuevoMensaje)
     const mensaje = {
       conversacionId: this.conversacionActiva._id, // Asegúrate de incluir el ID de la conversación
       remitente,
       texto: this.nuevoMensaje,
+      createdAt: new Date(), // Añadir la fecha y hora actual
       tipoContenido: 'texto' // Ajusta según sea necesario
     };
     this.chatSocketService.enviarMensaje(mensaje, this.conversacionActiva);

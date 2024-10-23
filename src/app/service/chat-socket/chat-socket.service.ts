@@ -25,7 +25,6 @@ export class ChatSocketService {
 
   // Escuchar mensajes nuevos de una conversación
   escucharMensajes(): Observable<any> {
-    console.log('FUNCIONAS')
     return new Observable(observer => {
       this.socket.on('nuevoMensaje', (mensaje) => {
         observer.next(mensaje);
