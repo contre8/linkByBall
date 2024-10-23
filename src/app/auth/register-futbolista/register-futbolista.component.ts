@@ -27,6 +27,7 @@ export class RegisterFutbolistaComponent implements OnInit {
   clubSearchResults: any[] = [];  // Para almacenar los resultados de la búsqueda
   showClubResults: boolean = false;
   selectedClub: any; // Añadir esta línea en la declaración de propiedades del componente
+  isRegistering: boolean = false;
 
   positions = [
     { label: 'Portero', value: 'portero' },
@@ -121,6 +122,7 @@ export class RegisterFutbolistaComponent implements OnInit {
 
   onSubmit(): void {
     if (this.registerForm.valid) {
+      this.isRegistering = true;
       const formData = new FormData();
       formData.append('nombre', this.registerForm.get('nombre')?.value);
       formData.append('apellidos', this.registerForm.get('apellidos')?.value);
@@ -169,6 +171,7 @@ export class RegisterFutbolistaComponent implements OnInit {
           this.authService.loginFutbolista(email, password).subscribe(
             loginResponse => {
               console.log('Login successful as Futbolista', loginResponse);
+              this.isRegistering = false;
               this.router.navigate(['../futbolista/home']);
             },
             loginError => {

@@ -25,6 +25,7 @@ export class RegisterEntrenadorComponent implements OnInit {
   clubSearchResults: any[] = [];  // Para almacenar los resultados de la búsqueda
   showClubResults: boolean = false;
   selectedClub: any; // Añadir esta línea en la declaración de propiedades del componente
+  isRegistering: boolean = false;
   especialidades = [
     { label: 'Primer Entrenador', value: 'primer_entrenador' },
     { label: 'Segundo Entrenador', value: 'segundo_entrenador' },
@@ -92,6 +93,7 @@ export class RegisterEntrenadorComponent implements OnInit {
 
   onSubmit(): void {
     if (this.registerForm.valid) {
+      this.isRegistering = true;
       const formData = new FormData();
       formData.append('nombre', this.registerForm.get('nombre')?.value);
       formData.append('apellidos', this.registerForm.get('apellidos')?.value);
@@ -127,6 +129,7 @@ export class RegisterEntrenadorComponent implements OnInit {
           this.authService.loginEntrenador(email, password).subscribe(
             loginResponse => {
               console.log('Login successful as Entrenador', loginResponse);
+              this.isRegistering = false;
               this.router.navigate(['../entrenador/home']);
             },
             loginError => {
