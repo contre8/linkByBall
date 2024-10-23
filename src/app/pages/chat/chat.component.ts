@@ -25,6 +25,7 @@ export class ChatComponent implements OnInit {
   userId: string = '';
   nuevoMensaje: string = '';
   conversacionActiva: any = null;
+  userType: string = (localStorage.getItem('userType') || '').charAt(0).toUpperCase() + (localStorage.getItem('userType') || '').slice(1);
 
   constructor(private chatService: ChatService,
     private authService: AuthService,
@@ -96,9 +97,14 @@ export class ChatComponent implements OnInit {
     this.chatService.obtenerMensajes(conversacionId).subscribe({
       next: (response) => {
         this.conversacionActiva = { _id: conversacionId }; // Establecer como la conversación activa
-        this.mensajes = response.mensajes;
-        this.seleccionarConversacion(conversacionId);
-        this.marcarMensajesComoVistos(); // Marcar mensajes como vistos si aplica
+        this.conversacionActiva = conversacionId;
+        //this.mensajes = response.mensajes;
+        //this.seleccionarConversacion(conversacionId);
+        //this.marcarMensajesComoVistos(); // Marcar mensajes como vistos si aplica
+        console.log(conversacionId);
+        console.log(this.conversacionActiva);
+        this.cargarMensajes(conversacionId);
+        console.log(this.conversacionActiva);
       },
       error: (error) => {
         console.error('Error al cargar la conversación:', error);
@@ -122,16 +128,19 @@ export class ChatComponent implements OnInit {
 
   // Enviar un nuevo mensaje
   enviarMensaje(): void {
+    console.log(this.conversacionActiva)
     if (this.nuevoMensaje.trim() === '' || !this.conversacionActiva) {
       return;
     }
 
     const remitente = {
-      tipoUsuario: 'club', // Cambia según el tipo de usuario actual
+      tipoUsuario: this.userType,
       usuarioId: this.userId
     };
 
-    this.chatService.enviarMensaje(this.conversacionActiva._id, remitente, this.nuevoMensaje).subscribe({
+    console.log(this.nuevoMensaje)
+
+    this.chatService.enviarMensaje(this.conversacionActiva, remitente, this.nuevoMensaje).subscribe({
       next: (response) => {
         this.mensajes.push(response.mensaje);
         this.nuevoMensaje = '';
@@ -148,9 +157,9 @@ export class ChatComponent implements OnInit {
   marcarMensajesComoVistos(): void {
     this.mensajes.forEach(mensaje => {
       if (!mensaje.vistoPor.some((v: { userId: string; }) => v.userId === this.userId)) {
-        this.chatService.marcarMensajeComoVisto(mensaje._id, 'club', this.userId).subscribe({
+        this.chatService.marcarMensajeComoVisto(mensaje._id, this.userType, this.userId).subscribe({
           next: () => {
-            mensaje.vistoPor.push({ tipoUsuario: 'club', userId: this.userId });
+            mensaje.vistoPor.push({ tipoUsuario: this.userType, userId: this.userId });
           },
           error: (error) => {
             console.error('Error al marcar el mensaje como visto:', error);
