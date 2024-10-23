@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { ChatService } from '../../service/chat/chat.service';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../navbar/navbar.component';
@@ -18,7 +18,9 @@ import { ChatSocketService } from '../../service/chat-socket/chat-socket.service
   styleUrl: './chat.component.scss'
 })
 
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewChecked {
+
+  @ViewChild('messageContainer') private messageContainer!: ElementRef;
 
   conversaciones: any[] = [];
   mensajes: any[] = [];
@@ -58,10 +60,14 @@ export class ChatComponent implements OnInit {
     this.chatSocketService.escucharMensajes().subscribe(mensaje => {
       if (mensaje.conversacionId === this.conversacionActiva._id) {
         this.mensajes.push(mensaje);
+        this.scrollToBottom(); // Desplazarse hacia el final al recibir un mensaje nuevo
       }
     });
   }
 
+  ngAfterViewChecked(): void {
+    this.scrollToBottom();
+  }
 
   // Cargar todas las conversaciones del usuario actual
   cargarConversaciones(): void {
@@ -84,13 +90,11 @@ export class ChatComponent implements OnInit {
     });
   }
 
-
   seleccionarConversacion(conversacion: any): void {
     this.conversacionActiva = conversacion;
     this.router.navigate(['/chat', conversacion._id]); // Redirige a la URL con el ID de la conversación
     this.chatSocketService.unirseConversacion(conversacion._id);
     this.cargarMensajes(conversacion._id);
-    console.log('Entraa')
   }
 
   abrirConversacionPorId(conversacionId: string): void {
@@ -98,13 +102,7 @@ export class ChatComponent implements OnInit {
       next: (response) => {
         this.conversacionActiva = { _id: conversacionId }; // Establecer como la conversación activa
         this.conversacionActiva = conversacionId;
-        //this.mensajes = response.mensajes;
-        //this.seleccionarConversacion(conversacionId);
-        //this.marcarMensajesComoVistos(); // Marcar mensajes como vistos si aplica
-        console.log(conversacionId);
-        console.log(this.conversacionActiva);
         this.cargarMensajes(conversacionId);
-        console.log(this.conversacionActiva);
       },
       error: (error) => {
         console.error('Error al cargar la conversación:', error);
@@ -119,6 +117,7 @@ export class ChatComponent implements OnInit {
       next: (response) => {
         this.mensajes = response.mensajes.sort((a: { createdAt: string | number | Date; }, b: { createdAt: string | number | Date; }) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
         this.marcarMensajesComoVistos();
+        this.scrollToBottom(); // Desplazarse hacia el final al cargar mensajes
       },
       error: (error) => {
         console.error('Error al obtener los mensajes:', error);
@@ -128,7 +127,6 @@ export class ChatComponent implements OnInit {
 
   // Enviar un nuevo mensaje
   enviarMensaje(): void {
-    console.log(this.conversacionActiva)
     if (this.nuevoMensaje.trim() === '' || !this.conversacionActiva) {
       return;
     }
@@ -138,12 +136,11 @@ export class ChatComponent implements OnInit {
       usuarioId: this.userId
     };
 
-    console.log(this.nuevoMensaje)
-
     this.chatService.enviarMensaje(this.conversacionActiva, remitente, this.nuevoMensaje).subscribe({
       next: (response) => {
         this.mensajes.push(response.mensaje);
         this.nuevoMensaje = '';
+        this.scrollToBottom(); // Desplazarse hacia el final al enviar un mensaje
       },
       error: (error) => {
         console.error('Error al enviar el mensaje:', error);
@@ -167,6 +164,17 @@ export class ChatComponent implements OnInit {
         });
       }
     });
+  }
+
+  // Desplazarse hacia el final del contenedor de mensajes
+  private scrollToBottom(): void {
+    try {
+      if (this.messageContainer) {
+        this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
+      }
+    } catch (err) {
+      console.error('Error al desplazarse al final:', err);
+    }
   }
 }
 

@@ -25,7 +25,7 @@
       <h3>{{ conversacionActiva.nombre || 'Chat' }}</h3>
     </div>
 
-    <div class="messages">
+    <div #messageContainer class="messages">
       <div *ngFor="let mensaje of mensajes" class="message" [class.sent]="mensaje.remitente.usuarioId === userId"
         [class.received]="mensaje.remitente.usuarioId !== userId">
 
