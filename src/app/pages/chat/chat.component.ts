@@ -9,6 +9,7 @@ import { AuthService } from '../../service/auth/auth.service';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { ChatSocketService } from '../../service/chat-socket/chat-socket.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-chat',
@@ -33,7 +34,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    private chatSocketService: ChatSocketService
+    private chatSocketService: ChatSocketService,
+    private cdr: ChangeDetectorRef // Agregar esta línea
   ) { }
 
   ngOnInit(): void {
@@ -59,8 +61,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     );
     this.chatSocketService.escucharMensajes().subscribe(mensaje => {
       if (mensaje.conversacionId === this.conversacionActiva._id) {
+        console.log('MENSAJE NUEVO')
         this.mensajes.push(mensaje);
         this.scrollToBottom(); // Desplazarse hacia el final al recibir un mensaje nuevo
+        //this.cdr.detectChanges(); // Forzar la detección de cambios
       }
     });
   }
@@ -95,6 +99,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.router.navigate(['/chat', conversacion._id]); // Redirige a la URL con el ID de la conversación
     this.chatSocketService.unirseConversacion(conversacion._id);
     this.cargarMensajes(conversacion._id);
+    //this.cdr.detectChanges(); // Forzar la detección de cambios al cambiar de conversación
   }
 
   abrirConversacionPorId(conversacionId: string): void {
@@ -138,7 +143,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
     this.chatService.enviarMensaje(this.conversacionActiva, remitente, this.nuevoMensaje).subscribe({
       next: (response) => {
-        this.mensajes.push(response.mensaje);
+        //this.mensajes.push(response.mensaje);
         this.nuevoMensaje = '';
         this.scrollToBottom(); // Desplazarse hacia el final al enviar un mensaje
       },
@@ -146,8 +151,14 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         console.error('Error al enviar el mensaje:', error);
       }
     });
-
-    this.chatSocketService.enviarMensaje(this.nuevoMensaje);
+    console.log(this.nuevoMensaje)
+    const mensaje = {
+      conversacionId: this.conversacionActiva._id, // Asegúrate de incluir el ID de la conversación
+      remitente,
+      texto: this.nuevoMensaje,
+      tipoContenido: 'texto' // Ajusta según sea necesario
+    };
+    this.chatSocketService.enviarMensaje(mensaje, this.conversacionActiva);
   }
 
   // Marcar mensajes como vistos

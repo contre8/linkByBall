@@ -19,12 +19,13 @@ export class ChatSocketService {
   }
 
   // Enviar mensaje al servidor para retransmitirlo
-  enviarMensaje(mensaje: any): void {
-    this.socket.emit('enviarMensaje', mensaje);
+  enviarMensaje(mensaje: any, conversacionId: any): void {
+    this.socket.emit('enviarMensaje', mensaje, conversacionId);
   }
 
   // Escuchar mensajes nuevos de una conversación
   escucharMensajes(): Observable<any> {
+    console.log('FUNCIONAS')
     return new Observable(observer => {
       this.socket.on('nuevoMensaje', (mensaje) => {
         observer.next(mensaje);

@@ -234,3 +234,34 @@ $transition: all 0.3s ease;
     margin-bottom: 30px;
   }
 }
+
+.chat-list li {
+  padding: 10px;
+  border-bottom: 1px solid #e0e0e0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.chat-list li.unread {
+  background-color: #ffcccc; /* Fondo rojo para mensajes no leídos */
+}
+
+.chat-list li.active {
+  background-color: #009688; /* Fondo activo para la conversación seleccionada */
+  color: white;
+}
+
+.chat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.unread-indicator {
+  background-color: #ff0000; /* Rojo para indicar mensajes no leídos */
+  color: white;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-size: 12px;
+  margin-left: 10px;
+}
