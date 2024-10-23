@@ -166,3 +166,50 @@ $error-color: #dc3545; // Rojo para errores
   margin-bottom: 10px;
   //display: inline-block;
 }
+
+.form-group {
+  position: relative; // Asegura que los resultados estén posicionados correctamente dentro del contenedor del input
+
+  .club-results {
+    position: absolute;
+    top: 90%; // Posiciona la lista justo debajo del input
+    left: 0;
+    width: 106%;
+    max-height: 200px; // Limita la altura de la lista
+    overflow-y: auto; // Añade un scroll si hay demasiados resultados
+    background-color: #fff;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    z-index: 1000;
+    padding: 0; // Eliminar el padding del contenedor de la lista
+
+    li {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      background-color: transparent; // Asegura que no haya fondo no deseado
+      margin: 0; // Eliminar márgenes de los elementos de la lista
+
+      &:hover {
+        background-color: #f0f4f8;
+      }
+
+      img.club-result-img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px; // Añadir espacio entre la imagen y el texto
+        object-fit: cover;
+        background-color: transparent; // Elimina cualquier fondo de imagen
+      }
+
+      span {
+        font-size: 16px;
+        color: #333;
+      }
+    }
+  }
+}

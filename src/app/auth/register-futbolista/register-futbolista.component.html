@@ -96,10 +96,22 @@
         <div class="form-row">
           <div class="form-group col-md-6 mb-3">
             <label for="clubActual" class="form-label"><i class="fa fa-shield"></i> Club Actual:</label>
+            <input type="text" class="form-control" placeholder="Buscar club" (input)="onClubSearch($event)"
+              [value]="selectedClub?.nombre || ''" (focus)="showClubResults = true" (blur)="hideClubResults()" />
+            <ul *ngIf="clubSearchResults.length > 0 && showClubResults" class="club-results">
+              <li *ngFor="let club of clubSearchResults" (click)="selectClub(club)" (change)="onClubChange()">
+                <img [src]="club.fotografia?.url || defaultPicture" alt="Logo de {{ club.nombre }}"
+                  class="club-result-img" />
+                {{ club.nombre }}
+              </li>
+            </ul>
+          </div>
+          <!-- <div class="form-group col-md-6 mb-3">
+            <label for="clubActual" class="form-label"><i class="fa fa-shield"></i> Club Actual:</label>
             <select id="clubActual" class="form-control" formControlName="clubActual" (change)="onClubChange()">
               <option *ngFor="let club of clubs$ | async" [value]="club._id">{{ club.nombre }}</option>
             </select>
-          </div>
+          </div> -->
           <div class="form-group col-md-6 mb-3">
             <label for="categoriaActual" class="form-label"><i class="fa fa-trophy"></i> Categoría del club:</label>
             <input type="text" id="categoriaActual" class="form-control" formControlName="categoriaActual">

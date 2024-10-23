@@ -6,6 +6,9 @@ import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { SearchService } from '../../service/search/search.service';
+import { debounceTime, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-register-entrenador',
@@ -17,6 +20,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 export class RegisterEntrenadorComponent implements OnInit {
   registerForm!: FormGroup;
   clubs$: Observable<any[]> | undefined;
+  defaultPicture: string = '../../../../default-picture-profile.jpg'; // Imagen por defecto si no tiene foto
+  searchSubject = new Subject<string>();  // Para manejar el debounce
+  clubSearchResults: any[] = [];  // Para almacenar los resultados de la búsqueda
+  showClubResults: boolean = false;
+  selectedClub: any; // Añadir esta línea en la declaración de propiedades del componente
   especialidades = [
     { label: 'Primer Entrenador', value: 'primer_entrenador' },
     { label: 'Segundo Entrenador', value: 'segundo_entrenador' },
@@ -39,7 +47,8 @@ export class RegisterEntrenadorComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private searchService: SearchService
   ) { }
 
   ngOnInit(): void {
@@ -61,6 +70,19 @@ export class RegisterEntrenadorComponent implements OnInit {
     }, { validator: this.passwordMatchValidator });
 
     this.clubs$ = this.authService.getClubs(); // Obtener clubes
+
+    this.searchSubject.pipe(
+      debounceTime(300),  // Espera 300ms después de que el usuario deje de escribir
+      switchMap(query => this.searchService.searchProfiles(query, 'club'))  // Cambia la búsqueda según el query
+    ).subscribe(
+      (results: any[]) => {
+        this.clubSearchResults = results;  // Guarda los resultados
+        console.log(this.clubSearchResults)
+      },
+      (error) => {
+        console.error('Error al buscar clubes:', error);
+      }
+    );
   }
 
   passwordMatchValidator(form: FormGroup) {
@@ -159,5 +181,33 @@ export class RegisterEntrenadorComponent implements OnInit {
 
     // Actualizar el valor del campo "especialidades" en el formulario
     this.registerForm.get('especialidades')?.setValue(selectedSpecialities);
+  }
+
+  // Método que se activa al escribir en el campo de búsqueda
+  onClubSearch(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const query = inputElement?.value || '';
+
+    if (query.length > 2) {
+      this.searchSubject.next(query);  // Enviar el query al Subject con debounce
+    } else {
+      this.clubSearchResults = [];  // Si el query es muy corto, limpiar los resultados
+    }
+  }
+
+  // Método para manejar la selección del club
+  selectClub(club: any): void {
+    this.selectedClub = club;  // Asignar el club seleccionado
+    this.registerForm.get('clubActual')?.setValue(club._id);
+    this.registerForm.get('categoriaActual')?.setValue(club.categoria);  // Guardar el ID del club en el formulario
+    this.clubSearchResults = [];  // Limpiar los resultados de búsqueda
+    this.showClubResults = false; // Cerrar el desplegable
+  }
+
+
+  hideClubResults(): void {
+    setTimeout(() => {
+      this.showClubResults = false;
+    }, 200);  // Espera un poco antes de ocultar los resultados para permitir la selección
   }
 }
