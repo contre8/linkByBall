@@ -14,6 +14,8 @@ import { Subject } from 'rxjs';
 import { AfterViewInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';  // Asegúrate de importar FormsModule
 import { FavoritosService } from '../../service/favoritos/favoritos.service';
+import { AuthService } from '../../service/auth/auth.service';
+import { ChatService } from '../../service/chat/chat.service';
 
 
 @Component({
@@ -41,6 +43,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   pages: number[] = [];
   isLoading: boolean = false;
   userType: string = localStorage.getItem('userType') || '';
+  userId: string = '';
 
   futbolistaPositions = POSICIONES_FUTBOLISTAS;
   entrenadorEspecialidades = ESPECIALIDADES_ENTRENADOR;
@@ -51,7 +54,13 @@ export class SearchComponent implements OnInit, AfterViewInit {
   especialidadesEntrenador = ESPECIALIDADES_ENTRENADOR;
   //isFavorite: boolean = false;
 
-  constructor(private searchService: SearchService, private router: Router, private clubService: ClubService, private favoritoService: FavoritosService) { }
+  constructor(private searchService: SearchService,
+    private router: Router,
+    private clubService: ClubService,
+    private favoritoService: FavoritosService,
+    private authService: AuthService,
+    private chatService: ChatService,
+  ) { }
 
   ngAfterViewInit(): void {
     // Llamamos al método aquí para asegurarnos de que el DOM está cargado
@@ -59,6 +68,14 @@ export class SearchComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.authService.getProfile().subscribe(
+      (userData) => {
+        this.userId = userData._id;
+      },
+      (error) => {
+        console.error('Error al obtener el perfil del usuario', error);
+      }
+    );
     // Comprobar si hay filtros y tipo de perfil guardados en localStorage
     const savedFilters = sessionStorage.getItem('searchFilters');
     const savedProfileType = sessionStorage.getItem('profileType');
@@ -118,6 +135,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
     // Reiniciar filtros cada vez que cambie el tipo de perfil
     this.filtros = {};
+    this.buscar()
   }
 
   populateFormFields(): void {
@@ -297,7 +315,11 @@ export class SearchComponent implements OnInit, AfterViewInit {
     // Realizar la búsqueda con paginación
     this.isLoading = true;
     this.searchService.applyFilters(this.selectedProfileType, this.filtros, page, this.resultsPerPage).subscribe(response => {
-      this.searchResults = response.resultados;
+      // Filtrar resultados para excluir los que coincidan con this.userId
+      this.searchResults = response.resultados.filter((result: { _id: string; verificado?: boolean }) =>
+        result._id !== this.userId && (result.verificado === true || result.verificado === undefined)
+      );
+
       this.searchPerformed = true;
 
       this.totalResults = response.total;
@@ -305,7 +327,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
       this.resultsPerPage = response.limit;
       this.totalPages = Math.ceil(this.totalResults / this.resultsPerPage);
       this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
-      //console.log(this.searchResults)
+
       // Comprobar si cada resultado es favorito
       this.searchResults.forEach(result => {
         this.favoritoService.isFavorite(result._id, this.userType).subscribe(
@@ -317,11 +339,14 @@ export class SearchComponent implements OnInit, AfterViewInit {
           }
         );
       });
+
       this.isLoading = false;
     }, error => {
       console.error('Error al realizar la búsqueda:', error);
+      this.isLoading = false; // Asegurar que isLoading se desactive en caso de error
     });
-  }
+}
+
 
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
@@ -415,24 +440,41 @@ export class SearchComponent implements OnInit, AfterViewInit {
   }
 
 
-  // Al cargar los resultados de búsqueda, asegúrate de verificar si son favoritos
-  // loadSearchResults(): void {
-  //   this.searchService.applyFilters(this.selectedProfileType, this.filtros).subscribe(resultados => {
-  //     this.searchResults = resultados.map(result => {
-  //       // Verificar si el resultado es favorito
-  //       this.clubService.isFavorite(result._id).subscribe(
-  //         (response) => {
-  //           result.isFavorite = response.isFavorite; // Guardar el estado de favorito en el perfil
-  //         },
-  //         (error) => {
-  //           console.error('Error al verificar si es favorito:', error);
-  //         }
-  //       );
-  //       return result;
-  //     });
-  //   });
-  // }
+  iniciarConversacion(user: any, type: string): void {
+    if (!user || !user._id) {
+      console.error('No se pudo iniciar la conversación. ID de user no encontrado.');
+      return;
+    }
 
+    const nombreConversacion = `${user.nombre} ${user.apellidos}`; // Nombre y apellidos del user
+    const capitalizedUserType = this.userType.charAt(0).toUpperCase() + this.userType.slice(1).toLowerCase();
 
+    const participantes = [
+      {
+        tipoUsuario: capitalizedUserType, // Tipo del usuario actual con la primera letra en mayúscula
+        usuarioId: this.userId
+      },
+      {
+        tipoUsuario: type, // Tipo del otro participante (user)
+        usuarioId: user._id // ID del futbolista seleccionado
+      }
+    ];
 
+    // Incluir el nombre de la conversación
+    const nuevaConversacion = {
+      nombre: nombreConversacion,
+      participantes: participantes
+    };
+
+    this.chatService.crearConversacion(nuevaConversacion).subscribe({
+      next: (response) => {
+        // Redirigir al componente del chat o mostrar mensaje de éxito
+        console.log('Conversación iniciada correctamente:', response.conversacion);
+        this.router.navigate(['/chat', response.conversacion._id]); // Redirige al chat usando el ID de la conversación
+      },
+      error: (error) => {
+        console.error('Error al iniciar la conversación:', error);
+      }
+    });
+  }
 }

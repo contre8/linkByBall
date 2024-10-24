@@ -187,10 +187,10 @@ $input-border: #ccc;
       margin-right: 15px;
     }
 
-    &:hover {
-      background-color: #f0f4f8;
-      cursor: pointer;
-    }
+    // &:hover {
+    //   background-color: #f0f4f8;
+    //   cursor: pointer;
+    // }
 
     .result-info {
       flex: 1;
@@ -237,6 +237,29 @@ $input-border: #ccc;
   .favorite-button .fa-heart {
     color: red;
   }
+}
+
+.chat-button {
+  background: transparent;
+  border: none;
+  color: $secondary-color;
+  cursor: pointer;
+  font-size: 24px;
+  position: absolute;
+  top: 55px;
+  right: 10px;
+}
+
+.perfil-button {
+  background: transparent;
+  border: none;
+  color: black;
+  cursor: pointer;
+  font-size: 24px;
+  position: absolute;
+  top: 110px;
+  right: 10px;
+  font-size: 15px;
 }
 
 .filter-row {

@@ -123,6 +123,7 @@ export class BuscarVacantesComponent implements OnInit {
         console.error('Error al buscar clubes:', error);
       }
     );
+    this.buscar();
   }
 
   // Actualizar filtros cuando cambia algún valor en los inputs

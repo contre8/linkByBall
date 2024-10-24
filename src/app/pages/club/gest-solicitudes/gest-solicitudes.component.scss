@@ -55,10 +55,29 @@ $error-color: #dc3545;
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
     }
 
+      // Colores de fondo para los diferentes estados
+
+
     .solicitante-info {
       display: flex;
       align-items: center;
       margin-bottom: 15px;
+
+      &.estado-pendiente {
+        background-color: #fff3cd; // Amarillo claro para pendientes
+      }
+
+      &.estado-en-proceso {
+        background-color: #cce5ff; // Azul claro para en proceso
+      }
+
+      &.estado-aceptada {
+        background-color: #d4edda; // Verde claro para aceptadas
+      }
+
+      &.estado-rechazada {
+        background-color: #f8d7da; // Rojo claro para rechazadas
+      }
 
       .solicitante-img {
         width: 60px;
@@ -114,12 +133,14 @@ $error-color: #dc3545;
 
 // General Button Styling
 button {
-  border-radius: 5px;
-  padding: 10px 15px;
+  border-radius: 8px; // Ajuste para parecerse más a los botones de la imagen
+  padding: 10px 20px;
   font-weight: 600;
   transition: all 0.3s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  background-color: transparent; // Fondo transparente por defecto
+  border: 2px solid transparent; // Borde transparente por defecto
 
   &:hover {
     transform: translateY(-2px);
@@ -133,45 +154,48 @@ button {
 }
 
 // Button Variants
+
 .btn-success {
-  background-color: #28a745;
-  border: none;
-  color: white;
+  background-color: transparent; // Fondo transparente
+  color: $primary-color; // Usa el color primario
+  border: 2px solid $primary-color; // Borde del color primario
 
   &:hover {
-    background-color: #218838;
+    background-color: $primary-color; // Se rellena con el color primario al hacer hover
+    color: white;
   }
 
   &:active {
-    background-color: #1e7e34;
+    background-color: darken($primary-color, 10%);
   }
 }
 
 .btn-danger {
-  background-color: #dc3545;
-  border: none;
-  color: white;
+  background-color: transparent; // Fondo transparente
+  color: #dc3545; // Rojo para el texto y el borde
+  border: 2px solid #dc3545; // Borde rojo
 
   &:hover {
-    background-color: #c82333;
+    background-color: #dc3545; // Se rellena de rojo al hacer hover
+    color: white;
   }
 
   &:active {
-    background-color: #bd2130;
+    background-color: darken(#dc3545, 10%);
   }
-
 }
 
 .btn-info {
-  background-color: $secondary-color;
-  border: none;
-  color: white;
+  background-color: transparent; // Fondo transparente
+  color: $secondary-color; // Azul para el texto y el borde
+  border: 2px solid $secondary-color; // Borde azul
 
   &:hover {
-    background-color: darken($secondary-color, 10%);
+    background-color: $secondary-color; // Se rellena de azul al hacer hover
+    color: white;
   }
 
   &:active {
-    background-color: darken($secondary-color, 15%);
+    background-color: darken($secondary-color, 10%);
   }
 }

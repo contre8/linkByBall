@@ -254,8 +254,11 @@ export class RegisterFutbolistaComponent implements OnInit {
 
   hideClubResults(): void {
     setTimeout(() => {
+      if (!this.selectedClub) {
+        this.registerForm.get('clubActual')?.setValue(''); // Limpia el valor en el formulario
+        this.selectedClub = null; // Asegura que no haya un club seleccionado
+      }
       this.showClubResults = false;
     }, 200);  // Espera un poco antes de ocultar los resultados para permitir la selección
   }
-
 }

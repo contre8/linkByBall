@@ -199,8 +199,8 @@
 
       <!-- Botón para iniciar la búsqueda -->
       <div class="d-grid mt-4">
-        <button class="btn btn-primary" (click)="buscar()" [disabled]="!selectedProfileType">
-          <i class="fa fa-search"></i> Buscar
+        <button class="btn btn-primary ms-auto" (click)="buscar()" [disabled]="!selectedProfileType">
+          <i class="fa fa-search"></i> Filtrar
         </button>
       </div>
 
@@ -215,7 +215,7 @@
 
       <!-- Si el perfil es futbolista -->
       <div *ngIf="selectedProfileType === 'futbolista'">
-        <div *ngFor="let futbolista of searchResults" class="result-card" (click)="viewSearchProfile(futbolista)">
+        <div *ngFor="let futbolista of searchResults" class="result-card">
           <img [src]="futbolista.fotografia?.url || defaultPicture" alt="Foto de {{ futbolista.nombre }}"
             class="result-img">
           <div class="result-info">
@@ -228,6 +228,12 @@
           <!-- Botón de favorito -->
           <button class="favorite-button" (click)="toggleFavorite(futbolista, $event)">
             <i class="fa" [ngClass]="futbolista.isFavorite ? 'fa-heart' : 'fa-heart-o'"></i>
+          </button>
+          <button class="chat-button" (click)="iniciarConversacion(futbolista, 'Futbolista')">
+            <i class="fa fa-comments"></i>
+          </button>
+          <button class="perfil-button" (click)="viewSearchProfile(futbolista)">
+            Ver Perfil
           </button>
         </div>
       </div>
@@ -246,6 +252,12 @@
           <button class="favorite-button" (click)="toggleFavorite(entrenador, $event)">
             <i class="fa" [ngClass]="entrenador.isFavorite ? 'fa-heart' : 'fa-heart-o'"></i>
           </button>
+          <button class="chat-button" (click)="iniciarConversacion(entrenador, 'Entrenador')">
+            <i class="fa fa-comments"></i>
+          </button>
+          <button class="perfil-button" (click)="viewSearchProfile(entrenador)">
+            Ver Perfil
+          </button>
         </div>
       </div>
 
@@ -260,6 +272,12 @@
           </div>
           <button class="favorite-button" (click)="toggleFavorite(club, $event)">
             <i class="fa" [ngClass]="club.isFavorite ? 'fa-heart' : 'fa-heart-o'"></i>
+          </button>
+          <button class="chat-button" (click)="iniciarConversacion(club, 'Club')">
+            <i class="fa fa-comments"></i>
+          </button>
+          <button class="perfil-button" (click)="viewSearchProfile(club)">
+            Ver Perfil
           </button>
         </div>
       </div>

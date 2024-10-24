@@ -137,18 +137,26 @@ button {
 
 // Create Vacante Button
 .btn-success {
-  background-color: #28a745;
+  background-color: $primary-color;
   border: none;
   color: white;
+  position: fixed; // Fija la posición del botón
+  bottom: 20px; // Ajusta la distancia desde la parte inferior de la pantalla
+  right: 40px; // Ajusta la distancia desde el lado derecho de la pantalla
+  z-index: 1000; // Asegura que el botón se mantenga por encima de otros elementos
+  padding: 15px 30px; // Aumenta el tamaño del botón (más alto y más ancho)
+  font-size: 1.2rem; // Aumenta el tamaño del texto
+  border-radius: 8px; // Mantiene las esquinas redondeadas
 
   &:hover {
-    background-color: #218838;
+    background-color: darken($primary-color, 10%);
   }
 
   &:active {
-    background-color: #1e7e34;
+    background-color: darken($primary-color, 15%);
   }
 }
+
 
 // Edit Button
 .btn-outline-primary {

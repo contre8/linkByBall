@@ -102,22 +102,42 @@ $text-color: #000000;
         }
 
         .remove-btn {
-          background-color: #dc3545; // Rojo para eliminar
-          color: #fff;
+          background-color: transparent; // Fondo transparente
+          color: #dc3545; // Rojo para el texto y el borde
+          border: 2px solid #dc3545; // Borde rojo
+          border-radius: 8px; // Esquinas redondeadas
+          padding: 10px 20px; // Ajusta el tamaño del botón
+          font-family: 'Roboto', sans-serif; // Aplica una tipografía estilizada (cambia si usas otra)
+          font-weight: 500; // Añade peso para que el texto sea más claro
+          font-size: 1rem; // Tamaño de fuente ajustado
+          transition: all 0.3s ease; // Transición suave para el hover
 
           &:hover {
-            background-color: darken(#dc3545, 10%);
+            background-color: #dc3545; // Se rellena de rojo al hacer hover
+            color: #fff; // Texto blanco en hover
+            cursor: pointer;
           }
         }
 
         .chat-btn {
-          background-color: $secondary-color; // Azul para el chat
-          color: #fff;
+          background-color: transparent; // Fondo transparente
+          color: $secondary-color; // Azul para el texto y el borde
+          border: 2px solid $secondary-color; // Borde azul
+          border-radius: 8px; // Esquinas redondeadas
+          padding: 10px 20px; // Ajusta el tamaño del botón
+          font-family: 'Roboto', sans-serif; // Aplica una tipografía estilizada (cambia si usas otra)
+          font-weight: 500; // Añade peso para que el texto sea más claro
+          font-size: 1rem; // Tamaño de fuente ajustado
+          transition: all 0.3s ease; // Transición suave para el hover
 
           &:hover {
-            background-color: darken($secondary-color, 10%);
+            background-color: $secondary-color; // Se rellena de azul al hacer hover
+            color: #fff; // Texto blanco en hover
+            cursor: pointer;
           }
         }
+
+
       }
     }
   }

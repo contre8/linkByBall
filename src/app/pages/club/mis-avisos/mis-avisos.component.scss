@@ -2,6 +2,7 @@ $primary-color: #1f8c7c; // Verde del logo
 $secondary-color: #0c6efd; // Azul del logo
 $background-color: #f4f7f6; // Color de fondo
 $text-color: #000000;
+$transition: all 0.3s ease;
 
 // Host styles
 :host {
@@ -69,34 +70,35 @@ $text-color: #000000;
       width: 100%;
 
       .ver-perfil-btn {
-        margin-top: 10px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        padding: 5px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
+        padding: 10px;
+        background-color: transparent;
+        color: $secondary-color;
+        border-radius: 8px;
+        border: 2px solid $secondary-color;
+        transition: $transition;
+        margin-right: 10px;
 
         &:hover {
-          background-color: #0056b3;
+          background-color: $secondary-color;
+          color: white;
+          cursor: pointer;
         }
       }
 
       .ver-solicitudes-btn {
-        margin-top: 10px;
-        margin-left: 15px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        padding: 5px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
+        padding: 10px;
+        background-color: transparent;
+        color: $secondary-color;
+        border-radius: 8px;
+        border: 2px solid $secondary-color;
+        transition: $transition;
 
         &:hover {
-          background-color: #0056b3;
+          background-color: $secondary-color;
+          color: white;
+          cursor: pointer;
         }
+
       }
 
       &:hover {

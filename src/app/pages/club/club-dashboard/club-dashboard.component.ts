@@ -53,8 +53,8 @@ export class DashboardClubComponent implements OnInit {
     if (this.clubId) {
       this.clubService.getVacantesByClub(this.clubId).subscribe(
         (vacantes) => {
+          this.totalVacantesActivas = vacantes.length;
           this.vacantes = vacantes.slice(0, 6);
-          this.totalVacantesActivas = this.vacantes.length;
         },
         (error) => {
           console.error('Error al obtener las vacantes', error);
@@ -140,6 +140,20 @@ export class DashboardClubComponent implements OnInit {
       case 'carrilero_diestro': return 'CAD';
       case 'carrilero_zurdo': return 'CAI';
       default: return posicion;
+    }
+  }
+
+  marcarComoVisto(aviso: any): void {
+    if (!aviso.visto) {
+      aviso.visto = true;
+      this.avisosService.marcarAvisoComoVisto(aviso._id).subscribe(
+        () => {
+          console.log('Aviso marcado como visto');
+        },
+        (error) => {
+          console.error('Error al marcar el aviso como visto:', error);
+        }
+      );
     }
   }
 }

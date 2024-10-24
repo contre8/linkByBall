@@ -24,11 +24,11 @@
           <p><strong>Tipo de Perfil:</strong> {{ aviso.tipoPerfil | titlecase }}</p>
           <p><strong>Fecha:</strong> {{ aviso.createdAt | date:'short' }}</p>
           <button class="btn btn-primary ver-perfil-btn" (click)="verPerfil(aviso.perfilId, aviso.tipoPerfil)">
-            Ver perfil
+            Ver Perfil
           </button>
           <button *ngIf="aviso.vacante && userType === 'club'" class="btn btn-primary ver-solicitudes-btn" (click)="verSolicitudes(aviso.vacante)">
-            Ver solicitudes
-        </button>        
+            Ver Solicitudes
+        </button>
         </div>
       </div>
     </div>

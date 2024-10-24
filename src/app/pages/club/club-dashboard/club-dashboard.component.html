@@ -52,7 +52,7 @@
       <h2>Últimos Avisos</h2>
       <div *ngIf="avisos.length > 0" class="avisos-grid">
         <div *ngFor="let aviso of avisos">
-          <div class="aviso-card" [ngClass]="{ 'no-visto': !aviso.visto }">
+          <div class="aviso-card" [ngClass]="{ 'no-visto': !aviso.visto }" (click)="marcarComoVisto(aviso)">
             <img [src]="aviso.perfil?.fotografia?.url || defaultPicture" alt="Imagen de {{ aviso.perfil.nombre }}"
               class="aviso-img">
             <div class="aviso-info">
@@ -64,7 +64,7 @@
                 Ver Perfil
               </button>
               <button *ngIf="aviso.vacante" class="btn btn-primary ver-solicitudes-btn" (click)="verSolicitudes(aviso.vacante)" style="margin-left: 15px;">
-                Ver solicitudes
+                Ver Solicitudes
               </button>
             </div>
           </div>

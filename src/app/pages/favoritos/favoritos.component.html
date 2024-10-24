@@ -74,11 +74,11 @@
             <p>{{ favorito.comunidad }} - {{ favorito.provincia }}</p>
           </div>
           <div class="favorito-actions">
-            <button class="btn chat-btn" (click)="iniciarConversacion(favorito, 'Club'); $event.stopPropagation()">
-              <i class="fa fa-comments"></i>
-            </button>
             <button class="btn remove-btn" (click)="removeFromFavorites(favorito._id); $event.stopPropagation()">
               <i class="fa fa-trash"></i>
+            </button>
+            <button class="btn chat-btn" (click)="iniciarConversacion(favorito, 'Club'); $event.stopPropagation()">
+              <i class="fa fa-comments"></i>
             </button>
           </div>
         </div>

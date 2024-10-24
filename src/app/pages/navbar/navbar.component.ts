@@ -46,9 +46,20 @@ export class NavbarComponent {
         ]);
       })
     ).subscribe(([futbolistas, entrenadores, clubs]) => {
-      this.searchResults = [...futbolistas, ...entrenadores, ...clubs];
-      console.log('Resultados de la búsqueda:', this.searchResults);
+      // Filtrar resultados para excluir los que coincidan con this.userId y aplicar la lógica de verificado
+      this.searchResults = [
+        ...futbolistas.filter((result: { _id: string; verificado?: boolean }) =>
+          result._id !== this.userId && (result.verificado === true || result.verificado === undefined)
+        ),
+        ...entrenadores.filter((result: { _id: string; verificado?: boolean }) =>
+          result._id !== this.userId && (result.verificado === true || result.verificado === undefined)
+        ),
+        ...clubs.filter((result: { _id: string; verificado?: boolean }) =>
+          result._id !== this.userId && (result.verificado === true || result.verificado === undefined)
+        )
+      ];
     });
+
   }
 
   goHome(): void {
@@ -61,8 +72,7 @@ export class NavbarComponent {
   onSearch(event: Event): void {
     const target = event.target as HTMLInputElement;
     const query = target.value;
-    console.log(query)
-    if (query.length > 2) { // Realizar la búsqueda solo si hay más de 2 caracteres
+    if (query.length > 1) { // Realizar la búsqueda solo si hay más de 2 caracteres
       this.searchSubject.next(query); // Enviar la consulta al flujo de búsqueda
     }
     this.isSearchActive = true; // Mostrar la lista de resultados
