@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../service/auth/auth.service';
 import { FavoritosService } from '../../service/favoritos/favoritos.service';
+import { ChatService } from '../../service/chat/chat.service';
 
 @Component({
   selector: 'app-favoritos',
@@ -31,6 +32,7 @@ export class FavoritosComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private favoritosService: FavoritosService,
+    private chatService: ChatService,
   ) { }
 
   ngOnInit(): void {
@@ -93,6 +95,44 @@ export class FavoritosComponent implements OnInit {
 
   goToSearch(): void {
     this.router.navigate(['buscador']);
+  }
+
+  iniciarConversacion(favorite: any, type: string): void {
+    if (!favorite || !favorite._id) {
+      console.error('No se pudo iniciar la conversación. ID de favorite no encontrado.');
+      return;
+    }
+
+    const nombreConversacion = `${favorite.nombre} ${favorite.apellidos}`; // Nombre y apellidos del favorite
+    const capitalizedUserType = this.userType.charAt(0).toUpperCase() + this.userType.slice(1).toLowerCase();
+
+    const participantes = [
+      {
+        tipoUsuario: capitalizedUserType, // Tipo del usuario actual con la primera letra en mayúscula
+        usuarioId: this.userId
+      },
+      {
+        tipoUsuario: type, // Tipo del otro participante (favorite)
+        usuarioId: favorite._id // ID del futbolista seleccionado
+      }
+    ];
+
+    // Incluir el nombre de la conversación
+    const nuevaConversacion = {
+      nombre: nombreConversacion,
+      participantes: participantes
+    };
+
+    this.chatService.crearConversacion(nuevaConversacion).subscribe({
+      next: (response) => {
+        // Redirigir al componente del chat o mostrar mensaje de éxito
+        console.log('Conversación iniciada correctamente:', response.conversacion);
+        this.router.navigate(['/chat', response.conversacion._id]); // Redirige al chat usando el ID de la conversación
+      },
+      error: (error) => {
+        console.error('Error al iniciar la conversación:', error);
+      }
+    });
   }
 }
 
