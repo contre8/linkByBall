@@ -28,6 +28,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   userId: string = '';
   nuevoMensaje: string = '';
   conversacionActiva: any = null;
+  conversacionAux: any = null;
   userType: string = (localStorage.getItem('userType') || '').charAt(0).toUpperCase() + (localStorage.getItem('userType') || '').slice(1);
 
   constructor(private chatService: ChatService,
@@ -46,7 +47,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         // Verificar si hay un ID de conversación en la URL
         this.route.paramMap.subscribe(params => {
           const conversacionId = params.get('id');
-          console.log(params)
           if (conversacionId) {
             this.cargarConversaciones();
             this.abrirConversacionPorId(conversacionId);
@@ -62,9 +62,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.chatSocketService.escucharMensajes().subscribe(mensaje => {
       if (mensaje.conversacionId === this.conversacionActiva._id) {
         this.mensajes.push(mensaje);
-        //this.cargarMensajes(mensaje.conversacionId);
+        //this.cargarConversaciones();
         this.scrollToBottom(); // Desplazarse hacia el final al recibir un mensaje nuevo
-        //this.cdr.detectChanges(); // Forzar la detección de cambios
       }
     });
   }
@@ -95,10 +94,13 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   seleccionarConversacion(conversacion: any): void {
-    this.conversacionActiva = conversacion;
     this.router.navigate(['/chat', conversacion._id]); // Redirige a la URL con el ID de la conversación
+    this.conversacionActiva = conversacion;
+    this.conversacionAux = conversacion;
+    console.log(this.conversacionAux.nombre)
     this.chatSocketService.unirseConversacion(conversacion._id);
     this.cargarMensajes(conversacion._id);
+    this.abrirConversacionPorId(conversacion._id);
     //this.cdr.detectChanges(); // Forzar la detección de cambios al cambiar de conversación
   }
 
@@ -108,6 +110,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         this.conversacionActiva = { _id: conversacionId }; // Establecer como la conversación activa
         this.conversacionActiva = conversacionId;
         this.cargarMensajes(conversacionId);
+        console.log(this.conversacionAux?.nombre)
       },
       error: (error) => {
         console.error('Error al cargar la conversación:', error);
@@ -146,6 +149,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         //this.mensajes.push(response.mensaje);
         this.nuevoMensaje = '';
         this.scrollToBottom(); // Desplazarse hacia el final al enviar un mensaje
+        console.log(this.conversacionActiva)
+        this.moverConversacionAlInicio(this.conversacionActiva);
       },
       error: (error) => {
         console.error('Error al enviar el mensaje:', error);
@@ -187,5 +192,21 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       console.error('Error al desplazarse al final:', err);
     }
   }
+
+  moverConversacionAlInicio(conversacionId: string): void {
+    // Convertir ambos a string para asegurar la comparación
+    const index = this.conversaciones.findIndex(conversacion => conversacion._id.toString() === conversacionId.toString());
+
+    console.log('Index encontrado:', index);
+
+    if (index !== -1) {
+      // Extraer la conversación de su posición actual
+      const [conversacion] = this.conversaciones.splice(index, 1);
+      // Moverla al inicio de la lista
+      this.conversaciones.unshift(conversacion);
+      console.log('Conversación movida al inicio');
+    }
+  }
+
 }
 

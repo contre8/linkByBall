@@ -4,9 +4,9 @@
   <div class="chat-sidebar">
     <h2>Conversaciones</h2>
     <ul class="chat-list">
-      <li *ngFor="let conversacion of conversaciones" 
+      <li *ngFor="let conversacion of conversaciones"
           (click)="seleccionarConversacion(conversacion)"
-          [class.active]="conversacionActiva?._id === conversacion._id"
+          [class.active]="conversacionActiva === conversacion._id"
           [class.unread]="conversacion.noVistos && conversacion.noVistos.length > 0">
         <div class="chat-item">
           <div class="chat-info">
@@ -23,7 +23,7 @@
 
   <div class="chat-content" *ngIf="conversacionActiva">
     <div class="chat-header">
-      <h3>{{ conversacionActiva.nombre || 'Chat' }}</h3>
+      <h3>{{ conversacionAux?.nombre || 'Chat' }}</h3>
     </div>
 
     <div #messageContainer class="messages">

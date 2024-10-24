@@ -28,7 +28,7 @@ export class ChatService {
   }
 
   // Obtener mensajes de una conversación específica
-  obtenerMensajes(conversacionId: string, page: number = 1, limit: number = 20): Observable<any> {
+  obtenerMensajes(conversacionId: string, page: number = 1, limit: number = 50): Observable<any> {
     return this.http.get(`${this.apiUrl}/mensajes/${conversacionId}?page=${page}&limit=${limit}`);
   }
 
