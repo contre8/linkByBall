@@ -1,89 +1,90 @@
 <app-navbar></app-navbar> <!-- Usar la Navbar existente -->
 
-<div class="favoritos-container" >
+<div class="favoritos-container">
   <h2 class="favoritos-title">Mis Favoritos</h2>
   <hr class="separator" style="margin-bottom: 20px;">
 
-  <!-- Mostrar loading spinner o mensaje de carga -->
+
+
+  <!-- Pestañas -->
+  <div class="tabs">
+    <div class="tab" [class.active]="selectedTab === 'futbolistas'" (click)="selectTab('futbolistas')">
+      Futbolistas
+    </div>
+    <div class="tab" [class.active]="selectedTab === 'entrenadores'" (click)="selectTab('entrenadores')">
+      Entrenadores
+    </div>
+    <div class="tab" [class.active]="selectedTab === 'clubes'" (click)="selectTab('clubes')">
+      Clubes
+    </div>
+  </div>
+
+  <!-- Loading Spinner -->
   <div *ngIf="isLoading" class="loading-message">
     <div class="spinner"></div>
     <p>Cargando favoritos...</p>
   </div>
 
-  <!-- Sección de favoritos clasificados por tipo -->
-  <div *ngIf="!isLoading" class="favoritos-secciones">
-    <div *ngIf="!favoritosFutbolistas.length && !favoritosEntrenadores.length && !favoritosClubes.length" class="no-favorites-message">
-      <h3>No tienes favoritos guardados aún</h3>
-      <p>Empieza a agregar futbolistas, entrenadores o clubes a tu lista de favoritos para tener acceso rápido a ellos aquí.</p>
-      <button class="btn start-search-btn" (click)="goToSearch()">Buscar perfiles</button>
-    </div>
-
-
-    <!-- Favoritos - Futbolistas -->
-    <div class="favoritos-section" *ngIf="favoritosFutbolistas.length > 0">
-      <h3 class="favoritos-section-title">Futbolistas</h3>
-      <div class="favoritos-grid">
-        <div class="favorito-card" *ngFor="let favorito of favoritosFutbolistas" (click)="viewFavoriteProfile(favorito)">
-          <img [src]="favorito.fotografia?.url || defaultPicture" alt="Foto de {{ favorito.nombre }}" class="favorito-img">
-          <div class="favorito-info">
-            <h3>{{ favorito.nombre }} {{ favorito.apellidos }}</h3>
-            <p>{{ favorito.edad }} años - {{ favorito.nacionalidad }}</p>
-          </div>
-          <div class="favorito-actions">
-            <button class="btn remove-btn" (click)="removeFromFavorites(favorito._id); $event.stopPropagation()">
-              <i class="fa fa-trash"></i>
-            </button>
-            <button class="btn chat-btn" (click)="iniciarConversacion(favorito, 'Futbolista'); $event.stopPropagation()">
-              <i class="fa fa-comments"></i>
-            </button>
-          </div>
+  <!-- Contenido de cada pestaña -->
+  <div class="tab-content">
+    <div *ngIf="selectedTab === 'futbolistas'" class="favoritos-grid">
+      <div *ngIf="favoritosFutbolistas.length === 0">No tienes futbolistas favoritos.</div>
+      <div class="favorito-card" *ngFor="let favorito of favoritosFutbolistas" (click)="viewFavoriteProfile(favorito)">
+        <img [src]="favorito.fotografia?.url || defaultPicture" alt="Foto de {{ favorito.nombre }}"
+          class="favorito-img">
+        <div class="favorito-info">
+          <h3>{{ favorito.nombre }} {{ favorito.apellidos }}</h3>
+          <p>{{ favorito.edad }} años - {{ favorito.nacionalidad }}</p>
+        </div>
+        <div class="favorito-actions">
+          <button class="btn remove-btn" (click)="removeFromFavorites(favorito._id); $event.stopPropagation()">
+            <i class="fa fa-trash"></i>
+          </button>
+          <button class="btn chat-btn" (click)="iniciarConversacion(favorito, 'Futbolista'); $event.stopPropagation()">
+            <i class="fa fa-comments"></i>
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- Favoritos - Entrenadores -->
-    <div class="favoritos-section" *ngIf="favoritosEntrenadores.length > 0">
-      <h3 class="favoritos-section-title">Entrenadores</h3>
-      <div class="favoritos-grid">
-        <div class="favorito-card" *ngFor="let favorito of favoritosEntrenadores" (click)="viewFavoriteProfile(favorito)">
-          <img [src]="favorito.fotografia?.url || defaultPicture" alt="Foto de {{ favorito.nombre }}" class="favorito-img">
-          <div class="favorito-info">
-            <h3>{{ favorito.nombre }} {{ favorito.apellidos }}</h3>
-            <p>{{ favorito.edad }} años - {{ favorito.nacionalidad }}</p>
-          </div>
-          <div class="favorito-actions">
-            <button class="btn remove-btn" (click)="removeFromFavorites(favorito._id); $event.stopPropagation()">
-              <i class="fa fa-trash"></i>
-            </button>
-            <button class="btn chat-btn" (click)="iniciarConversacion(favorito, 'Entrenador'); $event.stopPropagation()">
-              <i class="fa fa-comments"></i>
-            </button>
-          </div>
+    <div *ngIf="selectedTab === 'entrenadores'" class="favoritos-grid">
+      <div *ngIf="favoritosEntrenadores.length === 0">No tienes entrenadores favoritos.</div>
+      <div class="favorito-card" *ngFor="let favorito of favoritosEntrenadores" (click)="viewFavoriteProfile(favorito)">
+        <img [src]="favorito.fotografia?.url || defaultPicture" alt="Foto de {{ favorito.nombre }}"
+          class="favorito-img">
+        <div class="favorito-info">
+          <h3>{{ favorito.nombre }} {{ favorito.apellidos }}</h3>
+          <p>{{ favorito.edad }} años - {{ favorito.nacionalidad }}</p>
+        </div>
+        <div class="favorito-actions">
+          <button class="btn remove-btn" (click)="removeFromFavorites(favorito._id); $event.stopPropagation()">
+            <i class="fa fa-trash"></i>
+          </button>
+          <button class="btn chat-btn" (click)="iniciarConversacion(favorito, 'Entrenador'); $event.stopPropagation()">
+            <i class="fa fa-comments"></i>
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- Favoritos - Clubes -->
-    <div class="favoritos-section" *ngIf="favoritosClubes.length > 0">
-      <h3 class="favoritos-section-title">Clubes</h3>
-      <div class="favoritos-grid">
-        <div class="favorito-card" *ngFor="let favorito of favoritosClubes" (click)="viewFavoriteProfile(favorito)">
-          <img [src]="favorito.fotografia?.url || defaultPicture" alt="Foto de {{ favorito.nombre }}" class="favorito-img">
-          <div class="favorito-info">
-            <h3>{{ favorito.nombre }}</h3>
-            <p>{{ favorito.comunidad }} - {{ favorito.provincia }}</p>
-          </div>
-          <div class="favorito-actions">
-            <button class="btn remove-btn" (click)="removeFromFavorites(favorito._id); $event.stopPropagation()">
-              <i class="fa fa-trash"></i>
-            </button>
-            <button class="btn chat-btn" (click)="iniciarConversacion(favorito, 'Club'); $event.stopPropagation()">
-              <i class="fa fa-comments"></i>
-            </button>
-          </div>
+    <div *ngIf="selectedTab === 'clubes'" class="favoritos-grid">
+      <div *ngIf="favoritosClubes.length === 0">No tienes clubes favoritos.</div>
+      <div class="favorito-card" *ngFor="let favorito of favoritosClubes" (click)="viewFavoriteProfile(favorito)">
+        <img [src]="favorito.fotografia?.url || defaultPicture" alt="Foto de {{ favorito.nombre }}"
+          class="favorito-img">
+        <div class="favorito-info">
+          <h3>{{ favorito.nombre }}</h3>
+          <p>{{ favorito.comunidad }} - {{ favorito.provincia }}</p>
+        </div>
+        <div class="favorito-actions">
+          <button class="btn remove-btn" (click)="removeFromFavorites(favorito._id); $event.stopPropagation()">
+            <i class="fa fa-trash"></i>
+          </button>
+          <button class="btn chat-btn" (click)="iniciarConversacion(favorito, 'Club'); $event.stopPropagation()">
+            <i class="fa fa-comments"></i>
+          </button>
         </div>
       </div>
     </div>
-
   </div>
 </div>

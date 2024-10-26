@@ -63,11 +63,19 @@ export class SearchComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngAfterViewInit(): void {
+    if (sessionStorage.getItem('search')) {
+      this.filtros['nombre'] = sessionStorage.getItem('search');
+      this.populateFormFields();
+      this.buscar();
+    } else {
+      this.populateFormFields();
+    }
     // Llamamos al método aquí para asegurarnos de que el DOM está cargado
-    this.populateFormFields();
+    //this.buscar();
   }
 
   ngOnInit(): void {
+    this.selectedProfileType = sessionStorage.getItem('selectedSearchType') || sessionStorage.getItem('profileType') || '';
     this.authService.getProfile().subscribe(
       (userData) => {
         this.userId = userData._id;
@@ -78,7 +86,10 @@ export class SearchComponent implements OnInit, AfterViewInit {
     );
     // Comprobar si hay filtros y tipo de perfil guardados en localStorage
     const savedFilters = sessionStorage.getItem('searchFilters');
-    const savedProfileType = sessionStorage.getItem('profileType');
+    const savedProfileType = sessionStorage.getItem('selectedSearchType') || sessionStorage.getItem('profileType') || '';
+    if (sessionStorage.getItem('search')) {
+      this.filtros['nombre'] = sessionStorage.getItem('search');
+    }
 
     if (savedFilters && savedProfileType) {
       this.filtros = JSON.parse(savedFilters);  // Aplicar los filtros guardados
@@ -98,6 +109,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
         console.error('Error al buscar clubes:', error);
       }
     );
+    this.buscar();
   }
 
   // Método que se activa al escribir en el campo de búsqueda
@@ -135,20 +147,17 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
     // Reiniciar filtros cada vez que cambie el tipo de perfil
     this.filtros = {};
-    this.buscar()
+    this.buscar();
   }
 
   populateFormFields(): void {
     // Futbolista
-    console.log(this.selectedProfileType, this.filtros)
     if (this.selectedProfileType === 'futbolista') {
-      // Nombre
-      console.log('ENtraa')
+      // Obtener el valor de 'search' del sessionStorage
+      const storedNombre = sessionStorage.getItem('search') || '';
       const nombreInput = document.querySelector('input[placeholder="Nombre"]') as HTMLInputElement;
-      console.log(nombreInput, this.filtros['nombre'])
       if (nombreInput && this.filtros['nombre']) {
         nombreInput.value = this.filtros['nombre'];
-        console.log(nombreInput.value)
       }
 
       // Posición

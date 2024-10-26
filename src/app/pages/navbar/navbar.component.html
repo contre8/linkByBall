@@ -9,18 +9,26 @@
   <button *ngIf="userType !== 'club'" class="nav-button" (click)="mySolicitudes()" style="margin-left: 20px;">
     Mis Solicitudes
   </button>
-  <button *ngIf="userType !== 'club'" class="nav-button" (click)="buscarEquipo()" style="margin-left: 20px;">
+  <!-- <button *ngIf="userType !== 'club'" class="nav-button" (click)="buscarEquipo()" style="margin-left: 20px;">
     Buscar Equipo
   </button>
   <button class="nav-button" style="margin-left: 20px;" (click)="searchProfiles()">
     Filtrar Búsqueda
-  </button>
+  </button> -->
   <div class="search-container" (click)="$event.stopPropagation()">
-    <input type="text" class="search-input" placeholder="Buscar futbolistas, entrenadores, clubes..."
-      (input)="onSearch($event)">
-    <button class="search-button" (click)="onSearch($event)">
-      <i class="fa fa-search"></i>
-    </button>
+    <select class="search-select" [(ngModel)]="selectedSearchType">
+      <option value="" disabled selected>Selecciona...</option>
+      <option *ngIf="userType !== 'club'" value="vacantes">Vacantes</option>
+      <option value="futbolista">Futbolistas</option>
+      <option value="entrenador">Entrenadores</option>
+      <option value="club">Clubes</option>
+    </select>
+
+    <input type="text" class="search-input" placeholder="Buscar..." (input)="onSearch($event)"
+      [disabled]="!selectedSearchType">
+      <button class="search-button" (click)="performSearch()">
+        <i class="fa fa-search"></i>
+      </button>
 
     <div class="search-results" *ngIf="isSearchActive && searchResults.length > 0">
       <ul>
@@ -32,6 +40,7 @@
       </ul>
     </div>
   </div>
+
 
   <div class="right-aligned-buttons">
     <button class="nav-button" (click)="goToFavorites()">

@@ -123,6 +123,9 @@ export class BuscarVacantesComponent implements OnInit {
         console.error('Error al buscar clubes:', error);
       }
     );
+    if (sessionStorage.getItem('search')) {
+      //this.filtros['nombreClub'] = club._id;
+    }
     this.buscar();
   }
 
@@ -216,8 +219,12 @@ export class BuscarVacantesComponent implements OnInit {
 
   // Método que se activa al escribir en el campo de búsqueda
   onClubSearch(event: Event): void {
+    let search = '';
     const inputElement = event.target as HTMLInputElement;
-    const query = inputElement?.value || '';
+    if (sessionStorage.getItem('search')) {
+      let search = sessionStorage.getItem('search');
+    }
+    const query = inputElement?.value || search;
 
     if (query.length > 2) {
       this.searchSubject.next(query);  // Enviar el query al Subject con debounce

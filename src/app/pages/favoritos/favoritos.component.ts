@@ -25,6 +25,7 @@ export class FavoritosComponent implements OnInit {
   isLoading: boolean = false;
   //userType: string | null = localStorage.getItem('userType'); // Obtén el valor de localStorage directamente al declarar
   userType: string = localStorage.getItem('userType') || ''; // Si es null, asigna una cadena vacía
+  selectedTab: string = 'futbolistas'; // Pestaña inicial seleccionada
 
   constructor(
     private clubService: ClubService,
@@ -47,6 +48,10 @@ export class FavoritosComponent implements OnInit {
         console.error('Error al obtener el perfil del usuario', error);
       }
     );
+  }
+
+  selectTab(tab: string): void {
+    this.selectedTab = tab;
   }
 
   loadFavorites(userId: string): void {

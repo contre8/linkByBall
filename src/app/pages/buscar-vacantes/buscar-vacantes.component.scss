@@ -249,6 +249,7 @@ $error-color: #dc3545; // Rojo para errores
       display: flex;
       flex-direction: column;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      max-width: 350px;
       width: 100%;
       justify-content: space-between;
 
