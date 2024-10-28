@@ -51,6 +51,9 @@ $error-color: #dc3545; // Rojo para errores
   }
 
   .solicitud-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     background: #fff;
     border-radius: 10px;
     padding: 20px;
@@ -58,21 +61,21 @@ $error-color: #dc3545; // Rojo para errores
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 
     // Colores dinámicos basados en el estado de la solicitud
-  &.card-pendiente {
-    background-color: #fff3cd; // Color amarillo claro para pendientes
-  }
+    &.card-pendiente {
+      background-color: #fff3cd; // Color amarillo claro para pendientes
+    }
 
-  &.card-en-proceso {
-    background-color: #cce5ff; // Color azul claro para en proceso
-  }
+    &.card-en-proceso {
+      background-color: #cce5ff; // Color azul claro para en proceso
+    }
 
-  &.card-aceptada {
-    background-color: #d4edda; // Color verde claro para aceptadas
-  }
+    &.card-aceptada {
+      background-color: #d4edda; // Color verde claro para aceptadas
+    }
 
-  &.card-rechazada {
-    background-color: #f8d7da; // Color rojo claro para rechazadas
-  }
+    &.card-rechazada {
+      background-color: #f8d7da; // Color rojo claro para rechazadas
+    }
 
     &:hover {
       transform: translateY(-5px);
@@ -126,10 +129,11 @@ $error-color: #dc3545; // Rojo para errores
         font-weight: bold;
       }
     }
+
     .solicitud-actions {
       display: flex;
       justify-content: flex-end;
-      margin-top: 15px;
+      margin-top: auto; // Empuja el botón hacia el fondo de la tarjeta
 
       .btn-cancelar {
         background-color: #dc3545; // Rojo para cancelar
@@ -148,6 +152,7 @@ $error-color: #dc3545; // Rojo para errores
           background-color: #ccc; // Cambia el color de fondo cuando está deshabilitado
           color: #666; // Color de texto más claro para indicar deshabilitado
           cursor: not-allowed; // Cambiar el cursor para mostrar que no se puede hacer clic
+
           &:hover {
             background-color: #ccc; // Mantener el mismo color en hover cuando está deshabilitado
           }

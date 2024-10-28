@@ -29,4 +29,8 @@ export class VacantesService {
     return this.http.get(`${this.baseUrl}/vacante/${id}`);
   }
 
+  getVacantesSimilares(posiciones: string[]): Observable<any> {
+    let params = new HttpParams();
+    params = params.append('posiciones', posiciones.join(',')); // Añadir posiciones como query params
+    return this.http.get<any>(`${this.baseUrl}/vacantes-similares`, { params });  }
 }
