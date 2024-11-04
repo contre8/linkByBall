@@ -71,10 +71,11 @@ export class BuscarVacantesComponent implements OnInit {
   selectedClub: any = null;
   showClubResults: boolean = false;
   userType: string = localStorage.getItem('userType') || ''; // Si es null, asigna una cadena vacía
-  page: number = 1;
+  currentPage: number = 1;
   resultsPerPage: number = 12;
   total: number = 1;
   limit: number = 12;
+  totalPages: number = 0;
   especialidadesEntrenador: { [key: string]: string } = {
     primer_entrenador: 'Primer Entrenador',
     segundo_entrenador: 'Segundo Entrenador',
@@ -135,11 +136,9 @@ export class BuscarVacantesComponent implements OnInit {
     this.filtros[filtro] = target.value;
   }
 
-  // Método para realizar la búsqueda
   buscar(): void {
-    this.vacantesService.filtrarVacantes(this.filtros, this.page, this.limit, this.userType).subscribe(
+    this.vacantesService.filtrarVacantes(this.filtros, this.currentPage, this.limit, this.userType).subscribe(
       (resultados) => {
-        // Aquí mapeamos directamente las vacantes del array de resultados
         this.vacantes = resultados.resultados.map((vacante: {
           club: { nombre: string; categoria: string; fotografia: { url: string }; _id: string };
           destinatario: string;
@@ -151,20 +150,20 @@ export class BuscarVacantesComponent implements OnInit {
           return {
             vacanteId: vacante._id,
             clubId: vacante.club._id,
-            nombreClub: vacante.club.nombre,        // Nombre del club
-            categoria: vacante.club.categoria,      // Categoría del club
-            fotografiaUrl: vacante.club.fotografia?.url,   // URL de la fotografía del club
-            destinatario: vacante.destinatario,     // Destinatario de la vacante
-            posicion: vacante.posicion,             // Posición de la vacante
-            descripcion: vacante.descripcion || 'No disponible', // Descripción de la vacante
-            salario: vacante.salario || 'No especificado'  // Salario de la vacante
+            nombreClub: vacante.club.nombre,
+            categoria: vacante.club.categoria,
+            fotografiaUrl: vacante.club.fotografia?.url,
+            destinatario: vacante.destinatario,
+            posicion: vacante.posicion,
+            descripcion: vacante.descripcion || 'No disponible',
+            salario: vacante.salario || 'No especificado'
           };
         });
-        console.log(this.vacantes)
-        // Manejo de paginación si es necesario
-        this.total = resultados.total;          // Total de resultados
-        this.page = resultados.page;            // Página actual
-        this.limit = resultados.limit;          // Límite de resultados por página
+
+        // Actualizar la información de paginación
+        this.total = resultados.total;
+        this.limit = resultados.limit;
+        this.totalPages = Math.ceil(this.total / this.limit); // Calcular total de páginas
         this.searchPerformed = true;
       },
       (error) => {
@@ -173,23 +172,11 @@ export class BuscarVacantesComponent implements OnInit {
     );
   }
 
-  changePage(page: number): void {
-    if (page > 0 && page <= this.total) {
-      this.page = page;
-      this.buscar();  // Volver a buscar las vacantes de la nueva página
+  goToPage(page: number): void {
+    if (page > 0 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.buscar(); // Vuelve a realizar la búsqueda para la nueva página
     }
-  }
-
-  // Generar un array de números para las páginas
-  getPages(): number[] {
-    const pages = [];
-    const totalPages = Math.ceil(this.total / this.limit); // Calcular el número total de páginas
-
-    for (let i = 1; i <= totalPages; i++) {
-      pages.push(i);
-    }
-
-    return pages;
   }
 
   // Método para verificar si ya se ha enviado una solicitud a la vacante
@@ -272,5 +259,22 @@ export class BuscarVacantesComponent implements OnInit {
       }
     );
   }
+
+  // goToPage(page: number): void {
+  //   if (page >= 1 && page <= this.totalPages) {
+  //     this.buscar(page);  // Llamar a la búsqueda con la página seleccionada
+  //   }
+  // }
+
+  setPage(page: number): void {
+    this.currentPage = page;
+    const startIndex = (page - 1) * 10;
+    const endIndex = startIndex + 10;
+    this.vacantes = this.searchResults.slice(startIndex, endIndex);
+  }
+
+  // get totalPages(): number {
+  //   return Math.ceil(this.total / this.limit);
+  // }
 }
 

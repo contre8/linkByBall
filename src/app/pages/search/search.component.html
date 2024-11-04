@@ -283,25 +283,11 @@
       </div>
 
       <!-- Paginador -->
-      <nav *ngIf="totalResults > 10" aria-label="Paginador">
-        <ul class="pagination">
-          <li class="page-item" [class.disabled]="currentPage === 1">
-            <button class="page-link" (click)="goToPage(currentPage - 1)" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </button>
-          </li>
-
-          <li class="page-item" *ngFor="let page of pages" [class.active]="page === currentPage">
-            <button class="page-link" (click)="goToPage(page)">{{ page }}</button>
-          </li>
-
-          <li class="page-item" [class.disabled]="currentPage === totalPages">
-            <button class="page-link" (click)="goToPage(currentPage + 1)" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </button>
-          </li>
-        </ul>
-      </nav>
+      <div class="pagination" *ngIf="totalPages > 1">
+        <button [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">Anterior</button>
+        <span>Página {{ currentPage }} de {{ totalPages }}</span>
+        <button [disabled]="currentPage === totalPages" (click)="goToPage(currentPage + 1)">Siguiente</button>
+      </div>
 
     </div>
     <!-- Mensaje si no hay resultados -->

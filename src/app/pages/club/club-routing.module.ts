@@ -9,7 +9,7 @@ import { ModifyClubComponent } from './modify-club/modify-club.component';
 import { CreateVacanteComponent } from './vacantes/create-vacante/create-vacante.component';
 import { DashboardClubComponent } from './club-dashboard/club-dashboard.component';
 import { ExternalProfileComponent } from './external-profile/external-profile.component';
-import { MisAvisosComponent } from './mis-avisos/mis-avisos.component';
+import { MisAvisosComponent } from './../mis-avisos/mis-avisos.component';
 import { GestSolicitudesComponent } from './gest-solicitudes/gest-solicitudes.component';
 import { ChatComponent } from '../chat/chat.component';
 

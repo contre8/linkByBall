@@ -8,7 +8,11 @@
     <div class="statistics-section">
       <div class="stat-card">
         <h3>Nacionalidad</h3>
-        <p>{{ futbolista?.nacionalidad }}</p>
+        <div>
+          <img *ngIf="flagUrl" [src]="flagUrl" alt="Flag" width="30" height="20" style="margin-right: 8px;" />
+          <!-- <img src="https://flagcdn.com/es.svg" alt="Flag" width="60" height="40" style="margin-right: 8px;" /> -->
+          <p>{{ futbolista?.nacionalidad }}</p>
+        </div>
       </div>
 
       <div class="stat-card" *ngIf="futbolista?.clubActual">

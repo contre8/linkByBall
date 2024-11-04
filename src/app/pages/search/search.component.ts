@@ -39,7 +39,8 @@ export class SearchComponent implements OnInit, AfterViewInit {
   totalResults: number = 0;
   currentPage: number = 1;
   resultsPerPage: number = 10;
-  totalPages: number = 1;
+  //totalPages: number = 1;
+  currentSearch: any[] = [];
   pages: number[] = [];
   isLoading: boolean = false;
   userType: string = localStorage.getItem('userType') || '';
@@ -334,8 +335,8 @@ export class SearchComponent implements OnInit, AfterViewInit {
       this.totalResults = response.total;
       this.currentPage = response.page;
       this.resultsPerPage = response.limit;
-      this.totalPages = Math.ceil(this.totalResults / this.resultsPerPage);
-      this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+      // this.totalPages = Math.ceil(this.totalResults / this.resultsPerPage);
+      // this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
 
       // Comprobar si cada resultado es favorito
       this.searchResults.forEach(result => {
@@ -485,5 +486,16 @@ export class SearchComponent implements OnInit, AfterViewInit {
         console.error('Error al iniciar la conversación:', error);
       }
     });
+  }
+
+  setPage(page: number): void {
+    this.currentPage = page;
+    const startIndex = (page - 1) * 10;
+    const endIndex = startIndex + 10;
+    this.currentSearch = this.searchResults.slice(startIndex, endIndex);
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.totalResults / 10);
   }
 }

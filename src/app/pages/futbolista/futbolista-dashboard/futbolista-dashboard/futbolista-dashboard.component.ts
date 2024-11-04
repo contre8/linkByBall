@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { SolicitudService } from '../../../../service/solicitudes/solicitudes.service';
 import { FutbolistaService } from '../../../../service/futbolista/futbolista.service';
 import { VacantesService } from '../../../../service/vacantes/vacantes.service';
+import { CountryService } from '../../../../service/paises/country.service';
 
 const mapeoPosiciones: { [key: string]: string } = {
   'portero': 'Portero',
@@ -32,7 +33,8 @@ const posicionesValidas = Object.values(mapeoPosiciones);
   standalone: true,
   imports: [NavbarComponent, CommonModule],
   templateUrl: './futbolista-dashboard.component.html',
-  styleUrl: './futbolista-dashboard.component.scss'
+  styleUrl: './futbolista-dashboard.component.scss',
+  providers: [CountryService], // Opcional si no has registrado el servicio a nivel de módulo
 })
 export class FutbolistaDashboardComponent implements OnInit {
 
@@ -43,7 +45,8 @@ export class FutbolistaDashboardComponent implements OnInit {
     private authService: AuthService,
     private solicitudService: SolicitudService,
     private futbolistaservice: FutbolistaService,
-    private vacanteService: VacantesService
+    private vacanteService: VacantesService,
+    private countryService: CountryService
   ) { }
 
   userId: string = '';
@@ -56,7 +59,7 @@ export class FutbolistaDashboardComponent implements OnInit {
   vacantesSimilares: any[] = []; // Para almacenar las vacantes similares
   posiciones: string[] = []; // Array de posiciones del futbolista
   solicitudesEnviadas: Set<string> = new Set(); // Usar un Set para almacenar los IDs de vacantes con solicitudes enviadas
-
+  flagUrl: string = '';
 
   ngOnInit(): void {
     this.authService.getProfile().subscribe(
@@ -72,6 +75,12 @@ export class FutbolistaDashboardComponent implements OnInit {
     this.authService.getFutbolistaProfile().subscribe(
       (futbolistaData) => {
         this.futbolista = futbolistaData; // Asigna los datos del futbolista al componente
+        this.countryService.getFlagByCountryName(this.futbolista.nacionalidad).subscribe(
+          (flagUrl) => {
+            console.log('Flag URL:', flagUrl);
+          },
+          (error) => console.error('Error al obtener la bandera:', error)
+        );
         this.posiciones = futbolistaData.posiciones
           .map((posicion: string) => mapeoPosiciones[posicion] || posicion) // Mapear o mantener la posición
           .filter((posicion: string) => posicionesValidas.includes(posicion));

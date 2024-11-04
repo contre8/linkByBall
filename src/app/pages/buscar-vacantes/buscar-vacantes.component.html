@@ -146,12 +146,19 @@
   </div>
 
   <!-- Paginador -->
-  <div *ngIf="total > limit" class="pagination-controls">
+  <!-- <div *ngIf="total > limit" class="pagination-controls">
     <button (click)="changePage(page - 1)" [disabled]="page === 1">Anterior</button>
     <button *ngFor="let p of getPages()" (click)="changePage(p)" [class.active]="p === page">
       {{ p }}
     </button>
     <button (click)="changePage(page + 1)" [disabled]="page === total">Siguiente</button>
+  </div> -->
+
+   <!-- Paginador -->
+   <div class="pagination" *ngIf="totalPages > 1">
+    <button [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">Anterior</button>
+    <span>Página {{ currentPage }} de {{ totalPages }}</span>
+    <button [disabled]="currentPage === totalPages" (click)="goToPage(currentPage + 1)">Siguiente</button>
   </div>
 
   <p *ngIf="vacantes.length === 0 && searchPerformed" class="no-results">No se encontraron resultados.</p>
