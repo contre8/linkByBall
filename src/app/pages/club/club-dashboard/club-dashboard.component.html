@@ -12,7 +12,7 @@
       </div>
       <div class="stat-card">
         <h3>Solicitudes Recibidas</h3>
-        <p>{{ totalSolicitudes }}</p>
+        <p>{{ solicitudes }}</p>
       </div>
       <div class="stat-card">
         <h3>Miembros en Plantilla</h3>
@@ -22,14 +22,14 @@
 
     <!-- Vacantes Activas -->
     <div class="vacantes-section">
-      <h2>Vacantes Activas</h2>
+      <h2>Vacantes Activas recientes</h2>
       <div class="vacantes-grid">
         <div class="vacante-card" *ngFor="let vacante of vacantes">
           <div class="vacante-header">
             <h3>{{ vacante.posicion }}</h3>
           </div>
           <div class="vacante-body">
-            <p><strong>Salario:</strong> {{ vacante.salario ? vacante.salario + ' €' : 'No especificado' }}</p>
+            <p><strong>Salario:</strong> {{ vacante.salario ? vacante.salario.toLocaleString('es-ES') + ' €' : 'No especificado' }}</p>
             <p><strong>Descripción:</strong> {{ vacante.descripcion || 'No hay descripción disponible.' }}</p>
           </div>
           <div class="vacante-actions">
@@ -42,14 +42,17 @@
           </div>
         </div>
       </div>
+      <div *ngIf="vacantes.length === 0">
+        <p>No tienes vacantes activas.</p>
+      </div>
     </div>
 
     <!-- Sección de Avisos -->
     <div class="avisos-section">
-      <h2>Mis Avisos</h2>
+      <h2>Últimos Avisos</h2>
       <div *ngIf="avisos.length > 0" class="avisos-grid">
         <div *ngFor="let aviso of avisos">
-          <div class="aviso-card" [ngClass]="{ 'no-visto': !aviso.visto }">
+          <div class="aviso-card" [ngClass]="{ 'no-visto': !aviso.visto }" (click)="marcarComoVisto(aviso)">
             <img [src]="aviso.perfil?.fotografia?.url || defaultPicture" alt="Imagen de {{ aviso.perfil.nombre }}"
               class="aviso-img">
             <div class="aviso-info">
@@ -59,6 +62,9 @@
               <p><strong>Fecha:</strong> {{ aviso.createdAt | date:'short' }}</p>
               <button class="btn btn-outline-primary" (click)="verPerfil(aviso.perfilId, aviso.tipoPerfil)">
                 Ver Perfil
+              </button>
+              <button *ngIf="aviso.vacante" class="btn btn-primary ver-solicitudes-btn" (click)="verSolicitudes(aviso.vacante)" style="margin-left: 15px;">
+                Ver Solicitudes
               </button>
             </div>
           </div>

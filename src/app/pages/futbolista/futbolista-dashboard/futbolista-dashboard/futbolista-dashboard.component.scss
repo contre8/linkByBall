@@ -1,0 +1,718 @@
+// Variables de colores
+$primary-color: #1f8c7c; // Verde del logo
+$secondary-color: #0c6efd; // Azul del logo
+$background-color: #f4f7f6; // Fondo gris claro
+$text-color: #333; // Texto oscuro
+$error-color: #dc3545; // Rojo para errores
+$white-color: #ffffff; // Blanco general
+$box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); // Sombra de las tarjetas
+$border-radius: 15px; // Bordes redondeados
+
+// Efectos
+$transition: all 0.3s ease;
+
+:host {
+  padding: 20px;
+  display: block;
+  min-height: 100vh;
+  background: linear-gradient(to right, $primary-color, $secondary-color);
+
+  .container {
+    background: $white-color;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    max-width: 95%;
+    margin: 0 auto;
+    margin-bottom: 40px;
+    //padding: 20px;
+    min-height: 77vh;
+    //margin-top: 85px;
+  }
+}
+
+:host {
+  display: block;
+  min-height: 100vh; // Asegura que cubre toda la altura de la ventana
+  background: linear-gradient(to right, $primary-color, $secondary-color);
+  padding: 20px 0; // Añade padding para dar espacio alrededor del formulario
+
+  // Aplica el background a toda la página excepto el contenedor
+  .container {
+    background: #fff; // Color de fondo del contenedor
+    border-radius: 10px; // Borde redondeado
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // Sombra para el contenedor
+    padding: 20px; // Añade padding dentro del contenedor
+    max-width: 92%;
+    margin: 0 auto; // Centra el contenedor
+    margin-top: 85px;
+  }
+}
+
+// Dashboard
+.dashboard-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(33%, 1fr)); // Ajuste dinámico
+  gap: 30px; // Ajusta el espacio entre columnas  gap: 30px; // Espacio entre los elementos
+  padding: 20px;
+
+  // Sección de estadísticas
+.statistics-section {
+  grid-column: 1 / -1; // Ocupar todo el ancho
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+
+  .stat-card {
+    background: $white-color;
+    border-radius: $border-radius;
+    padding: 30px;
+    box-shadow: $box-shadow;
+    text-align: center;
+    transition: $transition;
+    flex: 1;
+
+    h3 {
+      font-size: 22px;
+      color: $primary-color;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+
+    p {
+      font-size: 28px;
+      font-weight: bold;
+      color: $text-color;
+      margin-bottom: 15px;
+    }
+
+    // Estilo específico para la imagen del logo del club
+    .club-logo {
+      width: 80px;  // Ajusta el tamaño de la imagen
+      height: 80px; // Para que sea un cuadrado perfecto
+      object-fit: cover; // Asegura que la imagen se recorte adecuadamente
+      border-radius: 50%; // Hace que el logo sea redondo
+      //margin-top: 10px; // Añade algo de espacio superior
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Añade sombra para destacarla
+    }
+
+    .posiciones {
+      display: flex;
+      flex-wrap: wrap; // Permitir varias posiciones en una fila
+      justify-content: center;
+      margin-top: 10px;
+
+      .posicion-circle {
+        //background-color: $primary-color;
+        //color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: bold;
+        margin: 5px;
+        text-transform: uppercase;
+        transition: $transition;
+        border:  solid $text-color;
+        color: $text-color;
+
+        // &:hover {
+        //   background-color: darken($primary-color, 10%);
+        // }
+      }
+    }
+  }
+}
+
+  // Sección de Vacantes
+  .vacantes-section {
+    background: $white-color;
+    padding: 25px;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    transition: $transition;
+
+    // &:hover {
+    //   transform: translateY(-5px);
+    //   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    // }
+
+    h2 {
+      color: $primary-color;
+      font-size: 26px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .vacantes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); // Dos columnas para las vacantes
+      gap: 20px;
+
+      .vacante-body {
+        display: flex;
+        flex-direction: column;
+        // align-items: center; // Centra la imagen y el texto
+        // text-align: center; // Alinea el texto al centro
+
+        .aviso-img {
+          width: 80px; // Tamaño de la imagen
+          height: 80px; // Hace la imagen cuadrada
+          border-radius: 50%; // Hace la imagen circular
+          object-fit: cover; // Asegura que la imagen se ajuste bien al contenedor sin deformarse
+          margin-bottom: 15px; // Espacio debajo de la imagen
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Sombra alrededor de la imagen para destacarla
+          border: 2px solid #e0e0e0; // Borde alrededor de la imagen (opcional)
+          transition: transform 0.3s ease; // Efecto de transición
+
+          &:hover {
+            transform: scale(1.05); // Efecto de aumento en hover
+          }
+        }
+      }
+
+      .vacante-card {
+        background: $white-color;
+        border-radius: $border-radius;
+        padding: 20px;
+        box-shadow: $box-shadow;
+        transition: $transition;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        &:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .vacante-header h3 {
+          color: $text-color;
+          font-weight: bold;
+          font-size: 20px;
+          margin-bottom: 10px;
+        }
+
+        .vacante-body p {
+          margin-bottom: 10px;
+          color: $text-color;
+        }
+
+        .vacante-actions {
+          display: flex;
+          justify-content: space-between;
+
+          .btn {
+            flex: 1;
+            margin-right: 10px;
+            padding: 10px;
+            //text-transform: uppercase;
+            background-color: #ffbb00;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: $transition;
+
+            &:hover {
+              background-color: darken(#ffbb00, 10%);
+            }
+
+            &:last-child {
+              margin-right: 0;
+              //background-color: $error-color;
+
+              &:hover {
+                background-color: darken($error-color, 10%);
+              }
+            }
+          }
+
+          .btn-outline-primary {
+            border: 2px solid #ffbb00;
+            color: #ffbb00;
+            background-color: transparent;
+
+            &:hover {
+              background-color: #ffbb00;
+              color: white;
+            }
+
+            &:active {
+              background-color: #ffbb00;
+              border-color: #ffbb00;
+            }
+          }
+
+          // Delete Button
+          .btn-outline-danger {
+            border: 2px solid #dc3545;
+            color: #dc3545;
+            background-color: transparent;
+
+            &:hover {
+              background-color: #dc3545;
+              color: white;
+            }
+
+            &:active {
+              background-color: #c82333;
+              border-color: #bd2130;
+            }
+
+            &:disabled {
+              background-color: #ccc; // Color gris para indicar que está deshabilitado
+              color: #666; // Color de texto más claro
+              cursor: not-allowed; // Cambiar el cursor para mostrar que no se puede hacer clic
+              transform: none; // Eliminar cualquier efecto de elevación
+
+              &:hover {
+                background-color: #ccc; // Mantener el mismo color en hover para disabled
+                transform: none; // Sin efecto de elevación en hover para disabled
+              }
+            }
+          }
+
+
+
+          // Additional Styling for Button Container
+          .d-flex {
+            .btn {
+              margin-right: 10px;
+
+              &:last-child {
+                margin-right: 0;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Sección de avisos
+  .avisos-section {
+    background: $white-color;
+    padding: 25px;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    transition: $transition;
+
+    // &:hover {
+    //   transform: translateY(-5px);
+    //   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    // }
+
+    h2 {
+      color: $primary-color;
+      font-size: 26px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .aviso-card {
+      display: flex;
+      align-items: center;
+      background-color: $background-color;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: $box-shadow;
+      transition: $transition; // Para un cambio suave de fondo
+
+      &.no-visto {
+        background-color: #ffe5e5; // Rojo clarito para no vistos
+      }
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        cursor: pointer;
+      }
+
+      .aviso-img {
+        max-width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        margin-right: 15px;
+        object-fit: cover;
+      }
+
+      .aviso-info {
+        flex: 1;
+
+        h3 {
+          font-size: 20px;
+          margin-bottom: 10px;
+          color: $primary-color;
+        }
+
+        p {
+          font-size: 16px;
+          color: $text-color;
+          margin-bottom: 5px;
+        }
+      }
+
+      .btn {
+        padding: 10px;
+        background-color: transparent;
+        color: $secondary-color;
+        border-radius: 8px;
+        border: 2px solid $secondary-color;
+        transition: $transition;
+
+        &:hover {
+          background-color: $secondary-color;
+          color: white;
+          cursor: pointer;
+        }
+      }
+
+    }
+  }
+}
+
+// Sección de Plantilla
+.solicitudes-section {
+  grid-column: 1 / -1; // Ocupar todo el ancho del grid
+  background: $white-color;
+  padding: 25px;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  transition: $transition;
+
+  h2 {
+    color: $primary-color;
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .solicitud-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+
+    .solicitud-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+      // Colores dinámicos basados en el estado de la solicitud
+      &.card-pendiente {
+        background-color: #fff3cd; // Color amarillo claro para pendientes
+      }
+
+      &.card-en-proceso {
+        background-color: #cce5ff; // Color azul claro para en proceso
+      }
+
+      &.card-aceptada {
+        background-color: #d4edda; // Color verde claro para aceptadas
+      }
+
+      &.card-rechazada {
+        background-color: #f8d7da; // Color rojo claro para rechazadas
+      }
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      }
+
+      .solicitud-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+
+        .club-logo {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          object-fit: cover;
+          margin-right: 15px;
+        }
+
+        h3 {
+          font-size: 20px;
+          color: #333;
+          font-weight: bold;
+        }
+      }
+
+      .solicitud-info {
+        p {
+          font-size: 16px;
+          margin: 5px 0;
+          color: #555;
+        }
+
+        .estado-pendiente {
+          color: #ffc107; // Amarillo para pendientes
+          font-weight: bold;
+        }
+
+        .estado-en-proceso {
+          color: #0c6efd; // Azul para en proceso
+          font-weight: bold;
+        }
+
+        .estado-aceptada {
+          color: #1f8c7c; // Verde para aceptadas
+          font-weight: bold;
+        }
+
+        .estado-rechazada {
+          color: #dc3545; // Rojo para rechazadas
+          font-weight: bold;
+        }
+      }
+
+      .solicitud-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 15px;
+
+        .btn-cancelar {
+          background-color: #dc3545; // Rojo para cancelar
+          color: white;
+          padding: 10px 15px;
+          transition: background-color 0.3s ease;
+
+          flex: 1;
+          margin-right: 10px;
+          padding: 10px;
+          //text-transform: uppercase;
+          color: white;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: $transition;
+
+          &:hover {
+            background-color: darken(#dc3545, 10%);
+          }
+
+          &:disabled {
+            background-color: #ccc; // Cambia el color de fondo cuando está deshabilitado
+            color: #666; // Color de texto más claro para indicar deshabilitado
+            cursor: not-allowed; // Cambiar el cursor para mostrar que no se puede hacer clic
+
+            &:hover {
+              background-color: #ccc; // Mantener el mismo color en hover cuando está deshabilitado
+            }
+          }
+        }
+
+        .btn-cancelar {
+          border: 2px solid #dc3545;
+          color: #dc3545;
+          background-color: transparent;
+
+          // &:hover {
+          //   background-color: #dc3545;
+          //   color: white;
+          // }
+
+          &:active {
+            background-color: #dc3545;
+            border-color: #dc3545;
+            &:hover {
+              background-color: #dc3545;
+              color: white;
+            }
+          }
+          &:hover {
+            color: white;
+          }
+        }
+      }
+
+      .vacante-actions {
+        display: flex;
+        justify-content: space-between;
+
+        .btn {
+          flex: 1;
+          margin-right: 10px;
+          padding: 10px;
+          //text-transform: uppercase;
+          background-color: #ffbb00;
+          color: white;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: $transition;
+
+          // border: 2px solid #dc3545;
+          // color: #dc3545;
+          // background-color: transparent;
+
+          // &:hover {
+          //   background-color: #dc3545;
+          //   color: white;
+          // }
+
+          // &:active {
+          //   background-color: #c82333;
+          //   border-color: #bd2130;
+          // }
+
+          &:hover {
+            background-color: darken(#ffbb00, 10%);
+          }
+
+          &:last-child {
+            margin-right: 0;
+            //background-color: $error-color;
+
+            &:hover {
+              background-color: darken($error-color, 10%);
+            }
+          }
+        }
+
+        // Delete Button
+        .btn-cancelar {
+          border: 2px solid #dc3545;
+          color: #dc3545;
+          background-color: transparent;
+
+          &:hover {
+            background-color: #dc3545;
+            color: white;
+          }
+
+          &:active {
+            background-color: #c82333;
+            border-color: #bd2130;
+          }
+        }
+
+        // Additional Styling for Button Container
+        .d-flex {
+          .btn {
+            margin-right: 10px;
+
+            &:last-child {
+              margin-right: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // &:hover {
+  //   transform: translateY(-5px);
+  //   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  // }
+
+
+
+
+
+  ///////////////////////////////////////////////////////////////////////
+  /// //////////////////////////////////////////////////////////////////
+  /// ////////////////////////////////////////////////////////////////////
+  /// /////////////////////////////////////////////////////////////////7
+
+  // .plantilla-grid {
+  //   display: grid;
+  //   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); // Ajustar el grid para cada jugador
+  //   gap: 20px;
+  //   justify-items: center;
+  // }
+
+  // .jugador-card {
+  //   display: flex;
+  //   flex-direction: column;
+  //   align-items: center;
+  //   background-color: $background-color;
+  //   padding: 15px;
+  //   border-radius: $border-radius;
+  //   box-shadow: $box-shadow;
+  //   text-align: center;
+  //   transition: $transition;
+  //   min-width: 200px;
+
+  //   &:hover {
+  //     transform: translateY(-5px);
+  //     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  //     cursor: pointer;
+  //   }
+
+  //   .jugador-img {
+  //     width: 100px;
+  //     height: 100px;
+  //     border-radius: 50%; // Imagen circular
+  //     object-fit: cover;
+  //     margin-bottom: 10px;
+  //   }
+
+  //   h3 {
+  //     font-size: 18px;
+  //     color: $primary-color;
+  //     margin: 0;
+  //   }
+
+  //   .posiciones {
+  //     display: flex;
+  //     flex-wrap: wrap; // Permitir varias posiciones en una fila
+  //     justify-content: center;
+  //     margin-top: 10px;
+
+  //     .posicion-circle {
+  //       //background-color: $primary-color;
+  //       //color: white;
+  //       width: 40px;
+  //       height: 40px;
+  //       border-radius: 50%;
+  //       display: flex;
+  //       align-items: center;
+  //       justify-content: center;
+  //       font-size: 16px;
+  //       font-weight: bold;
+  //       margin: 5px;
+  //       text-transform: uppercase;
+  //       transition: $transition;
+  //       border:  solid $primary-color;
+  //       color: $primary-color;
+
+  //       // &:hover {
+  //       //   background-color: darken($primary-color, 10%);
+  //       // }
+  //     }
+  //   }
+
+  //   .cuerpo-tecnico-label {
+  //     //background-color: $error-color;
+  //     color: white;
+  //     padding: 10px;
+  //     border-radius: $border-radius;
+  //     font-size: 16px;
+  //     font-weight: bold;
+  //     margin-top: 10px;
+  //     text-transform: uppercase;
+  //     border:  solid $error-color;
+  //     color: $error-color;
+  //   }
+
+  //   &.cuerpo-tecnico {
+  //     background-color: #fef1f1; // Cambiar a un rojo clarito
+  //   }
+
+  // }
+
+  .no-solicitudes {
+    text-align: center;
+    font-size: 18px;
+    color: $text-color;
+    margin-top: 20px;
+  }
+}

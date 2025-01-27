@@ -1,3 +1,4 @@
+import { SolicitudService } from './../../../../service/solicitudes/solicitudes.service';
 import { ClubService } from './../../../../service/club/club.service';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -22,7 +23,8 @@ export class DashboardVacantesComponent implements OnInit {
     //private vacanteService: VacanteService,
     private router: Router,
     private authService: AuthService,
-    private clubService: ClubService
+    private clubService: ClubService,
+    private solicitudService: SolicitudService,
   ) {}
 
   ngOnInit(): void {
@@ -75,5 +77,9 @@ export class DashboardVacantesComponent implements OnInit {
         }
       );
     }
+  }
+
+  verSolicitudes(vacanteId: string): void {
+    this.router.navigate([`/club/vacante/${vacanteId}`]);
   }
 }

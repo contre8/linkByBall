@@ -13,6 +13,9 @@ import { debounceTime, switchMap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { AfterViewInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';  // Asegúrate de importar FormsModule
+import { FavoritosService } from '../../service/favoritos/favoritos.service';
+import { AuthService } from '../../service/auth/auth.service';
+import { ChatService } from '../../service/chat/chat.service';
 
 
 @Component({
@@ -36,10 +39,13 @@ export class SearchComponent implements OnInit, AfterViewInit {
   totalResults: number = 0;
   currentPage: number = 1;
   resultsPerPage: number = 10;
-  totalPages: number = 1;
+  //totalPages: number = 1;
+  currentSearch: any[] = [];
   pages: number[] = [];
+  isLoading: boolean = false;
+  userType: string = localStorage.getItem('userType') || '';
+  userId: string = '';
 
-  // Posiciones y especialidades según el tipo
   futbolistaPositions = POSICIONES_FUTBOLISTAS;
   entrenadorEspecialidades = ESPECIALIDADES_ENTRENADOR;
   clubCategorias: string[] = DIVISIONES_FUTBOL_SENIOR;
@@ -49,17 +55,42 @@ export class SearchComponent implements OnInit, AfterViewInit {
   especialidadesEntrenador = ESPECIALIDADES_ENTRENADOR;
   //isFavorite: boolean = false;
 
-  constructor(private searchService: SearchService, private router: Router, private clubService: ClubService) { }
+  constructor(private searchService: SearchService,
+    private router: Router,
+    private clubService: ClubService,
+    private favoritoService: FavoritosService,
+    private authService: AuthService,
+    private chatService: ChatService,
+  ) { }
 
   ngAfterViewInit(): void {
+    if (sessionStorage.getItem('search')) {
+      this.filtros['nombre'] = sessionStorage.getItem('search');
+      this.populateFormFields();
+      this.buscar();
+    } else {
+      this.populateFormFields();
+    }
     // Llamamos al método aquí para asegurarnos de que el DOM está cargado
-    this.populateFormFields();
+    //this.buscar();
   }
 
   ngOnInit(): void {
+    this.selectedProfileType = sessionStorage.getItem('selectedSearchType') || sessionStorage.getItem('profileType') || '';
+    this.authService.getProfile().subscribe(
+      (userData) => {
+        this.userId = userData._id;
+      },
+      (error) => {
+        console.error('Error al obtener el perfil del usuario', error);
+      }
+    );
     // Comprobar si hay filtros y tipo de perfil guardados en localStorage
     const savedFilters = sessionStorage.getItem('searchFilters');
-    const savedProfileType = sessionStorage.getItem('profileType');
+    const savedProfileType = sessionStorage.getItem('selectedSearchType') || sessionStorage.getItem('profileType') || '';
+    if (sessionStorage.getItem('search')) {
+      this.filtros['nombre'] = sessionStorage.getItem('search');
+    }
 
     if (savedFilters && savedProfileType) {
       this.filtros = JSON.parse(savedFilters);  // Aplicar los filtros guardados
@@ -79,8 +110,8 @@ export class SearchComponent implements OnInit, AfterViewInit {
         console.error('Error al buscar clubes:', error);
       }
     );
+    this.buscar();
   }
-
 
   // Método que se activa al escribir en el campo de búsqueda
   onClubSearch(event: Event): void {
@@ -117,19 +148,17 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
     // Reiniciar filtros cada vez que cambie el tipo de perfil
     this.filtros = {};
+    this.buscar();
   }
 
   populateFormFields(): void {
     // Futbolista
-    console.log(this.selectedProfileType, this.filtros)
     if (this.selectedProfileType === 'futbolista') {
-      // Nombre
-      console.log('ENtraa')
+      // Obtener el valor de 'search' del sessionStorage
+      const storedNombre = sessionStorage.getItem('search') || '';
       const nombreInput = document.querySelector('input[placeholder="Nombre"]') as HTMLInputElement;
-      console.log(nombreInput, this.filtros['nombre'])
       if (nombreInput && this.filtros['nombre']) {
         nombreInput.value = this.filtros['nombre'];
-        console.log(nombreInput.value)
       }
 
       // Posición
@@ -294,21 +323,24 @@ export class SearchComponent implements OnInit, AfterViewInit {
     sessionStorage.setItem('profileType', this.selectedProfileType);
 
     // Realizar la búsqueda con paginación
+    this.isLoading = true;
     this.searchService.applyFilters(this.selectedProfileType, this.filtros, page, this.resultsPerPage).subscribe(response => {
-      this.searchResults = response.resultados;
+      // Filtrar resultados para excluir los que coincidan con this.userId
+      this.searchResults = response.resultados.filter((result: { _id: string; verificado?: boolean }) =>
+        result._id !== this.userId && (result.verificado === true || result.verificado === undefined)
+      );
+
       this.searchPerformed = true;
 
       this.totalResults = response.total;
       this.currentPage = response.page;
       this.resultsPerPage = response.limit;
-      this.totalPages = Math.ceil(this.totalResults / this.resultsPerPage);
-      this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
-
-      console.log(this.searchResults)
+      // this.totalPages = Math.ceil(this.totalResults / this.resultsPerPage);
+      // this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
 
       // Comprobar si cada resultado es favorito
       this.searchResults.forEach(result => {
-        this.clubService.isFavorite(result._id).subscribe(
+        this.favoritoService.isFavorite(result._id, this.userType).subscribe(
           (response) => {
             result.isFavorite = response.isFavorite; // Guardar el estado de favorito en el perfil
           },
@@ -317,19 +349,20 @@ export class SearchComponent implements OnInit, AfterViewInit {
           }
         );
       });
+
+      this.isLoading = false;
     }, error => {
       console.error('Error al realizar la búsqueda:', error);
+      this.isLoading = false; // Asegurar que isLoading se desactive en caso de error
     });
-  }
+}
+
 
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.buscar(page);  // Llamar a la búsqueda con la página seleccionada
     }
   }
-
-
-
 
   viewSearchProfile(result: any): void {
     const profileId = result._id;
@@ -353,7 +386,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
     if (profile.isFavorite) {
       // Si ya es favorito, eliminarlo de favoritos
-      this.clubService.removeFavorite(profileId).subscribe(
+      this.favoritoService.removeFavorite(profileId, this.userType).subscribe(
         () => {
           profile.isFavorite = false; // Actualizar el estado solo para este perfil
           console.log('Eliminado de favoritos');
@@ -364,7 +397,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
       );
     } else {
       // Si no es favorito, agregarlo a favoritos
-      this.clubService.addFavorite(profileId).subscribe(
+      this.favoritoService.addFavorite(profileId, this.userType).subscribe(
         () => {
           profile.isFavorite = true; // Actualizar el estado solo para este perfil
           console.log('Añadido a favoritos');
@@ -378,7 +411,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
 
   checkIfFavorite(futbolistaId: string): void {
-    this.clubService.isFavorite(futbolistaId).subscribe(
+    this.favoritoService.isFavorite(futbolistaId, this.userType).subscribe(
       (response) => {
         return response.isFavorite;
       },
@@ -393,7 +426,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     event.stopPropagation();  // Detiene la propagación del evento de clic
     if (!result.isFavorite) {
       // Si no es favorito, lo añadimos
-      this.clubService.addFavorite(result._id).subscribe(
+      this.favoritoService.addFavorite(result._id, this.userType).subscribe(
         () => {
           result.isFavorite = true;
           console.log(`${result.nombre} añadido a favoritos`);
@@ -404,7 +437,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
       );
     } else {
       // Si ya es favorito, lo eliminamos
-      this.clubService.removeFavorite(result._id).subscribe(
+      this.favoritoService.removeFavorite(result._id, this.userType).subscribe(
         () => {
           result.isFavorite = false;
           console.log(`${result.nombre} eliminado de favoritos`);
@@ -417,24 +450,52 @@ export class SearchComponent implements OnInit, AfterViewInit {
   }
 
 
-  // Al cargar los resultados de búsqueda, asegúrate de verificar si son favoritos
-  // loadSearchResults(): void {
-  //   this.searchService.applyFilters(this.selectedProfileType, this.filtros).subscribe(resultados => {
-  //     this.searchResults = resultados.map(result => {
-  //       // Verificar si el resultado es favorito
-  //       this.clubService.isFavorite(result._id).subscribe(
-  //         (response) => {
-  //           result.isFavorite = response.isFavorite; // Guardar el estado de favorito en el perfil
-  //         },
-  //         (error) => {
-  //           console.error('Error al verificar si es favorito:', error);
-  //         }
-  //       );
-  //       return result;
-  //     });
-  //   });
-  // }
+  iniciarConversacion(user: any, type: string): void {
+    if (!user || !user._id) {
+      console.error('No se pudo iniciar la conversación. ID de user no encontrado.');
+      return;
+    }
 
+    const nombreConversacion = `${user.nombre} ${user.apellidos}`; // Nombre y apellidos del user
+    const capitalizedUserType = this.userType.charAt(0).toUpperCase() + this.userType.slice(1).toLowerCase();
 
+    const participantes = [
+      {
+        tipoUsuario: capitalizedUserType, // Tipo del usuario actual con la primera letra en mayúscula
+        usuarioId: this.userId
+      },
+      {
+        tipoUsuario: type, // Tipo del otro participante (user)
+        usuarioId: user._id // ID del futbolista seleccionado
+      }
+    ];
 
+    // Incluir el nombre de la conversación
+    const nuevaConversacion = {
+      nombre: nombreConversacion,
+      participantes: participantes
+    };
+
+    this.chatService.crearConversacion(nuevaConversacion).subscribe({
+      next: (response) => {
+        // Redirigir al componente del chat o mostrar mensaje de éxito
+        console.log('Conversación iniciada correctamente:', response.conversacion);
+        this.router.navigate(['/chat', response.conversacion._id]); // Redirige al chat usando el ID de la conversación
+      },
+      error: (error) => {
+        console.error('Error al iniciar la conversación:', error);
+      }
+    });
+  }
+
+  setPage(page: number): void {
+    this.currentPage = page;
+    const startIndex = (page - 1) * 10;
+    const endIndex = startIndex + 10;
+    this.currentSearch = this.searchResults.slice(startIndex, endIndex);
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.totalResults / 10);
+  }
 }

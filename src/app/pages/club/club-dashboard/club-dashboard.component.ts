@@ -23,6 +23,7 @@ export class DashboardClubComponent implements OnInit {
   isLoading: boolean = true;
   clubId: string = '';
   defaultPicture: string = '../../../../default-picture-profile.jpg'; // Imagen por defecto si no tiene foto
+  solicitudes: number = 0;
 
 
   constructor(
@@ -36,7 +37,7 @@ export class DashboardClubComponent implements OnInit {
     this.authService.getClubProfile().subscribe(
       (clubData) => {
         this.clubId = clubData._id;
-
+        this.solicitudes = clubData.solicitudes?.length;
         // Cargar todas las secciones
         this.loadVacantes();
         this.loadAvisos();
@@ -52,8 +53,8 @@ export class DashboardClubComponent implements OnInit {
     if (this.clubId) {
       this.clubService.getVacantesByClub(this.clubId).subscribe(
         (vacantes) => {
-          this.vacantes = vacantes;
-          this.totalVacantesActivas = this.vacantes.length;
+          this.totalVacantesActivas = vacantes.length;
+          this.vacantes = vacantes.slice(0, 6);
         },
         (error) => {
           console.error('Error al obtener las vacantes', error);
@@ -65,7 +66,7 @@ export class DashboardClubComponent implements OnInit {
   loadAvisos(): void {
     this.avisosService.getAvisos(this.clubId).subscribe(
       (avisos) => {
-        this.avisos = avisos;
+        this.avisos = avisos.slice(0, 3); // Tomar solo los tres primeros avisos
       },
       (error) => {
         console.error('Error al cargar los avisos:', error);
@@ -93,6 +94,10 @@ export class DashboardClubComponent implements OnInit {
     } else if (tipoPerfil === 'club') {
       this.router.navigate([`/club/perfil/${perfilId}`]);
     }
+  }
+
+  verSolicitudes(vacanteId: string) {
+    this.router.navigate([`/club/vacante/${vacanteId}`]);
   }
 
   crearNuevaVacante(): void {
@@ -135,6 +140,20 @@ export class DashboardClubComponent implements OnInit {
       case 'carrilero_diestro': return 'CAD';
       case 'carrilero_zurdo': return 'CAI';
       default: return posicion;
+    }
+  }
+
+  marcarComoVisto(aviso: any): void {
+    if (!aviso.visto) {
+      aviso.visto = true;
+      this.avisosService.marcarAvisoComoVisto(aviso._id).subscribe(
+        () => {
+          console.log('Aviso marcado como visto');
+        },
+        (error) => {
+          console.error('Error al marcar el aviso como visto:', error);
+        }
+      );
     }
   }
 }

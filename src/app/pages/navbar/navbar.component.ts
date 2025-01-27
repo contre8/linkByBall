@@ -7,14 +7,14 @@ import { CommonModule } from '@angular/common'; // Importar CommonModule
 import { forkJoin } from 'rxjs';
 import { AuthService } from '../../service/auth/auth.service';
 import { AvisosService } from '../../service/avisos/avisos.service';
-
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
-  imports: [CommonModule]
+  imports: [CommonModule, FormsModule]
 })
 
 export class NavbarComponent {
@@ -24,17 +24,18 @@ export class NavbarComponent {
   isSearchActive: boolean = false; // Variable para mostrar u ocultar los resultados
   profilePictureUrl: string | undefined;
   userId: string = '';
+  userType: string | null = localStorage.getItem('userType'); // Obtén el valor de localStorage directamente al declarar
   avisos: boolean = false;
+  selectedSearchType: string = '';
+  searchQuery: string = ''; // Para almacenar la entrada de búsqueda
 
-  constructor(private router: Router, private searchService: SearchService, private authService: AuthService, private  avisosService: AvisosService) { }
+  constructor(private router: Router, private searchService: SearchService, private authService: AuthService, private avisosService: AvisosService) { }
 
   ngOnInit(): void {
-    // Configurar el comportamiento de la búsqueda con un debounce
-    // this.authService.getClubProfile().subscribe(profile => {
-    //   this.profilePictureUrl = profile.fotografia?.url; // O la forma en la que obtienes la URL de la foto de perfil
-    //   this.userId = profile._id;
-    //   this.cargarAvisos(this.userId);
-    // });
+    const storedSearchType = sessionStorage.getItem('selectedSearchType');
+    if (storedSearchType) {
+      this.selectedSearchType = storedSearchType;
+    }
     this.authService.getProfile().subscribe(profile => {
       this.profilePictureUrl = profile.fotografia?.url; // O la forma en la que obtienes la URL de la foto de perfil
       this.userId = profile._id;
@@ -51,25 +52,65 @@ export class NavbarComponent {
         ]);
       })
     ).subscribe(([futbolistas, entrenadores, clubs]) => {
-      this.searchResults = [...futbolistas, ...entrenadores, ...clubs];
-      console.log('Resultados de la búsqueda:', this.searchResults);
+      // Filtrar resultados para excluir los que coincidan con this.userId y aplicar la lógica de verificado
+      this.searchResults = [
+        ...futbolistas.filter((result: { _id: string; verificado?: boolean }) =>
+          result._id !== this.userId && (result.verificado === true || result.verificado === undefined)
+        ),
+        ...entrenadores.filter((result: { _id: string; verificado?: boolean }) =>
+          result._id !== this.userId && (result.verificado === true || result.verificado === undefined)
+        ),
+        ...clubs.filter((result: { _id: string; verificado?: boolean }) =>
+          result._id !== this.userId && (result.verificado === true || result.verificado === undefined)
+        )
+      ];
     });
+
   }
 
   goHome(): void {
-    sessionStorage.removeItem('profileType');
-    sessionStorage.removeItem('searchFilters');
-    this.router.navigate(['club/home']);
+    sessionStorage.clear();
+    const userType = localStorage.getItem('userType');
+    this.router.navigate([`${userType}/home`]);
   }
+
 
   onSearch(event: Event): void {
     const target = event.target as HTMLInputElement;
-    const query = target.value;
-    console.log(query)
-    if (query.length > 2) { // Realizar la búsqueda solo si hay más de 2 caracteres
-      this.searchSubject.next(query); // Enviar la consulta al flujo de búsqueda
+    this.searchQuery = target.value;
+    if (this.searchQuery) {
+      sessionStorage.setItem('search', this.searchQuery); // Guardar el valor buscado en sessionStorage
+    } else {
+      sessionStorage.removeItem('search'); // Eliminar 'search' si no hay valor
     }
-    this.isSearchActive = true; // Mostrar la lista de resultados
+  }
+
+  performSearch(): void {
+    // Guardar el tipo de búsqueda en sessionStorage
+    if (this.selectedSearchType) {
+      sessionStorage.setItem('selectedSearchType', this.selectedSearchType);
+    }
+
+    if (this.searchQuery) {
+      sessionStorage.setItem('search', this.searchQuery);
+    } else {
+      sessionStorage.removeItem('search');
+      sessionStorage.removeItem('searchFilters');
+    }
+
+    // Redirigir basado en el tipo seleccionado
+    switch (this.selectedSearchType) {
+      case 'vacantes':
+        this.router.navigate([`${this.userType}/buscar-equipo`]);
+        break;
+      case 'futbolista':
+      case 'entrenador':
+      case 'club':
+        window.location.href = '/buscador'; // Forzar recarga completa de la página
+        break;
+      default:
+        console.warn('Tipo de búsqueda no reconocida');
+    }
   }
 
   viewSearchProfile(result: any): void {
@@ -93,38 +134,43 @@ export class NavbarComponent {
   }
 
   myVacantes(): void {
-    sessionStorage.removeItem('profileType');
-    sessionStorage.removeItem('searchFilters');
+    sessionStorage.clear();
     this.router.navigate(['club/vacantes-dashboard']);
   }
 
-  goToFavorites(): void {
-    sessionStorage.removeItem('profileType');
-    sessionStorage.removeItem('searchFilters');
-    this.router.navigate(['club/favoritos']);
+  mySolicitudes(): void {
+    sessionStorage.clear();
+    this.router.navigate([`${this.userType}/mis-solicitudes`]);
   }
+
+  buscarEquipo() {
+    sessionStorage.clear();
+    this.router.navigate([`${this.userType}/buscar-equipo`]);
+  }
+
+  goToFavorites(): void {
+    sessionStorage.clear();
+    this.router.navigate([`${this.userType}/favoritos`]);
+  }
+
 
   searchProfiles(): void {
     this.router.navigate(['buscador']);
   }
 
   viewNotifications(): void {
-    sessionStorage.removeItem('profileType');
-    sessionStorage.removeItem('searchFilters');
-    // Implementar lógica para ver notificaciones (puede ser un modal o redirigir a una página específica)
+    sessionStorage.clear();
     this.router.navigate(['mis-avisos']);
   }
 
   openChat(): void {
-    sessionStorage.removeItem('profileType');
-    sessionStorage.removeItem('searchFilters');
-    this.router.navigate(['/chat']);
+    sessionStorage.clear();
+    this.router.navigate(['chat']);
   }
 
   viewProfile(): void {
-    sessionStorage.removeItem('profileType');
-    sessionStorage.removeItem('searchFilters');
-    this.router.navigate(['club/perfil']);
+    sessionStorage.clear();
+    this.router.navigate([`${this.userType || 'error'}/perfil`]);
   }
 
   logout(): void {

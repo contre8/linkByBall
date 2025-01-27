@@ -8,6 +8,9 @@ import { EntrenadorService } from '../../../service/entrenador/entrenador.servic
 import { NavbarComponent } from '../../navbar/navbar.component';
 import { FutbolistaService } from '../../../service/futbolista/futbolista.service';
 import { Observable } from 'rxjs';
+import { FavoritosService } from '../../../service/favoritos/favoritos.service';
+import { ChatService } from '../../../service/chat/chat.service';
+
 
 @Component({
   selector: 'app-profile-entrenador',
@@ -20,6 +23,9 @@ export class ExternalProfileComponent implements OnInit {
   entrenador: any;
   defaultPicture: string = '../../../../default-picture-profile.jpg'; // Imagen por defecto si no tiene foto
   isFavorite: boolean = false;
+  userType: string = localStorage.getItem('userType') || '';
+  userId: string = '';
+
 
   constructor(
     private authService: AuthService,
@@ -28,10 +34,19 @@ export class ExternalProfileComponent implements OnInit {
     private router: Router,
     private clubService: ClubService,
     private futbolistaService: FutbolistaService,
+    private favoritosService: FavoritosService,
+    private chatService: ChatService
   ) { }
 
   ngOnInit(): void {
-    // Escuchar cambios en los parámetros de la ruta
+    this.authService.getProfile().subscribe(
+      (userData) => {
+        this.userId = userData._id;
+      },
+      (error) => {
+        console.error('Error al obtener el perfil del usuario', error);
+      }
+    );
     this.route.paramMap.subscribe((params) => {
       const entrenadorId = params.get('id');
       if (entrenadorId) {
@@ -51,7 +66,7 @@ export class ExternalProfileComponent implements OnInit {
   }
 
   checkIfFavorite(entrenadorId: string): void {
-    this.clubService.isFavorite(entrenadorId).subscribe(
+    this.favoritosService.isFavorite(entrenadorId, this.userType).subscribe(
       (response) => {
         this.isFavorite = response.isFavorite;
       },
@@ -66,7 +81,7 @@ export class ExternalProfileComponent implements OnInit {
 
     if (this.isFavorite) {
       // Si ya es favorito, eliminar de favoritos
-      this.clubService.removeFavorite(this.entrenador._id).subscribe(
+      this.favoritosService.removeFavorite(this.entrenador._id, this.userType).subscribe(
         () => {
           this.isFavorite = false;
           console.log('Entrenador eliminado de favoritos');
@@ -77,7 +92,7 @@ export class ExternalProfileComponent implements OnInit {
       );
     } else {
       // Si no es favorito, agregar a favoritos
-      this.clubService.addFavorite(this.entrenador._id).subscribe(
+      this.favoritosService.addFavorite(this.entrenador._id, this.userType).subscribe(
         () => {
           this.isFavorite = true;
           console.log('Entrenador añadido a favoritos');
@@ -87,5 +102,43 @@ export class ExternalProfileComponent implements OnInit {
         }
       );
     }
+  }
+
+  iniciarConversacion(): void {
+    if (!this.entrenador || !this.entrenador._id) {
+      console.error('No se pudo iniciar la conversación. ID de entrenador no encontrado.');
+      return;
+    }
+
+    const nombreConversacion = `${this.entrenador.nombre} ${this.entrenador.apellidos}`; // Nombre y apellidos del entrenador
+    const capitalizedUserType = this.userType.charAt(0).toUpperCase() + this.userType.slice(1).toLowerCase();
+
+    const participantes = [
+      {
+        tipoUsuario: capitalizedUserType, // Tipo del usuario actual con la primera letra en mayúscula
+        usuarioId: this.userId
+      },
+      {
+        tipoUsuario: 'Entrenador', // Tipo del otro participante (entrenador)
+        usuarioId: this.entrenador._id // ID del futbolista seleccionado
+      }
+    ];
+
+    // Incluir el nombre de la conversación
+    const nuevaConversacion = {
+      nombre: nombreConversacion,
+      participantes: participantes
+    };
+
+    this.chatService.crearConversacion(nuevaConversacion).subscribe({
+      next: (response) => {
+        // Redirigir al componente del chat o mostrar mensaje de éxito
+        console.log('Conversación iniciada correctamente:', response.conversacion);
+        this.router.navigate(['/chat', response.conversacion._id]); // Redirige al chat usando el ID de la conversación
+      },
+      error: (error) => {
+        console.error('Error al iniciar la conversación:', error);
+      }
+    });
   }
 }

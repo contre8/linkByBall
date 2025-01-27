@@ -24,6 +24,7 @@ export class RegisterClubComponent implements OnInit {
   provincias: string[] = [];
   selectedComunidad: string = '';
   categorias = DIVISIONES_FUTBOL_SENIOR;
+  isRegistering: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -52,6 +53,7 @@ export class RegisterClubComponent implements OnInit {
 
   onSubmit(): void {
     if (this.registerForm.valid) {
+      this.isRegistering = true;
       const formData = new FormData();
       // Excluir "fotografia" del loop y añadirla manualmente después
       Object.entries(this.registerForm.value).forEach(([key, value]) => {
@@ -66,13 +68,21 @@ export class RegisterClubComponent implements OnInit {
         formData.append('fotografia', fileInput);
       }
 
+      const email = this.registerForm.get('email')?.value;
+      const password = this.registerForm.get('password')?.value;
+
       this.authService.registerClub(formData).subscribe(
         response => {
-          console.log('Registration successful', response);
-          this.router.navigate(['/dashboard']);
-        },
-        error => {
-          console.error('Registration failed', error);
+          this.authService.loginClub(email, password).subscribe(
+            loginResponse => {
+              console.log('Login successful as Club', loginResponse);
+              this.isRegistering = false;
+              this.router.navigate(['../club/home']);
+            },
+            loginError => {
+              console.error('Login as Club failed', loginError);
+            }
+          );
         }
       );
     }

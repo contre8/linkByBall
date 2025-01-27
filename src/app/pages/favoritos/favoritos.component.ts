@@ -6,6 +6,8 @@ import { NavbarComponent } from '../navbar/navbar.component'; // Importa la navb
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../service/auth/auth.service';
+import { FavoritosService } from '../../service/favoritos/favoritos.service';
+import { ChatService } from '../../service/chat/chat.service';
 
 @Component({
   selector: 'app-favoritos',
@@ -21,8 +23,18 @@ export class FavoritosComponent implements OnInit {
   defaultPicture: string = '../../../../default-picture-profile.jpg'; // Imagen por defecto si no tiene foto
   userId: string = '';
   isLoading: boolean = false;
+  //userType: string | null = localStorage.getItem('userType'); // Obtén el valor de localStorage directamente al declarar
+  userType: string = localStorage.getItem('userType') || ''; // Si es null, asigna una cadena vacía
+  selectedTab: string = 'futbolistas'; // Pestaña inicial seleccionada
 
-  constructor(private clubService: ClubService, private route: ActivatedRoute, private authService: AuthService, private router: Router) { }
+  constructor(
+    private clubService: ClubService,
+    private route: ActivatedRoute,
+    private authService: AuthService,
+    private router: Router,
+    private favoritosService: FavoritosService,
+    private chatService: ChatService,
+  ) { }
 
   ngOnInit(): void {
     this.authService.getProfile().subscribe(
@@ -38,12 +50,15 @@ export class FavoritosComponent implements OnInit {
     );
   }
 
-  loadFavorites(clubId: string): void {
+  selectTab(tab: string): void {
+    this.selectedTab = tab;
+  }
+
+  loadFavorites(userId: string): void {
     this.isLoading = true;
-    this.clubService.getFavorites(clubId).subscribe(
+    this.favoritosService.getFavorites(userId, this.userType).subscribe(
       (favorites) => {
         console.log('Favoritos cargados:', favorites);
-
         // Dividir los favoritos en categorías
         this.favoritosFutbolistas = favorites.filter((fav: any) => fav.tipo === 'Futbolista');
         this.favoritosEntrenadores = favorites.filter((fav: any) => fav.tipo === 'Entrenador');
@@ -58,7 +73,7 @@ export class FavoritosComponent implements OnInit {
   }
 
   removeFromFavorites(favoriteId: string): void {
-    this.clubService.removeFavorite(favoriteId).subscribe(
+    this.favoritosService.removeFavorite(favoriteId, this.userType).subscribe(
       () => {
         console.log('Favorito eliminado');
 
@@ -85,6 +100,44 @@ export class FavoritosComponent implements OnInit {
 
   goToSearch(): void {
     this.router.navigate(['buscador']);
+  }
+
+  iniciarConversacion(favorite: any, type: string): void {
+    if (!favorite || !favorite._id) {
+      console.error('No se pudo iniciar la conversación. ID de favorite no encontrado.');
+      return;
+    }
+
+    const nombreConversacion = `${favorite.nombre} ${favorite.apellidos}`; // Nombre y apellidos del favorite
+    const capitalizedUserType = this.userType.charAt(0).toUpperCase() + this.userType.slice(1).toLowerCase();
+
+    const participantes = [
+      {
+        tipoUsuario: capitalizedUserType, // Tipo del usuario actual con la primera letra en mayúscula
+        usuarioId: this.userId
+      },
+      {
+        tipoUsuario: type, // Tipo del otro participante (favorite)
+        usuarioId: favorite._id // ID del futbolista seleccionado
+      }
+    ];
+
+    // Incluir el nombre de la conversación
+    const nuevaConversacion = {
+      nombre: nombreConversacion,
+      participantes: participantes
+    };
+
+    this.chatService.crearConversacion(nuevaConversacion).subscribe({
+      next: (response) => {
+        // Redirigir al componente del chat o mostrar mensaje de éxito
+        console.log('Conversación iniciada correctamente:', response.conversacion);
+        this.router.navigate(['/chat', response.conversacion._id]); // Redirige al chat usando el ID de la conversación
+      },
+      error: (error) => {
+        console.error('Error al iniciar la conversación:', error);
+      }
+    });
   }
 }
 

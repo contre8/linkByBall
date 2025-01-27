@@ -1,11 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common'; // Importar el módulo común para standalone
+import { RouterModule } from '@angular/router'; // Para redirecciones si se necesita
+import { FormsModule } from '@angular/forms'; // Si usas formularios
 import { AuthService } from '../../../service/auth/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router'; // Importar Router
+import { NavbarComponent } from '../../navbar/navbar.component';
 import { ESPECIALIDADES_ENTRENADOR } from '../../../const/especialidades-entrenador.const';
 import { EntrenadorService } from '../../../service/entrenador/entrenador.service';
 
 @Component({
-  selector: 'app-profile-entrenador',
+  selector: 'app-profile',
+  standalone: true, // Declarar standalone
+  imports: [CommonModule, RouterModule, FormsModule, NavbarComponent], // Importar módulos necesarios
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })

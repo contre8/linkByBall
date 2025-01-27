@@ -66,13 +66,26 @@ export class ClubService {
     return this.http.get(`${this.baseUrl}/club/favoritos/${favoriteId}`);
   }
 
-  // club.service.ts
   getFavorites(clubId: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/club/club-favoritos/${clubId}`);
   }
 
   getPlantillaByClub(clubId: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/club/${clubId}/plantilla`);
+  }
+
+  // Método para obtener todos los clubes no verificados
+  getUnverifiedClubs(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/club/no-verificados`);
+  }
+
+  getVerifiedClubs(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/club/all`);
+  }
+
+  // Método para obtener todos los clubes (verificados y no verificados)
+  getAllGeneralClubs(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/club/todos`);
   }
 
 }

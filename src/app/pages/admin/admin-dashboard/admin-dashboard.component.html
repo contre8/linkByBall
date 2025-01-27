@@ -1,0 +1,58 @@
+<app-navbar></app-navbar>
+
+<div class="dashboard-container">
+  <h2>Gestión de Clubs</h2>
+
+  <div class="tabs">
+    <button
+      class="tab-button"
+      [class.active]="activeTab === 'verificados'"
+      (click)="activeTab = 'verificados'">
+      Clubs Verificados
+    </button>
+    <button
+      class="tab-button"
+      [class.active]="activeTab === 'noVerificados'"
+      (click)="activeTab = 'noVerificados'">
+      Clubs No Verificados
+    </button>
+  </div>
+
+  <!-- Tab: Clubs Verificados -->
+  <div *ngIf="activeTab === 'verificados'" class="clubs-section">
+    <div *ngIf="verifiedClubs.length > 0; else noVerifiedClubs" class="clubs-list">
+      <div *ngFor="let club of verifiedClubs" class="club-card">
+        <img [src]="club.fotografia.url || defaultPicture" alt="{{ club.nombre }}" class="club-logo">
+        <div class="club-info">
+          <p><strong>{{ club.nombre }}</strong></p>
+          <p>Categoría: {{ club.categoria }}</p>
+          <p>Comunidad: {{ club.comunidad }}</p>
+          <p>Provincia: {{ club.provincia }}</p>
+        </div>
+        <button (click)="desverificarClub(club._id)" class="btn-danger">Desverificar</button>
+      </div>
+    </div>
+    <ng-template #noVerifiedClubs>
+      <p class="no-data-message">No hay clubs verificados.</p>
+    </ng-template>
+  </div>
+
+  <!-- Tab: Clubs No Verificados -->
+  <div *ngIf="activeTab === 'noVerificados'" class="clubs-section">
+    <div *ngIf="unverifiedClubs.length > 0; else noUnverifiedClubs" class="clubs-list">
+      <div *ngFor="let club of unverifiedClubs" class="club-card">
+        <img [src]="club.fotografia.url || defaultPicture" alt="{{ club.nombre }}" class="club-logo">
+        <div class="club-info">
+          <p><strong>{{ club.nombre }}</strong></p>
+          <p>Categoría: {{ club.categoria }}</p>
+          <p>Comunidad: {{ club.comunidad }}</p>
+          <p>Provincia: {{ club.provincia }}</p>
+        </div>
+        <button (click)="verificarClub(club._id)" class="btn-success">Verificar</button>
+      </div>
+    </div>
+    <ng-template #noUnverifiedClubs>
+      <p class="no-data-message">No hay clubs pendientes de verificación.</p>
+    </ng-template>
+  </div>
+</div>

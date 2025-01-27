@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
       this.authService.loginFutbolista(email, password).subscribe(
         response => {
           console.log('Login successful as Futbolista', response);
-          this.router.navigate(['../futbolista/perfil']);
+          this.router.navigate(['../futbolista/home']);
         },
         error => {
           console.error('Login as Futbolista failed, trying as Club', error);
@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit {
               this.authService.loginEntrenador(email, password).subscribe(
                 response => {
                   console.log('Login successful as Entrenador', response);
-                  this.router.navigate(['../entrenador/perfil']);
+                  this.router.navigate(['../entrenador/home']);
                 },
                 error => {
                   console.error('Login as Entrenador failed, trying as Administrador', error);
@@ -79,7 +79,7 @@ export class LoginComponent implements OnInit {
                   this.authService.loginAdministrador(email, password).subscribe(
                     response => {
                       console.log('Login successful as Administrador', response);
-                      this.router.navigate(['/dashboard']);
+                      this.router.navigate(['../admin/home']);
                     },
                     error => {
                       console.error('Login as Administrador failed', error);

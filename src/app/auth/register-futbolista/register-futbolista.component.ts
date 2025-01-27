@@ -6,6 +6,9 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { SearchService } from '../../service/search/search.service';
+import { debounceTime, switchMap } from 'rxjs/operators';
 
 
 @Component({
@@ -19,6 +22,13 @@ export class RegisterFutbolistaComponent implements OnInit {
   registerForm!: FormGroup;
   selectedPositions: string[] = [];
   clubs$: Observable<any[]> | undefined;
+  defaultPicture: string = '../../../../default-picture-profile.jpg'; // Imagen por defecto si no tiene foto
+  searchSubject = new Subject<string>();  // Para manejar el debounce
+  clubSearchResults: any[] = [];  // Para almacenar los resultados de la búsqueda
+  showClubResults: boolean = false;
+  selectedClub: any; // Añadir esta línea en la declaración de propiedades del componente
+  isRegistering: boolean = false;
+
   positions = [
     { label: 'Portero', value: 'portero' },
     { label: 'Central (Diestro)', value: 'central_diestro' },
@@ -47,7 +57,8 @@ export class RegisterFutbolistaComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private searchService: SearchService
   ) { }
 
   ngOnInit(): void {
@@ -70,6 +81,19 @@ export class RegisterFutbolistaComponent implements OnInit {
     }, { validator: this.passwordMatchValidator });
 
     this.clubs$ = this.authService.getClubs(); // Llama al servicio para obtener los clubes
+
+    this.searchSubject.pipe(
+      debounceTime(300),  // Espera 300ms después de que el usuario deje de escribir
+      switchMap(query => this.searchService.searchProfiles(query, 'club'))  // Cambia la búsqueda según el query
+    ).subscribe(
+      (results: any[]) => {
+        this.clubSearchResults = results;  // Guarda los resultados
+        console.log(this.clubSearchResults)
+      },
+      (error) => {
+        console.error('Error al buscar clubes:', error);
+      }
+    );
   }
 
 
@@ -98,6 +122,7 @@ export class RegisterFutbolistaComponent implements OnInit {
 
   onSubmit(): void {
     if (this.registerForm.valid) {
+      this.isRegistering = true;
       const formData = new FormData();
       formData.append('nombre', this.registerForm.get('nombre')?.value);
       formData.append('apellidos', this.registerForm.get('apellidos')?.value);
@@ -135,11 +160,24 @@ export class RegisterFutbolistaComponent implements OnInit {
 
       formData.append('nacionalidad', this.registerForm.get('nacionalidad')?.value);
 
+      // Obtener el email y password para el login después del registro
+      const email = this.registerForm.get('email')?.value;
+      const password = this.registerForm.get('password')?.value;
+
       // Llamada al servicio de autenticación para registrar al futbolista
       this.authService.registerFutbolista(formData).subscribe(
         response => {
-          console.log('Registro exitoso', response);
-          this.router.navigate(['/dashboard']);
+          // Intentar iniciar sesión después del registro
+          this.authService.loginFutbolista(email, password).subscribe(
+            loginResponse => {
+              console.log('Login successful as Futbolista', loginResponse);
+              this.isRegistering = false;
+              this.router.navigate(['../futbolista/home']);
+            },
+            loginError => {
+              console.error('Login as Futbolista failed, trying as Club', loginError);
+            }
+          );
         },
         error => {
           console.error('Error en el registro', error);
@@ -147,6 +185,7 @@ export class RegisterFutbolistaComponent implements OnInit {
       );
     }
   }
+
 
   onPositionChange(event: any) {
     const position = event.target.value;
@@ -191,4 +230,35 @@ export class RegisterFutbolistaComponent implements OnInit {
     this.registerForm.get('posiciones')?.setValue(selectedPositions);
   }
 
+  // Método que se activa al escribir en el campo de búsqueda
+  onClubSearch(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const query = inputElement?.value || '';
+
+    if (query.length > 2) {
+      this.searchSubject.next(query);  // Enviar el query al Subject con debounce
+    } else {
+      this.clubSearchResults = [];  // Si el query es muy corto, limpiar los resultados
+    }
+  }
+
+  // Método para manejar la selección del club
+  selectClub(club: any): void {
+    this.selectedClub = club;  // Asignar el club seleccionado
+    this.registerForm.get('clubActual')?.setValue(club._id);
+    this.registerForm.get('categoriaActual')?.setValue(club.categoria);  // Guardar el ID del club en el formulario
+    this.clubSearchResults = [];  // Limpiar los resultados de búsqueda
+    this.showClubResults = false; // Cerrar el desplegable
+  }
+
+
+  hideClubResults(): void {
+    setTimeout(() => {
+      if (!this.selectedClub) {
+        this.registerForm.get('clubActual')?.setValue(''); // Limpia el valor en el formulario
+        this.selectedClub = null; // Asegura que no haya un club seleccionado
+      }
+      this.showClubResults = false;
+    }, 200);  // Espera un poco antes de ocultar los resultados para permitir la selección
+  }
 }

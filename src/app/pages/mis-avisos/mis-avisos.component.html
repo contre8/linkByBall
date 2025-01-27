@@ -1,0 +1,51 @@
+<app-navbar></app-navbar> <!-- Usar la Navbar existente -->
+
+<div class="avisos-container">
+  <h2 class="avisos-title">Mis Avisos</h2>
+  <hr class="separator" style="margin-bottom: 20px;">
+
+  <div *ngIf="currentAvisos.length === 0" class="no-avisos-message">
+    <h3>No tienes avisos nuevos.</h3>
+    <p>No se han registrado cambios en los perfiles de tus favoritos, solicitudes nuevas...</p>
+  </div>
+
+  <!-- Sección de avisos -->
+  <div class="avisos-secciones" *ngIf="!isLoading && !hasError">
+    <div class="avisos-grid" *ngIf="currentAvisos.length > 0">
+      <div
+        class="aviso-card"
+        *ngFor="let aviso of currentAvisos"
+        [ngClass]="{'unseen': !aviso.visto}"
+        (click)="marcarComoVisto(aviso)">
+        <img [src]="aviso.perfil?.fotografia?.url || defaultPicture" alt="Imagen de {{ aviso.perfil?.nombre }}" class="aviso-img">
+        <div class="aviso-info">
+          <h3>{{ aviso.mensaje }}</h3>
+          <p><strong>Nombre:</strong> {{ aviso.perfil?.nombre }} {{ aviso.perfil?.apellidos }}</p>
+          <p><strong>Tipo de Perfil:</strong> {{ aviso.tipoPerfil | titlecase }}</p>
+          <p><strong>Fecha:</strong> {{ aviso.createdAt | date:'short' }}</p>
+          <button class="btn btn-primary ver-perfil-btn" (click)="verPerfil(aviso.perfilId, aviso.tipoPerfil)">
+            Ver Perfil
+          </button>
+          <button *ngIf="aviso.vacante && userType === 'club'" class="btn btn-primary ver-solicitudes-btn" (click)="verSolicitudes(aviso.vacante)">
+            Ver Solicitudes
+        </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paginador -->
+    <div class="pagination" *ngIf="totalPages > 1">
+      <button [disabled]="currentPage === 1" (click)="setPage(currentPage - 1)">Anterior</button>
+      <span>Página {{ currentPage }} de {{ totalPages }}</span>
+      <button [disabled]="currentPage === totalPages" (click)="setPage(currentPage + 1)">Siguiente</button>
+    </div>
+  </div>
+
+  <div *ngIf="isLoading" class="loading">
+    <p>Cargando avisos...</p>
+  </div>
+
+  <div *ngIf="hasError" class="error">
+    <p>Hubo un error al cargar los avisos. Inténtalo más tarde.</p>
+  </div>
+</div>

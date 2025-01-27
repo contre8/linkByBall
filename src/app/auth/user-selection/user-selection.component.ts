@@ -26,7 +26,7 @@ export class UserSelectionComponent {
 
   goToRegister() {
     if (this.selectedUserType) {
-      this.router.navigate(['/auth/register'], { queryParams: { type: this.selectedUserType } });
+      this.router.navigate([`/auth/register/${this.selectedUserType}`]);
     }
   }
 }

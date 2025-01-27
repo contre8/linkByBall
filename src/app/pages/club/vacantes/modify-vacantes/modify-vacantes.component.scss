@@ -6,7 +6,7 @@ $error-color: #dc3545; // Rojo para errores
 
 :host {
   display: block;
-  min-height: 92vh; // Asegura que cubre toda la altura de la ventana
+  min-height: 95vh; // Asegura que cubre toda la altura de la ventana
   background: linear-gradient(to right, $primary-color, $secondary-color);
   padding: 20px 0; // Añade padding para dar espacio alrededor del formulario
   border-radius: 20px;

@@ -22,13 +22,14 @@
       </div>
 
       <div class="vacante-body">
-        <p><strong>Salario:</strong> {{ vacante.salario ? vacante.salario + ' €' : 'No especificado' }}</p>
+        <p><strong>Salario bruto anual:</strong> {{ vacante.salario ? vacante.salario.toLocaleString('es-ES') + ' €' : 'No especificado' }}</p>
         <p><strong>Descripción:</strong> {{ vacante.descripcion || 'No hay descripción disponible.' }}</p>
       </div>
 
       <div class="vacante-actions">
-        <button class="btn btn-outline-primary" (click)="editarVacante(vacante)">Editar</button>
-        <button class="btn btn-outline-danger" (click)="eliminarVacante(vacante)">Eliminar</button>
+        <button class="btn btn-outline-primary" (click)="editarVacante(vacante)"><i class="fa fa-edit"></i> Editar</button>
+        <button class="btn btn-outline-danger" (click)="eliminarVacante(vacante)"><i class="fa fa-trash"></i> Eliminar</button>
+        <button class="btn btn-outline-info" (click)="verSolicitudes(vacante._id)"> Ver Solicitudes</button> <!-- Nuevo botón -->
       </div>
     </div>
   </div>

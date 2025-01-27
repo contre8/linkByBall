@@ -18,7 +18,6 @@ $transition: all 0.3s ease;
   background: linear-gradient(to right, $primary-color, $secondary-color);
 
   .container {
-
     background: $white-color;
     border-radius: $border-radius;
     box-shadow: $box-shadow;
@@ -72,10 +71,10 @@ $transition: all 0.3s ease;
       transition: $transition;
       flex: 1;
 
-      &:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-      }
+      // &:hover {
+      //   //transform: translateY(-5px);
+      //   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      // }
 
       h3 {
         font-size: 22px;
@@ -152,7 +151,7 @@ $transition: all 0.3s ease;
             flex: 1;
             margin-right: 10px;
             padding: 10px;
-            text-transform: uppercase;
+            //text-transform: uppercase;
             background-color: #ffbb00;
             color: white;
             border: none;
@@ -166,10 +165,54 @@ $transition: all 0.3s ease;
 
             &:last-child {
               margin-right: 0;
-              background-color: $error-color;
+              //background-color: $error-color;
 
               &:hover {
                 background-color: darken($error-color, 10%);
+              }
+            }
+          }
+
+          .btn-outline-primary {
+            border: 2px solid #ffbb00;
+            color: #ffbb00;
+            background-color: transparent;
+
+            &:hover {
+              background-color: #ffbb00;
+              color: white;
+            }
+
+            &:active {
+              background-color: #ffbb00;
+              border-color: #ffbb00;
+            }
+          }
+
+          // Delete Button
+          .btn-outline-danger {
+            border: 2px solid #dc3545;
+            color: #dc3545;
+            background-color: transparent;
+
+            &:hover {
+              background-color: #dc3545;
+              color: white;
+            }
+
+            &:active {
+              background-color: #c82333;
+              border-color: #bd2130;
+            }
+          }
+
+          // Additional Styling for Button Container
+          .d-flex {
+            .btn {
+              margin-right: 10px;
+
+              &:last-child {
+                margin-right: 0;
               }
             }
           }
@@ -214,6 +257,7 @@ $transition: all 0.3s ease;
       &:hover {
         transform: translateY(-5px);
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        cursor: pointer;
       }
 
       .aviso-img {
@@ -242,16 +286,19 @@ $transition: all 0.3s ease;
 
       .btn {
         padding: 10px;
-        background-color: $secondary-color;
-        color: white;
+        background-color: transparent;
+        color: $secondary-color;
         border-radius: 8px;
-        border: none;
+        border: 2px solid $secondary-color;
         transition: $transition;
 
         &:hover {
-          background-color: darken($secondary-color, 10%);
+          background-color: $secondary-color;
+          color: white;
+          cursor: pointer;
         }
       }
+
     }
   }
 }
@@ -324,8 +371,8 @@ $transition: all 0.3s ease;
       margin-top: 10px;
 
       .posicion-circle {
-        background-color: $primary-color;
-        color: white;
+        //background-color: $primary-color;
+        //color: white;
         width: 40px;
         height: 40px;
         border-radius: 50%;
@@ -337,15 +384,17 @@ $transition: all 0.3s ease;
         margin: 5px;
         text-transform: uppercase;
         transition: $transition;
+        border:  solid $primary-color;
+        color: $primary-color;
 
-        &:hover {
-          background-color: darken($primary-color, 10%);
-        }
+        // &:hover {
+        //   background-color: darken($primary-color, 10%);
+        // }
       }
     }
 
     .cuerpo-tecnico-label {
-      background-color: $error-color;
+      //background-color: $error-color;
       color: white;
       padding: 10px;
       border-radius: $border-radius;
@@ -353,6 +402,8 @@ $transition: all 0.3s ease;
       font-weight: bold;
       margin-top: 10px;
       text-transform: uppercase;
+      border:  solid $error-color;
+      color: $error-color;
     }
 
     &.cuerpo-tecnico {

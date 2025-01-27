@@ -9,12 +9,12 @@ $text-color: #000000;
   flex-direction: column;
   align-items: center;
   background-color: $background-color;
-  
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .image-container {
+  margin-top: 85px;
   width: 100%;
   display: flex;
   justify-content: center;
