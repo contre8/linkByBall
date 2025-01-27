@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
 
-  private apiUrl = 'http://localhost:8000/chat'; // Cambia la URL según tu configuración
+  private apiUrl = `${environment.apiUrl}/chat`; // URL base de tu API
 
   constructor(private http: HttpClient) { }
 
