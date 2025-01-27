@@ -79,7 +79,7 @@ export class LoginComponent implements OnInit {
                   this.authService.loginAdministrador(email, password).subscribe(
                     response => {
                       console.log('Login successful as Administrador', response);
-                      this.router.navigate(['/dashboard']);
+                      this.router.navigate(['../admin/home']);
                     },
                     error => {
                       console.error('Login as Administrador failed', error);
