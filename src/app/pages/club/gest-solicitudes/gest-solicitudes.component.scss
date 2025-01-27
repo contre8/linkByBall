@@ -1,0 +1,201 @@
+$primary-color: #1f8c7c;
+$secondary-color: #0c6efd;
+$background-color: #f4f7f6;
+$text-color: #333;
+$error-color: #dc3545;
+
+:host {
+    display: block;
+    padding: 20px 0;
+    background: linear-gradient(to right, $primary-color, $secondary-color);
+    min-height: 95vh;
+  }
+
+.solicitudes-container {
+  padding: 20px;
+  background-color: $background-color;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 92%;
+  margin: 0 auto;
+  margin-top: 80px;
+  min-height: 77vh;
+
+  h2 {
+    color: $primary-color;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .solicitudes-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); // Cambiado a auto-fill para mejorar ajuste
+    gap: 40px;
+    padding: 10px; // Añadir padding para separar los elementos del borde del contenedor
+  }
+
+  .solicitud-card {
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 280px; // Establecer un ancho mínimo para mejor consistencia
+    width: 100%; // Asegurar que se ajusta al contenedor
+    max-width: 350px; // Reducir el máximo para evitar desbordamiento y que las tarjetas sean más uniformes
+    margin: 0 auto; // Centrar tarjetas dentro de cada celda de la cuadrícula
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+      // Colores de fondo para los diferentes estados
+
+
+    .solicitante-info {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+
+      &.estado-pendiente {
+        background-color: #fff3cd; // Amarillo claro para pendientes
+      }
+
+      &.estado-en-proceso {
+        background-color: #cce5ff; // Azul claro para en proceso
+      }
+
+      &.estado-aceptada {
+        background-color: #d4edda; // Verde claro para aceptadas
+      }
+
+      &.estado-rechazada {
+        background-color: #f8d7da; // Rojo claro para rechazadas
+      }
+
+      .solicitante-img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 10px;
+      }
+
+      .solicitante-details {
+        p {
+          margin: 2px 0;
+        }
+      }
+    }
+
+    .solicitud-estado {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: $primary-color;
+    }
+
+    .solicitud-actions {
+      display: flex;
+      justify-content: space-between;
+
+      button {
+        flex: 1;
+        margin-right: 5px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+
+  .no-solicitudes-message {
+    text-align: center;
+    background-color: $background-color;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    color: $text-color;
+
+    p {
+      font-size: 18px;
+      margin: 0;
+    }
+  }
+}
+
+// General Button Styling
+button {
+  border-radius: 8px; // Ajuste para parecerse más a los botones de la imagen
+  padding: 10px 20px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  background-color: transparent; // Fondo transparente por defecto
+  border: 2px solid transparent; // Borde transparente por defecto
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  }
+}
+
+// Button Variants
+
+.btn-success {
+  background-color: transparent; // Fondo transparente
+  color: $primary-color; // Usa el color primario
+  border: 2px solid $primary-color; // Borde del color primario
+
+  &:hover {
+    background-color: $primary-color; // Se rellena con el color primario al hacer hover
+    color: white;
+  }
+
+  &:active {
+    background-color: darken($primary-color, 10%);
+  }
+}
+
+.btn-danger {
+  background-color: transparent; // Fondo transparente
+  color: #dc3545; // Rojo para el texto y el borde
+  border: 2px solid #dc3545; // Borde rojo
+
+  &:hover {
+    background-color: #dc3545; // Se rellena de rojo al hacer hover
+    color: white;
+  }
+
+  &:active {
+    background-color: darken(#dc3545, 10%);
+  }
+}
+
+.btn-info {
+  background-color: transparent; // Fondo transparente
+  color: $secondary-color; // Azul para el texto y el borde
+  border: 2px solid $secondary-color; // Borde azul
+
+  &:hover {
+    background-color: $secondary-color; // Se rellena de azul al hacer hover
+    color: white;
+  }
+
+  &:active {
+    background-color: darken($secondary-color, 10%);
+  }
+}

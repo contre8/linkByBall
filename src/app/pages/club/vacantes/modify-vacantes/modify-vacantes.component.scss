@@ -1,0 +1,246 @@
+$primary-color: #1f8c7c; // Color verde del logo
+$secondary-color: #0c6efd; // Color azul del logo
+$background-color: #f4f7f6;
+$text-color: #333;
+$error-color: #dc3545; // Rojo para errores
+
+:host {
+  display: block;
+  min-height: 95vh; // Asegura que cubre toda la altura de la ventana
+  background: linear-gradient(to right, $primary-color, $secondary-color);
+  padding: 20px 0; // Añade padding para dar espacio alrededor del formulario
+  border-radius: 20px;
+
+  // Aplica el background a toda la página excepto el contenedor
+  .container {
+    background: #fff; // Color de fondo del contenedor
+    border-radius: 10px; // Borde redondeado
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // Sombra para el contenedor
+    padding: 20px; // Añade padding dentro del contenedor
+    max-width: 900px; // Limita el ancho del contenedor
+    margin: 0 auto; // Centra el contenedor
+    margin-top: 85px;
+  }
+}
+
+.register-card {
+  background: $background-color;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  .card-body {
+    padding: 2rem;
+
+    h2 {
+      color: #1f8c7c;
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .form-label {
+      margin-top: 20px;
+      color: #333;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+
+      i {
+        margin-right: 8px;
+      }
+    }
+
+    .form-control {
+      border-radius: 0.375rem;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 0.75rem;
+      font-size: 1rem;
+      width: 100%;
+
+      &:focus {
+        border-color: #1f8c7c;
+        box-shadow: 0 0 0 0.2rem rgba(31, 140, 124, 0.25);
+      }
+
+      &.ng-invalid.ng-touched {
+        border-color: #dc3545;
+
+        &:focus {
+          border-color: #dc3545;
+          box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+        }
+      }
+    }
+
+    .text-danger {
+      color: #dc3545;
+      font-size: 0.900rem;
+      margin-bottom: -1rem;
+      margin-left: 0.5rem;
+    }
+
+    .d-grid {
+      margin-top: 2rem;
+
+      button[mat-raised-button] {
+        font-weight: 600;
+        padding: 0.75rem 1rem;
+        font-size: 1.125rem;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        i {
+          margin-right: 8px;
+        }
+
+        &:disabled {
+          border: solid rgba(0, 0, 0, 0.1);
+          background-color: lighten(#fff, 20%) !important;
+          color: darken(#fff, 20%) !important;
+        }
+      }
+    }
+  }
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem; // Espacio entre las filas de los campos del formulario
+
+  .form-group {
+    flex: 1;
+    margin-right: 5%; // Margen entre los campos
+  }
+
+  .form-group:last-child {
+    margin-right: 0; // Elimina el margen derecho del último grupo en la fila
+  }
+}
+
+.form-group {
+  margin-bottom: 1rem;
+
+  label {
+    font-weight: bold;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+  }
+}
+
+.form-check-container {
+  margin-top: 15px;
+  margin-left: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;  // Dos columnas para mejor alineación
+  gap: 10px;  // Espacio entre columnas y filas
+  justify-items: start;  // Alinear los checkboxes a la izquierda
+}
+
+.form-check {
+  display: flex;
+  align-items: center;
+  //justify-items: start;
+}
+
+.form-check-input {
+  transform: scale(1.5);  // Cambia el valor para hacer el checkbox más grande o más pequeño
+  margin-right: 10px;
+}
+
+.form-check-label {
+  font-weight: 500;
+  color: #333;
+  white-space: nowrap;
+}
+
+.form-label {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  //display: inline-block;
+}
+
+.campo-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  margin-bottom: 2rem;
+}
+
+.campo-futbol {
+  width: 100%;
+  display: block;
+}
+
+.posicion {
+  position: absolute;
+  font-weight: bold;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.image-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+
+  img {
+    border-radius: 50%;
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    transition: opacity 0.3s ease; /* Transición suave para el hover */
+
+  }
+}
+.image-container:hover .profile-image {
+  opacity: 0.7; /* Cambia la opacidad al hacer hover */
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente */
+  display: flex;
+  flex-direction: column;  /* Añadir esta línea para alinear en columna */
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;  /* Asegura que el overlay esté por encima de todo */
+  color: white;
+}
+
+
+.spinner {
+  border: 8px solid rgba(255, 255, 255, 0.3); /* Borde gris claro */
+  border-top: 8px solid white; /* Borde blanco */
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+p {
+  margin-top: 20px;
+  font-size: 18px;
+}

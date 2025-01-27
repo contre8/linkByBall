@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../auth.service'; // Asegúrate de que la ruta sea correcta
+import { AuthService } from '../../service/auth/auth.service'; // Asegúrate de que la ruta sea correcta
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http'; // Importa HttpClientModule
@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
       this.authService.loginFutbolista(email, password).subscribe(
         response => {
           console.log('Login successful as Futbolista', response);
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['../futbolista/home']);
         },
         error => {
           console.error('Login as Futbolista failed, trying as Club', error);
@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
           this.authService.loginClub(email, password).subscribe(
             response => {
               console.log('Login successful as Club', response);
-              this.router.navigate(['/dashboard']);
+              this.router.navigate(['../club/home']);
             },
             error => {
               console.error('Login as Club failed, trying as Entrenador', error);
@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit {
               this.authService.loginEntrenador(email, password).subscribe(
                 response => {
                   console.log('Login successful as Entrenador', response);
-                  this.router.navigate(['/dashboard']);
+                  this.router.navigate(['../entrenador/home']);
                 },
                 error => {
                   console.error('Login as Entrenador failed, trying as Administrador', error);
@@ -79,7 +79,7 @@ export class LoginComponent implements OnInit {
                   this.authService.loginAdministrador(email, password).subscribe(
                     response => {
                       console.log('Login successful as Administrador', response);
-                      this.router.navigate(['/dashboard']);
+                      this.router.navigate(['../admin/home']);
                     },
                     error => {
                       console.error('Login as Administrador failed', error);

@@ -1,0 +1,110 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+  <!-- Contenedor Principal del Dashboard -->
+  <div class="dashboard-container">
+
+    <!-- Estadísticas -->
+    <div class="statistics-section">
+      <div class="stat-card">
+        <h3>Vacantes Activas</h3>
+        <p>{{ totalVacantesActivas }}</p>
+      </div>
+      <div class="stat-card">
+        <h3>Solicitudes Recibidas</h3>
+        <p>{{ solicitudes }}</p>
+      </div>
+      <div class="stat-card">
+        <h3>Miembros en Plantilla</h3>
+        <p>{{ plantilla.length }}</p>
+      </div>
+    </div>
+
+    <!-- Vacantes Activas -->
+    <div class="vacantes-section">
+      <h2>Vacantes Activas recientes</h2>
+      <div class="vacantes-grid">
+        <div class="vacante-card" *ngFor="let vacante of vacantes">
+          <div class="vacante-header">
+            <h3>{{ vacante.posicion }}</h3>
+          </div>
+          <div class="vacante-body">
+            <p><strong>Salario:</strong> {{ vacante.salario ? vacante.salario.toLocaleString('es-ES') + ' €' : 'No especificado' }}</p>
+            <p><strong>Descripción:</strong> {{ vacante.descripcion || 'No hay descripción disponible.' }}</p>
+          </div>
+          <div class="vacante-actions">
+            <button class="btn btn-outline-primary" (click)="editarVacante(vacante)">
+              <i class="fa fa-edit"></i> Editar
+            </button>
+            <button class="btn btn-outline-danger" (click)="eliminarVacante(vacante)">
+              <i class="fa fa-trash"></i> Eliminar
+            </button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="vacantes.length === 0">
+        <p>No tienes vacantes activas.</p>
+      </div>
+    </div>
+
+    <!-- Sección de Avisos -->
+    <div class="avisos-section">
+      <h2>Últimos Avisos</h2>
+      <div *ngIf="avisos.length > 0" class="avisos-grid">
+        <div *ngFor="let aviso of avisos">
+          <div class="aviso-card" [ngClass]="{ 'no-visto': !aviso.visto }" (click)="marcarComoVisto(aviso)">
+            <img [src]="aviso.perfil?.fotografia?.url || defaultPicture" alt="Imagen de {{ aviso.perfil.nombre }}"
+              class="aviso-img">
+            <div class="aviso-info">
+              <h3>{{ aviso.mensaje }}</h3>
+              <p><strong>Nombre:</strong> {{ aviso.perfil.nombre }} {{ aviso.perfil.apellidos }}</p>
+              <p><strong>Tipo de Perfil:</strong> {{ aviso.tipoPerfil | titlecase }}</p>
+              <p><strong>Fecha:</strong> {{ aviso.createdAt | date:'short' }}</p>
+              <button class="btn btn-outline-primary" (click)="verPerfil(aviso.perfilId, aviso.tipoPerfil)">
+                Ver Perfil
+              </button>
+              <button *ngIf="aviso.vacante" class="btn btn-primary ver-solicitudes-btn" (click)="verSolicitudes(aviso.vacante)" style="margin-left: 15px;">
+                Ver Solicitudes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="avisos.length === 0">
+        <p>No tienes avisos recientes.</p>
+      </div>
+    </div>
+
+    <!-- Sección de Plantilla -->
+    <div class="plantilla-section">
+      <h2>Plantilla Actual del Club</h2>
+
+      <!-- Mensaje cuando no hay jugadores en la plantilla -->
+      <div *ngIf="!plantilla || plantilla.length === 0" class="no-plantilla">
+        <p>No hay jugadores o miembros del cuerpo técnico en la plantilla actualmente.</p>
+      </div>
+
+      <div *ngIf="plantilla && plantilla.length > 0" class="plantilla-grid">
+        <div *ngFor="let jugador of plantilla" class="jugador-card"
+          [ngClass]="{ 'cuerpo-tecnico': jugador.especialidades }" (click)="verPerfil(jugador._id, jugador.tipoPerfil)">
+          <img [src]="jugador.fotografia?.url|| defaultPicture" alt="{{ jugador.nombre }}" class="jugador-img" />
+          <h3>{{ jugador.nombre }} {{ jugador.apellidos }}</h3>
+
+          <!-- Si el jugador tiene especialidades, mostrar "CUERPO TÉCNICO" -->
+          <div *ngIf="jugador.especialidades; else posiciones">
+            <div class="cuerpo-tecnico-label">CUERPO TÉCNICO</div>
+          </div>
+
+          <!-- Círculos de posiciones para jugadores -->
+          <ng-template #posiciones>
+            <div class="posiciones">
+              <div *ngFor="let posicion of jugador.posiciones" class="posicion-circle">
+                {{ getLabelForPosition(posicion) }}
+              </div>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

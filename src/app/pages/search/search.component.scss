@@ -1,0 +1,609 @@
+$primary-color: #1f8c7c; // Verde del logo
+$secondary-color: #0c6efd; // Azul del logo
+$background-color: #f4f7f6; // Fondo claro
+$text-color: #333;
+$input-background: #ffffff;
+$input-border: #ccc;
+
+:host {
+  display: block;
+  min-height: 95vh;
+  background: linear-gradient(to right, $primary-color, $secondary-color);
+  padding: 19.5px 0;
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: $input-background;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 80px;
+    max-width: 92%;
+    min-height: 77vh;
+  }
+}
+
+.search-card {
+  background-color: $background-color;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+
+  h2 {
+    color: $primary-color;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .form-label {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: $text-color;
+
+    i {
+      margin-right: 5px;
+    }
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+
+    input,
+    select {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      background-color: $input-background;
+      border: 1px solid $input-border;
+
+      &:focus {
+        border-color: $primary-color;
+        box-shadow: 0 0 0 0.2rem rgba(31, 140, 124, 0.25);
+      }
+    }
+  }
+
+  .form-row {
+    display: flex;
+    justify-content: space-between;
+
+    .form-group {
+      flex: 1;
+      margin-right: 1rem;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  .d-grid {
+    button {
+      background-color: $primary-color;
+      color: #fff;
+      padding: 10px 15px;
+      font-size: 1.125rem;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      i {
+        margin-right: 10px;
+      }
+
+      &:hover {
+        background-color: darken($primary-color, 10%);
+      }
+
+      &:disabled {
+        background-color: lighten($primary-color, 20%);
+        color: darken($input-background, 20%);
+      }
+    }
+  }
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  &:focus {
+    outline: none;
+    border-color: #1f8c7c; // Cambia el borde al color primario cuando está enfocado
+    box-shadow: 0 0 5px rgba(31, 140, 124, 0.5); // Sombra verde al enfocarse
+  }
+}
+
+.entrenador-filters,
+.club-filters {
+  .filter-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+
+    .form-group {
+      flex: 1;
+      margin-right: 20px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      label {
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: block;
+      }
+
+      input,
+      select {
+        width: 100%;
+        padding: 8px;
+        font-size: 1rem;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+    }
+  }
+}
+
+.search-results {
+  margin-top: 30px;
+
+  h3 {
+    margin-bottom: 20px;
+    color: $primary-color;
+  }
+
+  .result-card {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    position: relative;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    align-items: center;
+    justify-content: space-between;
+
+    .result-img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 15px;
+    }
+
+    // &:hover {
+    //   background-color: #f0f4f8;
+    //   cursor: pointer;
+    // }
+
+    .result-info {
+      flex: 1;
+      margin-right: 40px;
+
+      h4 {
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: $text-color;
+      }
+
+      p {
+        margin: 0;
+        color: #777;
+      }
+    }
+  }
+}
+
+.no-results {
+  text-align: center;
+  margin-top: 50px;
+
+  p {
+    color: #ff0000;
+    font-size: 18px;
+  }
+}
+
+.favorite-button {
+  background: transparent;
+  border: none;
+  color: red;
+  cursor: pointer;
+  font-size: 24px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  .favorite-button .fa-heart-o {
+    color: grey;
+  }
+
+  .favorite-button .fa-heart {
+    color: red;
+  }
+}
+
+.chat-button {
+  background: transparent;
+  border: none;
+  color: $secondary-color;
+  cursor: pointer;
+  font-size: 24px;
+  position: absolute;
+  top: 55px;
+  right: 10px;
+}
+
+.perfil-button {
+  background: transparent;
+  border: none;
+  color: black;
+  cursor: pointer;
+  font-size: 24px;
+  position: absolute;
+  top: 110px;
+  right: 10px;
+  font-size: 15px;
+}
+
+.filter-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 20px;
+
+  .form-group {
+    flex: 1; // Cada grupo ocupa la misma cantidad de espacio
+    display: flex;
+    flex-direction: column;
+
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  }
+
+  .edad-group {
+    flex: 1; // Ocupa una parte de la fila
+    display: flex;
+    flex-direction: column;
+
+    .edad-inputs {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+
+      input {
+        width: 48%; // Ajustamos el ancho de los inputs de edad mínima y máxima
+      }
+    }
+  }
+}
+
+.futbolista-filters {
+  background-color: #f9f9f9; // Fondo suave para los filtros
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+
+  h3 {
+    color: #1f8c7c; // Color del título acorde con el diseño
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .form-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; // Espacio entre columnas
+
+    .form-group {
+      flex: 1; // Cada grupo de filtros ocupa el mismo ancho
+      display: flex;
+      flex-direction: column;
+
+      label {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      input,
+      select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        background-color: #fff;
+        transition: border-color 0.3s ease;
+
+        &:focus {
+          border-color: #1f8c7c; // Cambia el color del borde cuando el campo está enfocado
+          outline: none;
+        }
+      }
+    }
+  }
+
+  .form-group {
+    margin-bottom: 20px; // Espacio entre las filas de filtros
+  }
+}
+
+.entrenador-filters {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+
+  h3 {
+    color: #1f8c7c; // Color del título para entrenadores (azul)
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .form-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; // Espacio entre columnas
+
+    .form-group {
+      flex: 1; // Cada grupo de filtros ocupa el mismo ancho
+      display: flex;
+      flex-direction: column;
+
+      label {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      input,
+      select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        background-color: #fff;
+        transition: border-color 0.3s ease;
+
+        &:focus {
+          border-color: #0c6efd; // Color de borde para entrenadores
+          outline: none;
+        }
+      }
+    }
+  }
+
+  .form-group {
+    margin-bottom: 20px; // Espacio entre las filas de filtros
+  }
+}
+
+.club-filters {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+
+  h3 {
+    color: #1f8c7c; // Color del título para clubes (amarillo)
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .form-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; // Espacio entre columnas
+
+    .form-group {
+      flex: 1; // Cada grupo de filtros ocupa el mismo ancho
+      display: flex;
+      flex-direction: column;
+
+      label {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      input,
+      select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        background-color: #fff;
+        transition: border-color 0.3s ease;
+
+        &:focus {
+          border-color: #ffbb00; // Color de borde para clubes
+          outline: none;
+        }
+      }
+    }
+  }
+
+  .form-group {
+    margin-bottom: 20px; // Espacio entre las filas de filtros
+  }
+}
+
+.form-group {
+  position: relative; // Asegura que los resultados estén posicionados correctamente dentro del contenedor del input
+
+  .club-results {
+    position: absolute;
+    top: 80%; // Posiciona la lista justo debajo del input
+    left: 0;
+    width: 100%;
+    max-height: 200px; // Limita la altura de la lista
+    overflow-y: auto; // Añade un scroll si hay demasiados resultados
+    background-color: #fff;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    z-index: 1000;
+    padding: 0; // Eliminar el padding del contenedor de la lista
+
+    li {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      background-color: transparent; // Asegura que no haya fondo no deseado
+      margin: 0; // Eliminar márgenes de los elementos de la lista
+
+      &:hover {
+        background-color: #f0f4f8;
+      }
+
+      img.club-result-img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px; // Añadir espacio entre la imagen y el texto
+        object-fit: cover;
+        background-color: transparent; // Elimina cualquier fondo de imagen
+      }
+
+      span {
+        font-size: 16px;
+        color: #333;
+      }
+    }
+  }
+}
+
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  list-style: none;
+
+  .page-item {
+    margin: 0 5px;
+
+    .page-link {
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      cursor: pointer;
+      background-color: #fff;
+
+      &:hover {
+        background-color: #f0f0f0;
+      }
+    }
+
+    &.active .page-link {
+      background-color: #007bff;
+      color: white;
+    }
+
+    &.disabled .page-link {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+  }
+}
+
+.loading-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px; // Ajusta según el tamaño del área donde se mostrará el loader
+  text-align: center;
+
+  p {
+    font-size: 18px;
+    margin-top: 15px;
+    color: $text-color; // Usa tu color de texto aquí
+  }
+
+  .spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1); // Borde exterior (gris claro)
+    border-left-color: $secondary-color; // Color principal de la animación
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+
+  button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    margin: 0 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+
+    &:hover {
+      background-color: #0056b3;
+      transform: translateY(-2px);
+    }
+
+    &:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  }
+
+  span {
+    font-size: 16px;
+    margin: 0 10px;
+    color: #333;
+    font-weight: bold;
+  }
+}
+

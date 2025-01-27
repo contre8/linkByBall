@@ -1,20 +1,24 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthRoutingModule } from './auth/auth-routing.module';
-//import { LoginComponent } from './auth/login/login.component';
-//import { UserSelectionComponent } from './auth/user-selection/user-selection.component';
-//import { RegisterComponent } from './auth/register/register.component';
+import { FutbolistaRoutingModule } from './pages/futbolista/futbolista-routing.module';
+import { EntrenadorRoutingModule } from './pages/entrenador/entrenador-routing.module';
+import { ClubRoutingModule } from './pages/club/club-routing.module';
+import { AdminRoutingModule } from './pages/admin/admin-routing.module';
 
 export const routes: Routes = [
-  // Aquí defines tus rutas, por ejemplo:
-  //{ path: '', component: HomeComponent },
-  //{ path: 'auth/login', component: LoginComponent },
-  //{ path: 'auth/user-selection', component: UserSelectionComponent}
-  //{ path: 'register', component: RegisterComponent },
+  { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule, AuthRoutingModule]
+  exports: [
+    RouterModule,
+    AuthRoutingModule,
+    FutbolistaRoutingModule,
+    EntrenadorRoutingModule,
+    ClubRoutingModule,
+    AdminRoutingModule
+  ]
 })
 export class AppRoutingModule { }

@@ -1,0 +1,43 @@
+<app-navbar></app-navbar>
+
+<div class="solicitudes-container dashboard-container">
+  <h2>{{vacante.posicion}}</h2>
+  <hr class="separator" style="margin-bottom: 20px;">
+
+  <div *ngIf="solicitudes.length === 0" class="no-solicitudes-message">
+    <p>No hay solicitudes para esta vacante.</p>
+  </div>
+
+  <div *ngIf="solicitudes.length > 0" class="solicitudes-list vacantes-grid">
+    <div *ngFor="let solicitud of solicitudes" class="solicitud-card vacante-card"
+      (click)="verPerfil(solicitud.solicitante.id, solicitud.solicitante.tipo)" style="cursor: pointer;">
+      <div class="solicitante-info" [ngClass]="{
+      'estado-pendiente': solicitud.estado === 'Pendiente',
+      'estado-en-proceso': solicitud.estado === 'En Proceso',
+      'estado-aceptada': solicitud.estado === 'Aceptada',
+      'estado-rechazada': solicitud.estado === 'Rechazada'
+    }">
+        <img [src]="solicitud.solicitanteDatos.fotografia.url || defaultPicture"
+          alt="Imagen de {{ solicitud.solicitanteDatos.nombre }}" class="solicitante-img">
+        <div class="solicitante-details">
+          <p><strong>Nombre:</strong> {{ solicitud.solicitanteDatos.nombre }} {{ solicitud.solicitanteDatos.apellidos }}
+          </p>
+          <p><strong>Edad:</strong> {{ solicitud.solicitanteDatos.edad }} años</p>
+          <p><strong>Email:</strong> {{ solicitud.solicitanteDatos.email }}</p>
+          <p><strong>Nacionalidad:</strong> {{ solicitud.solicitanteDatos.nacionalidad }}</p>
+        </div>
+      </div>
+
+      <p class="solicitud-estado"><strong>Estado:</strong> {{ solicitud.estado }}</p>
+
+      <div class="solicitud-actions vacante-actions">
+        <button *ngIf="solicitud.estado !== 'Aceptada'" class="btn btn-success"
+          (click)="cambiarEstado(solicitud, 'Aceptada'); $event.stopPropagation()">Aceptar</button>
+        <button *ngIf="solicitud.estado !== 'Rechazada'" class="btn btn-danger"
+          (click)="cambiarEstado(solicitud, 'Rechazada'); $event.stopPropagation()">Rechazar</button>
+        <button *ngIf="solicitud.estado !== 'En Proceso'" class="btn btn-info"
+          (click)="cambiarEstado(solicitud, 'En Proceso'); $event.stopPropagation()">En Proceso</button>
+      </div>
+    </div>
+  </div>
+</div>

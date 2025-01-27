@@ -166,3 +166,90 @@ $error-color: #dc3545; // Rojo para errores
   margin-bottom: 10px;
   //display: inline-block;
 }
+
+.form-group {
+  position: relative; // Asegura que los resultados estén posicionados correctamente dentro del contenedor del input
+
+  .club-results {
+    position: absolute;
+    top: 90%; // Posiciona la lista justo debajo del input
+    left: 0;
+    width: 106%;
+    max-height: 200px; // Limita la altura de la lista
+    overflow-y: auto; // Añade un scroll si hay demasiados resultados
+    background-color: #fff;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    z-index: 1000;
+    padding: 0; // Eliminar el padding del contenedor de la lista
+
+    li {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      background-color: transparent; // Asegura que no haya fondo no deseado
+      margin: 0; // Eliminar márgenes de los elementos de la lista
+
+      &:hover {
+        background-color: #f0f4f8;
+      }
+
+      img.club-result-img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px; // Añadir espacio entre la imagen y el texto
+        object-fit: cover;
+        background-color: transparent; // Elimina cualquier fondo de imagen
+      }
+
+      span {
+        font-size: 16px;
+        color: #333;
+      }
+    }
+  }
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column; /* Coloca los elementos en columna */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.loading-overlay .spinner {
+  margin-bottom: 15px; /* Añade espacio entre el spinner y el texto */
+}
+
+.loading-overlay p {
+  color: #ffffff; /* Texto en blanco */
+  font-size: 1.5rem; /* Tamaño más grande */
+  font-weight: bold; /* Opcional: hace el texto más destacado */
+}
+
+.spinner {
+  border: 6px solid rgba(255, 255, 255, 0.2); /* Borde gris más claro y suave */
+  border-top: 6px solid #1f8c7c; /* Borde principal en color verde */
+  border-radius: 50%;
+  width: 50px; /* Tamaño ligeramente reducido */
+  height: 50px;
+  animation: spin 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite; /* Animación con aceleración y desaceleración */
+  display: inline-block; /* Asegura que se mantenga en línea con otros elementos */
+  box-shadow: 0 0 10px rgba(31, 140, 124, 0.5); /* Añade un leve resplandor */
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

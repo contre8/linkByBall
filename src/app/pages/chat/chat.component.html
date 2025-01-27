@@ -1,0 +1,49 @@
+<app-navbar></app-navbar>
+
+<div class="chat-container">
+  <div class="chat-sidebar">
+    <h2>Conversaciones</h2>
+    <ul class="chat-list">
+      <li *ngFor="let conversacion of conversaciones"
+          (click)="seleccionarConversacion(conversacion)"
+          [class.active]="conversacionActiva === conversacion._id"
+          [class.unread]="conversacion.noVistos && conversacion.noVistos.length > 0">
+        <div class="chat-item">
+          <div class="chat-info">
+            <p class="chat-name">{{ conversacion.nombre || 'Chat' }}</p>
+            <p class="chat-last-message">{{ conversacion.ultimoMensaje?.texto || 'Sin mensajes aún' }}</p>
+          </div>
+          <span *ngIf="conversacion.noVistos && conversacion.noVistos.length > 0" class="unread-indicator">
+            {{ conversacion.noVistos.length }}
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="chat-content" *ngIf="conversacionActiva">
+    <div class="chat-header">
+      <h3>{{ conversacionAux?.nombre || 'Chat' }}</h3>
+    </div>
+
+    <div #messageContainer class="messages">
+      <div *ngFor="let mensaje of mensajes" class="message" [class.sent]="mensaje.remitente.usuarioId === userId"
+        [class.received]="mensaje.remitente.usuarioId !== userId">
+
+        <p class="message-text">{{ mensaje.texto }}</p>
+        <span class="message-time">{{ mensaje.createdAt | date: 'HH:mm' }}</span>
+      </div>
+    </div>
+
+    <div class="message-input">
+      <input type="text" [(ngModel)]="nuevoMensaje" placeholder="Escribe un mensaje..." (keyup.enter)="enviarMensaje()">
+      <button (click)="enviarMensaje()" [disabled]="!nuevoMensaje.trim()">Enviar</button>
+    </div>
+  </div>
+
+  <div class="chat-placeholder" *ngIf="!conversacionActiva">
+    <p>Selecciona una conversación para comenzar a chatear</p>
+  </div>
+</div>
+
+

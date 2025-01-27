@@ -1,0 +1,205 @@
+$primary-color: #1f8c7c; // Verde del logo
+$secondary-color: #0c6efd; // Azul del logo
+$background-color: #f4f7f6; // Fondo claro
+$text-color: #333;
+$input-background: #ffffff;
+$input-border: #ccc;
+$error-color: #dc3545; // Rojo para errores
+
+:host {
+  display: block;
+  min-height: 95vh;
+  background: linear-gradient(to right, $primary-color, $secondary-color);
+  padding: 19.5px 0;
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: $input-background;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 80px;
+    max-width: 92%;
+    min-height: 76vh;
+  }
+}
+
+.dashboard-container {
+  background-color: $background-color;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 92%;
+  margin: 0 auto;
+  min-height: 75vh;
+  margin-top: 85px;
+
+  .header {
+    h2 {
+      color: $primary-color;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+  }
+
+  .solicitudes-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .solicitud-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    // Colores dinámicos basados en el estado de la solicitud
+    &.card-pendiente {
+      background-color: #fff3cd; // Color amarillo claro para pendientes
+    }
+
+    &.card-en-proceso {
+      background-color: #cce5ff; // Color azul claro para en proceso
+    }
+
+    &.card-aceptada {
+      background-color: #d4edda; // Color verde claro para aceptadas
+    }
+
+    &.card-rechazada {
+      background-color: #f8d7da; // Color rojo claro para rechazadas
+    }
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .solicitud-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+
+      .club-logo {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 15px;
+      }
+
+      h3 {
+        font-size: 20px;
+        color: #333;
+        font-weight: bold;
+      }
+    }
+
+    .solicitud-info {
+      p {
+        font-size: 16px;
+        margin: 5px 0;
+        color: #555;
+      }
+
+      .estado-pendiente {
+        color: #ffc107; // Amarillo para pendientes
+        font-weight: bold;
+      }
+
+      .estado-en-proceso {
+        color: #0c6efd; // Azul para en proceso
+        font-weight: bold;
+      }
+
+      .estado-aceptada {
+        color: #1f8c7c; // Verde para aceptadas
+        font-weight: bold;
+      }
+
+      .estado-rechazada {
+        color: #dc3545; // Rojo para rechazadas
+        font-weight: bold;
+      }
+    }
+
+    .solicitud-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: auto; // Empuja el botón hacia el fondo de la tarjeta
+
+      .btn-cancelar {
+        background-color: #dc3545; // Rojo para cancelar
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: darken(#dc3545, 10%);
+        }
+
+        &:disabled {
+          background-color: #ccc; // Cambia el color de fondo cuando está deshabilitado
+          color: #666; // Color de texto más claro para indicar deshabilitado
+          cursor: not-allowed; // Cambiar el cursor para mostrar que no se puede hacer clic
+
+          &:hover {
+            background-color: #ccc; // Mantener el mismo color en hover cuando está deshabilitado
+          }
+        }
+      }
+    }
+  }
+}
+
+.no-solicitudes-message {
+  text-align: center;
+  padding: 40px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  //margin-top: 30px;
+
+  .no-solicitudes-image {
+    width: 200px;
+    margin-bottom: 20px;
+    opacity: 0.8;
+  }
+
+  h3 {
+    color: #1f8c7c; // Color primario
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  p {
+    color: #777;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  .start-search-btn {
+    background-color: #0c6efd; // Color azul del logo
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: darken(#0c6efd, 10%);
+    }
+  }
+}
