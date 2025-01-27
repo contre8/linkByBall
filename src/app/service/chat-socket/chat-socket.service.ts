@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatSocketService {
   private socket: Socket;
-  private readonly SOCKET_URL = 'http://localhost:8000'; // Cambia esto según tu configuración
+  private readonly SOCKET_URL = `${environment.apiUrl}`; // Cambia esto según tu configuración
 
   constructor() {
     this.socket = io(this.SOCKET_URL);
