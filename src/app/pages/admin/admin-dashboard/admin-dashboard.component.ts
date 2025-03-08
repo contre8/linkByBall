@@ -78,10 +78,9 @@ export class AdminDashboardComponent {
     this.adminService.updateClubVerification(clubId, false).subscribe(
       () => {
         //this.cargarClubs();
-        console.log('Club desverificado!');
       },
       (error) => {
-        console.error('Error al desverificar el club:', error);
+        console.error('Error al invalidar el club:', error);
       }
     );
   }

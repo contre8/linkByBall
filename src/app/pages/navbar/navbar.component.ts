@@ -25,6 +25,7 @@ export class NavbarComponent {
   profilePictureUrl: string | undefined;
   userId: string = '';
   userType: string | null = localStorage.getItem('userType'); // Obtén el valor de localStorage directamente al declarar
+  isAdmin: boolean = false;
   avisos: boolean = false;
   selectedSearchType: string = '';
   searchQuery: string = ''; // Para almacenar la entrada de búsqueda
@@ -32,6 +33,10 @@ export class NavbarComponent {
   constructor(private router: Router, private searchService: SearchService, private authService: AuthService, private avisosService: AvisosService) { }
 
   ngOnInit(): void {
+    this.userType = localStorage.getItem('userType');
+    if (this.userType === 'admin') {
+      this.isAdmin = true;
+    }
     const storedSearchType = sessionStorage.getItem('selectedSearchType');
     if (storedSearchType) {
       this.selectedSearchType = storedSearchType;

@@ -6,7 +6,7 @@
   <button *ngIf="userType === 'club'" class="nav-button" (click)="myVacantes()" style="margin-left: 20px;">
     Mis Vacantes
   </button>
-  <button *ngIf="userType !== 'club'" class="nav-button" (click)="mySolicitudes()" style="margin-left: 20px;">
+  <button *ngIf="userType !== 'club' && !isAdmin" class="nav-button" (click)="mySolicitudes()" style="margin-left: 20px;">
     Mis Solicitudes
   </button>
   <!-- <button *ngIf="userType !== 'club'" class="nav-button" (click)="buscarEquipo()" style="margin-left: 20px;">
@@ -15,7 +15,7 @@
   <button class="nav-button" style="margin-left: 20px;" (click)="searchProfiles()">
     Filtrar Búsqueda
   </button> -->
-  <div class="search-container" (click)="$event.stopPropagation()">
+  <div *ngIf="!isAdmin" class="search-container" (click)="$event.stopPropagation()">
     <select class="search-select" [(ngModel)]="selectedSearchType">
       <option value="" disabled selected>Selecciona...</option>
       <option *ngIf="userType !== 'club'" value="vacantes">Vacantes</option>
@@ -43,14 +43,14 @@
 
 
   <div class="right-aligned-buttons">
-    <button class="nav-button" (click)="goToFavorites()">
+    <button *ngIf="!isAdmin" class="nav-button" (click)="goToFavorites()">
       <i class="fa fa-heart"></i> Favoritos
     </button>
-    <button class="nav-button" (click)="viewNotifications()" [ngClass]="{'has-notifications': avisos}">
+    <button *ngIf="!isAdmin" class="nav-button" (click)="viewNotifications()" [ngClass]="{'has-notifications': avisos}">
       <i class="fa fa-bell"></i> Avisos
     </button>
 
-    <button class="nav-button" (click)="openChat()">
+    <button *ngIf="!isAdmin" class="nav-button" (click)="openChat()">
       <i class="fa fa-comments"></i> Chat
     </button>
     <button class="nav-button" (click)="viewProfile()">

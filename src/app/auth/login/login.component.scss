@@ -161,7 +161,11 @@ $error-color: #dc3545; // Rojo para errores
   }
 }
 
-
+.register-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 
 
