@@ -1,27 +1,69 @@
 # LinkByBall
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.1.
+LinkByBall es una plataforma web que conecta a futbolistas, entrenadores y clubes de fútbol. La aplicación facilita la búsqueda de oportunidades deportivas y el networking en el mundo del fútbol.
 
-## Development server
+## Características Principales
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **Múltiples Tipos de Usuario:**
+  - Futbolistas: Pueden buscar clubes y oportunidades deportivas
+  - Entrenadores: Pueden encontrar equipos y oportunidades laborales
+  - Clubes: Pueden publicar vacantes y buscar talento
 
-## Code scaffolding
+- **Funcionalidades:**
+  - Sistema de búsqueda avanzada con filtros por tipo de perfil
+  - Gestión de vacantes para clubes
+  - Sistema de solicitudes para futbolistas y entrenadores
+  - Perfiles detallados con información deportiva
+  - Sistema de chat integrado para comunicación directa
+  - Sistema de favoritos para guardar perfiles de interés
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Requisitos Técnicos
 
-## Build
+- Node.js (versión recomendada: 18.x o superior)
+- Angular CLI versión 18.2.1
+- Conexión a Internet para acceder a servicios externos
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Configuración del Entorno de Desarrollo
 
-## Running unit tests
+1. **Instalación de Dependencias:**
+   ```bash
+   npm install
+   ```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+2. **Variables de Entorno:**
+   - El proyecto utiliza dos entornos:
+     - Desarrollo: `environment.dev.ts` (localhost:8000)
+     - Producción: `environment.prod.ts` (linkbyball-backend.onrender.com)
 
-## Running end-to-end tests
+## Servidor de Desarrollo
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Ejecuta `ng serve` para iniciar el servidor de desarrollo. Navega a `http://localhost:4200/`. La aplicación se recargará automáticamente si cambias alguno de los archivos fuente.
 
-## Further help
+## Generación de Código
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Ejecuta `ng generate component nombre-componente` para generar un nuevo componente. También puedes usar `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+
+## Compilación
+
+Ejecuta `ng build` para compilar el proyecto. Los archivos de compilación se almacenarán en el directorio `dist/`.
+
+## Pruebas Unitarias
+
+Ejecuta `ng test` para ejecutar las pruebas unitarias a través de [Karma](https://karma-runner.github.io).
+
+## Pruebas End-to-End
+
+Ejecuta `ng e2e` para ejecutar las pruebas end-to-end a través de la plataforma que elijas. Para usar este comando, primero debes agregar un paquete que implemente capacidades de pruebas end-to-end.
+
+## Tecnologías Utilizadas
+
+- Angular 18.2.1
+- Angular Material
+- Bootstrap 5.3.0
+- Font Awesome
+- Socket.io (para chat en tiempo real)
+- Cloudinary (para gestión de imágenes)
+
+## Ayuda Adicional
+
+Para obtener más ayuda sobre Angular CLI, usa `ng help` o consulta la página [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli).

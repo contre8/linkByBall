@@ -5,9 +5,11 @@ import { FutbolistaRoutingModule } from './pages/futbolista/futbolista-routing.m
 import { EntrenadorRoutingModule } from './pages/entrenador/entrenador-routing.module';
 import { ClubRoutingModule } from './pages/club/club-routing.module';
 import { AdminRoutingModule } from './pages/admin/admin-routing.module';
+import { AboutComponent } from './pages/about/about.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
+  { path: 'about', component: AboutComponent },
 ];
 
 @NgModule({

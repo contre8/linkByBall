@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http'; // Importa HttpClientModule
+import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http'; // Añadir provideHttpClient y withFetch
 //import { RouterModule } from '@angular/router';
 //import { appRoutes } from './app-routing.module';
 import { AppRoutingModule } from './app-routing.module';  // Asegúrate de que el AppRoutingModule esté importado
@@ -22,7 +22,8 @@ import { TokenInterceptor } from './service/auth/token.interceptor';
     AppRoutingModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    provideHttpClient(withFetch()) // Añadir esta línea para habilitar fetch API
   ],
   bootstrap: [AppComponent]
 })
